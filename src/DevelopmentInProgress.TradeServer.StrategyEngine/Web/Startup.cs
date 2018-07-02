@@ -10,6 +10,7 @@ using DevelopmentInProgress.TradeServer.StrategyEngine.Notification;
 using DevelopmentInProgress.TradeServer.StrategyEngine.ExchangeService;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using DevelopmentInProgress.TradeServer.StrategyEngine.Cache;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Web
 {
@@ -35,6 +36,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Web
             services.AddSingleton<IBatchNotificationFactory<IEnumerable<StrategyNotification>>, StrategyBatchNotificationListFactory>();
             services.AddSingleton<IBatchNotificationFactory<StrategyNotification>, StrategyBatchNotificationFactory>();
             services.AddSingleton<IExchangeServiceFactory<IExchangeService>, StrategyExchangeServiceFactory>();
+            services.AddSingleton<ISymbolsCache, SymbolsCache>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

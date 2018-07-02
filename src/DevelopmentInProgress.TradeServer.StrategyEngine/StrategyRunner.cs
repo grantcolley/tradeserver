@@ -7,6 +7,7 @@ using DevelopmentInProgress.TradeServer.StrategyEngine.Notification;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Utilities;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using DevelopmentInProgress.TradeServer.StrategyEngine.Cache;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine
 {
@@ -14,10 +15,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine
     {
         private IBatchNotification<StrategyNotification> strategyNotifier;
         private IExchangeServiceFactory<IExchangeService> exchangeServiceFactory;
+        private ISymbolsCache symbolsCache;
 
-        public StrategyRunner(IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, IExchangeServiceFactory<IExchangeService> exchangeServiceFactory)
+        public StrategyRunner(IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, ISymbolsCache symbolsCache)
         {
-            this.exchangeServiceFactory = exchangeServiceFactory;
+            this.symbolsCache = symbolsCache;
             strategyNotifier = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyNotifier);
         }
 
@@ -69,7 +71,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine
 
                 Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Running {strategy.TargetType}");
 
+                symbolsCache.Subscribe(strategy, obj);
+
                 var result = await obj.RunAsync(strategy);
+
+                symbolsCache.Unsubscribe(strategy, obj);
             }
             catch(Exception)
             {
