@@ -1,9 +1,8 @@
 ﻿using DevelopmentInProgress.MarketView.Api.Binance;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
-using DevelopmentInProgress.MarketView.Service;
 using System.Collections.Generic;
 
-namespace DevelopmentInProgress.TradeServer.StrategyEngine.Exchange
+namespace DevelopmentInProgress.TradeServer.StrategyEngine.ExchangeService
 {
     public class StrategyExchangeServiceFactory : ExchangeServiceFactory<IExchangeService>
     {
@@ -12,7 +11,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Exchange
         public StrategyExchangeServiceFactory()
         {
             exchangesServices = new Dictionary<MarketView.Interface.TradeStrategy.Exchange, IExchangeService>();
-            exchangesServices.Add(MarketView.Interface.TradeStrategy.Exchange.Binance, new ExchangeService(new BinanceExchangeApi()));
+            exchangesServices.Add(MarketView.Interface.TradeStrategy.Exchange.Binance, new MarketView.Service.ExchangeService(new BinanceExchangeApi()));
         }
 
         public override IExchangeService GetExchangeService(MarketView.Interface.TradeStrategy.Exchange exchange)

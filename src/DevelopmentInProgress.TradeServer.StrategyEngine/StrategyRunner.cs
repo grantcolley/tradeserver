@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using DevelopmentInProgress.TradeServer.StrategyEngine.Exchange;
+using DevelopmentInProgress.TradeServer.StrategyEngine.ExchangeService;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Notification;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Utilities;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;

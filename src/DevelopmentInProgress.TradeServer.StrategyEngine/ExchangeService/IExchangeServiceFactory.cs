@@ -1,4 +1,4 @@
-﻿namespace DevelopmentInProgress.TradeServer.StrategyEngine.Exchange
+﻿namespace DevelopmentInProgress.TradeServer.StrategyEngine.ExchangeService
 {
     public interface IExchangeServiceFactory<T>
     {

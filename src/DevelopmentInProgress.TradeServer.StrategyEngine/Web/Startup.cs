@@ -7,7 +7,7 @@ using DevelopmentInProgress.TradeServer.StrategyEngine.Web.Middleware;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishing;
 using System.Collections.Generic;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Notification;
-using DevelopmentInProgress.TradeServer.StrategyEngine.Exchange;
+using DevelopmentInProgress.TradeServer.StrategyEngine.ExchangeService;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
 
