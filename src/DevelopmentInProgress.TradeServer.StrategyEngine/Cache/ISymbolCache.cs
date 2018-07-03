@@ -1,4 +1,5 @@
-﻿using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+﻿using DevelopmentInProgress.MarketView.Interface.Interfaces;
+using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
 using System;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
@@ -7,7 +8,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
     {
         string Symbol { get; }
         bool HasSubscriptions { get; }
-        void Subscribe(ITradeStrategy tradeStrategy);
-        void Unsubscribe(ITradeStrategy tradeStrategy);
+        IExchangeService ExchangeService { get; }
+        void Subscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy);
+        void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy);
     }
 }

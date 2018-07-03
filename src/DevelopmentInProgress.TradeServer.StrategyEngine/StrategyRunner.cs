@@ -15,11 +15,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine
     {
         private IBatchNotification<StrategyNotification> strategyNotifier;
         private IExchangeServiceFactory<IExchangeService> exchangeServiceFactory;
-        private ISymbolsCache symbolsCache;
+        private ISymbolsCacheManager symbolsCacheManager;
 
-        public StrategyRunner(IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, ISymbolsCache symbolsCache)
+        public StrategyRunner(IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, ISymbolsCacheManager symbolsCacheManager)
         {
-            this.symbolsCache = symbolsCache;
+            this.symbolsCacheManager = symbolsCacheManager;
             strategyNotifier = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyNotifier);
         }
 
@@ -71,11 +71,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine
 
                 Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Running {strategy.TargetType}");
 
-                symbolsCache.Subscribe(strategy, obj);
+                symbolsCacheManager.Subscribe(strategy, obj);
 
                 var result = await obj.RunAsync(strategy);
 
-                symbolsCache.Unsubscribe(strategy, obj);
+                symbolsCacheManager.Unsubscribe(strategy, obj);
             }
             catch(Exception)
             {

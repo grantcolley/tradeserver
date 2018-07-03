@@ -1,45 +1,37 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
-using System;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {
-    public class SymbolCache : ISymbolCache
+    public class BinanceSymbolCache : ISymbolCache
     {
-        private readonly IExchangeService exchangeService;
-
-        public SymbolCache(string symbol, IExchangeService exchangeService)
+        public BinanceSymbolCache(string symbol, IExchangeService exchangeService)
         {
-            this.exchangeService = exchangeService;
-
             Symbol = symbol;
+            ExchangeService = exchangeService;
         }
 
         public string Symbol { get; private set; }
 
-        public bool HasSubscriptions
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IExchangeService ExchangeService { get; private set; }
 
-        public void Subscribe(ITradeStrategy tradeStrategy)
-        {
-
-        }
-
-        public void Unsubscribe(ITradeStrategy tradeStrategy)
-        {
-
-        }
-
+        public bool HasSubscriptions => throw new System.NotImplementedException();
+        
         public void Dispose()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
+        public void Subscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
+        {
+            throw new System.NotImplementedException();
+        }
+        
         //void SubscribeStatistics(Action<StatisticsEventArgs> callback, Action<Exception> exception);
         //void SubscribeOrderBook(string symbol, int limit, Action<OrderBookEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken);
         //void SubscribeAggregateTrades(string symbol, int limit, Action<AggregateTradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken);

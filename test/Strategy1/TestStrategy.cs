@@ -6,6 +6,8 @@ namespace Strategy1
 {
     public class TestStrategy : ITradeStrategy
     {
+        public Strategy Strategy => throw new NotImplementedException();
+
         public event EventHandler<TradeStrategyNotificationEventArgs> TradeStrategyNotificationEvent;
 
         public async Task<Strategy> RunAsync(Strategy strategy)
