@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {
@@ -55,15 +56,30 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
         public void Subscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
         {
-            throw new System.NotImplementedException();
+            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades)
+            {
+                SubscribeAggregateTrades(strategyName, tradeStrategy);
+            }
         }
 
         public void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
         {
-            throw new System.NotImplementedException();
+            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades)
+            {
+                if(!aggregateTradesSubscribers.TryRemove(strategyName, out Action<AggregateTradeEventArgs> e))
+                {
+                    tradeStrategy.SubscribeAggregateTradesException(new Exception($"Failed to unsubscribe {strategyName} from aggregate trades."));
+                    return;
+                }
+            }
+
+            if(!aggregateTradesSubscribers.Any())
+            {
+                aggregateTradesCancellationTokenSource.Cancel();
+            }
         }
 
-        void SubscribeAggregateTrades(string strategyName, ITradeStrategy tradeStrategy)
+        private void SubscribeAggregateTrades(string strategyName, ITradeStrategy tradeStrategy)
         {
             if (aggregateTradesCancellationTokenSource.IsCancellationRequested)
             {
@@ -72,13 +88,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
             var hasSubscribers = aggregateTradesSubscribers.Any();
 
-            if (!aggregateTradesSubscribers.Keys.Contains(strategyName))
+            if (!aggregateTradesSubscribers.TryAdd(strategyName, tradeStrategy.SubscribeAggregateTrades))
             {
-                if (!aggregateTradesSubscribers.TryAdd(strategyName, tradeStrategy.SubscribeAggregateTrades))
-                {
-                    tradeStrategy.SubscribeAggregateTradesException(new Exception("Failed to subscribe to aggregate trades."));
-                    return;
-                }
+                tradeStrategy.SubscribeAggregateTradesException(new Exception($"Failed to subscribe {strategyName} to aggregate trades."));
+                return;
             }
 
             if (!hasSubscribers)
@@ -87,9 +100,23 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
             }
         }        
 
-        private void SubscribeAggregateTrades(AggregateTradeEventArgs aggregateTradeEventArgs)
+        private async void SubscribeAggregateTrades(AggregateTradeEventArgs aggregateTradeEventArgs)
         {
+            if(aggregateTradesCancellationTokenSource.IsCancellationRequested)
+            {
+                return;
+            }
 
+            var subscribers = (from s 
+                               in aggregateTradesSubscribers.Values
+                               select OnAggregateTradesUpdate(s, aggregateTradeEventArgs)).ToArray();
+            
+            await Task.WhenAll(subscribers);
+        }
+
+        private async Task OnAggregateTradesUpdate(Action<AggregateTradeEventArgs> action, AggregateTradeEventArgs aggregateTradeEventArgs)
+        {
+            await Task.Run(() => action.Invoke(aggregateTradeEventArgs));
         }
 
         private void SubscribeAggregateTradesException(Exception exception)

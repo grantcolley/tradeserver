@@ -27,7 +27,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
                 BinanceSymbolCache symbolCache;
                 if (!symbolsCache.TryGetValue(symbol.Symbol, out symbolCache))
                 {
-                    symbolCache = new BinanceSymbolCache(symbol.Symbol, ExchangeService);
+                    symbolCache = new BinanceSymbolCache(symbol.Symbol, symbol.Limit, ExchangeService);
                     symbolsCache.TryAdd(symbol.Symbol, symbolCache);
                 }
 
