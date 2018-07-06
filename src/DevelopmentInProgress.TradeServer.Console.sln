@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.Trade
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeServer.Console", "DevelopmentInProgress.TradeServer.Console\DevelopmentInProgress.TradeServer.Console.csproj", "{2C75DAF7-4B5C-49A2-9D3B-C3D71794C829}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{85AD2FD5-1852-4959-9CD8-F9D6A3F6444E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevelopmentInProgress.MarketView.StrategyEngine.Test", "..\test\DevelopmentInProgress.MarketView.StrategyEngine.Test\DevelopmentInProgress.MarketView.StrategyEngine.Test.csproj", "{EE47B274-860F-4162-9AF8-0CC9F3483020}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +43,16 @@ Global
 		{2C75DAF7-4B5C-49A2-9D3B-C3D71794C829}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C75DAF7-4B5C-49A2-9D3B-C3D71794C829}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C75DAF7-4B5C-49A2-9D3B-C3D71794C829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE47B274-860F-4162-9AF8-0CC9F3483020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE47B274-860F-4162-9AF8-0CC9F3483020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE47B274-860F-4162-9AF8-0CC9F3483020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE47B274-860F-4162-9AF8-0CC9F3483020}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE47B274-860F-4162-9AF8-0CC9F3483020} = {85AD2FD5-1852-4959-9CD8-F9D6A3F6444E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B0C2F66-AB35-4211-B3BF-7722F033F3CC}
