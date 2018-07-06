@@ -3,7 +3,6 @@ using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {

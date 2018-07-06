@@ -8,7 +8,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
     public class SymbolsCacheFactory : ISymbolsCacheFactory
     {
         private readonly Dictionary<Exchange, ISymbolsCache> exchangeSymbolsCache;
-        private readonly IExchangeServiceFactory<IExchangeService> exchangeServiceFactory;
 
         public SymbolsCacheFactory(IExchangeServiceFactory<IExchangeService> exchangeServiceFactory)
         {
