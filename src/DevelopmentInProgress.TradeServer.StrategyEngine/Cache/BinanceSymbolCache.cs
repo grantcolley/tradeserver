@@ -4,9 +4,11 @@ using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
+[assembly:InternalsVisibleTo("DevelopmentInProgress.MarketView.StrategyEngine.Test")]
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {
     public class BinanceSymbolCache : ISymbolCache
@@ -25,6 +27,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
             aggregateTradesCancellationTokenSource = new CancellationTokenSource();
         }
+
+        internal ConcurrentDictionary<string, Action<AggregateTradeEventArgs>> AggregateTradesSubscribers { get { return aggregateTradesSubscribers; } }
 
         public string Symbol { get; private set; }
 

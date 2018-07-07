@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DevelopmentInProgress.MarketView.Interface.Events;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.Model;
+using DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers.Data;
 
 namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 {
@@ -27,7 +28,9 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(string symbol, int limit, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var tcs = new TaskCompletionSource<IEnumerable<AggregateTrade>>();
+            tcs.SetResult(TestDataHelper.AggregateTrades);
+            return tcs.Task;
         }
 
         public Task<IEnumerable<Order>> GetOpenOrdersAsync(User user, string symbol = null, long recWindow = 0, Action<Exception> exception = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -57,7 +60,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeAggregateTrades(string symbol, int limit, Action<AggregateTradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            callback.Invoke(new AggregateTradeEventArgs { AggregateTrades = TestDataHelper.AggregateTradesUpdated });
         }
 
         public void SubscribeOrderBook(string symbol, int limit, Action<OrderBookEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
