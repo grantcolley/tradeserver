@@ -9,18 +9,8 @@ using DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers.Data;
 
 namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 {
-    public class TestBinanceExchangeService : IExchangeService, IDisposable
+    public class TestBinanceExchangeService : IExchangeService
     {
-        private CancellationTokenSource cancellationTokenSource;
-        private CancellationToken cancellationToken;
-        private bool disposed = false;
-
-        public TestBinanceExchangeService()
-        {
-            cancellationTokenSource = new CancellationTokenSource();
-            cancellationToken = cancellationTokenSource.Token;
-        }
-
         public Task<string> CancelOrderAsync(User user, string symbol, long orderId, string newClientOrderId = null, long recWindow = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
@@ -38,9 +28,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(string symbol, int limit, CancellationToken cancellationToken)
         {
-            var tcs = new TaskCompletionSource<IEnumerable<AggregateTrade>>();
-            tcs.SetResult(TestDataHelper.AggregateTrades);
-            return tcs.Task;
+            throw new NotImplementedException();
         }
 
         public Task<IEnumerable<Order>> GetOpenOrdersAsync(User user, string symbol = null, long recWindow = 0, Action<Exception> exception = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -72,8 +60,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
         {
             Task.Run(() =>
             {
-                while(cancellationToken != null
-                    && !cancellationToken.IsCancellationRequested)
+                while(!cancellationToken.IsCancellationRequested)
                 {
                     callback.Invoke(new AggregateTradeEventArgs { AggregateTrades = TestDataHelper.AggregateTradesUpdated });
                     Task.Delay(500);
@@ -89,34 +76,6 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
         public void SubscribeStatistics(Action<StatisticsEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
-        }
-
-        public void Cancel()
-        {
-            Dispose();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                cancellationTokenSource.Cancel();
-                cancellationTokenSource.Dispose();
-                cancellationTokenSource = null;
-            }
-
-            disposed = true;
         }
     }
 }

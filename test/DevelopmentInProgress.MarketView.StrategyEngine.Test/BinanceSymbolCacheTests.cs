@@ -14,19 +14,16 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         public async Task Subscribe_AggregateTrades_Single_Subscriber()
         {
             // Arrange
-            using (var binanceExchangeService = new TestBinanceExchangeService())
+            var binanceExchangeService = new TestBinanceExchangeService();
+            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var tradeStrategy = new TestTradeStrategy();
+
+            // Act
+            using (var binanceSymbolCache = new BinanceSymbolCache("TRXBTC", 500, binanceExchangeService))
             {
-                var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-                var tradeStrategy = new TestTradeStrategy();
-
-                var binanceSymbolCache = new BinanceSymbolCache("TRXBTC", 500, binanceExchangeService);
-
-                // Act
                 binanceSymbolCache.Subscribe("Test", strategySymbol, tradeStrategy);
 
                 await Task.Delay(1000);
-
-                binanceExchangeService.Cancel();
 
                 // Assert
                 Assert.IsTrue(binanceSymbolCache.HasSubscriptions);
@@ -40,23 +37,20 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         public async Task Subscribe_AggregateTrades_Multiple_Subscribers()
         {
             // Arrange
-            using (var binanceExchangeService = new TestBinanceExchangeService())
+            var binanceExchangeService = new TestBinanceExchangeService();
+            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var tradeStrategy1 = new TestTradeStrategy();
+            var tradeStrategy2 = new TestTradeStrategy();
+
+            using (var binanceSymbolCache = new BinanceSymbolCache("TRXBTC", 500, binanceExchangeService))
             {
-                var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-                var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-                var tradeStrategy1 = new TestTradeStrategy();
-                var tradeStrategy2 = new TestTradeStrategy();
-
-                var binanceSymbolCache = new BinanceSymbolCache("TRXBTC", 500, binanceExchangeService);
-
                 // Act
                 binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
 
                 binanceSymbolCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
 
                 await Task.Delay(2000);
-
-                binanceExchangeService.Cancel();
 
                 // Assert
                 Assert.IsTrue(binanceSymbolCache.HasSubscriptions);
@@ -72,13 +66,12 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         public async Task Subscribe_AggregateTrades_Single_Subscriber_Unsubscribe()
         {
             // Arrange
-            using (var binanceExchangeService = new TestBinanceExchangeService())
+            var binanceExchangeService = new TestBinanceExchangeService();
+            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var tradeStrategy = new TestTradeStrategy();
+
+            using (var binanceSymbolCache = new BinanceSymbolCache("TRXBTC", 500, binanceExchangeService))
             {
-                var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-                var tradeStrategy = new TestTradeStrategy();
-
-                var binanceSymbolCache = new BinanceSymbolCache("TRXBTC", 500, binanceExchangeService);
-
                 // Act
                 binanceSymbolCache.Subscribe("Test", strategySymbol, tradeStrategy);
 
@@ -87,8 +80,6 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                 binanceSymbolCache.Unsubscribe("Test", strategySymbol, tradeStrategy);
 
                 await Task.Delay(1000);
-
-                binanceExchangeService.Cancel();
 
                 // Assert
                 Assert.IsFalse(binanceSymbolCache.HasSubscriptions);
@@ -102,15 +93,14 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         public async Task Subscribe_AggregateTrades_Multiple_Subscribers_Unsubscribe_Single_Subscriber()
         {
             // Arrange
-            using (var binanceExchangeService = new TestBinanceExchangeService())
+            var binanceExchangeService = new TestBinanceExchangeService();
+            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var tradeStrategy1 = new TestTradeStrategy();
+            var tradeStrategy2 = new TestTradeStrategy();
+
+            using (var binanceSymbolCache = new BinanceSymbolCache("TRXBTC", 500, binanceExchangeService))
             {
-                var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-                var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-                var tradeStrategy1 = new TestTradeStrategy();
-                var tradeStrategy2 = new TestTradeStrategy();
-
-                var binanceSymbolCache = new BinanceSymbolCache("TRXBTC", 500, binanceExchangeService);
-
                 // Act
                 binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
 
@@ -121,8 +111,6 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                 binanceSymbolCache.Unsubscribe("Test 2", strategySymbol2, tradeStrategy2);
 
                 await Task.Delay(1000);
-
-                binanceExchangeService.Cancel();
 
                 // Assert
                 Assert.IsTrue(binanceSymbolCache.HasSubscriptions);
@@ -138,15 +126,14 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         public async Task Subscribe_AggregateTrades_Multiple_Subscribers_Unsubscribe_All_Subscribers()
         {
             // Arrange
-            using (var binanceExchangeService = new TestBinanceExchangeService())
+            var binanceExchangeService = new TestBinanceExchangeService();
+            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var tradeStrategy1 = new TestTradeStrategy();
+            var tradeStrategy2 = new TestTradeStrategy();
+
+            using (var binanceSymbolCache = new BinanceSymbolCache("TRXBTC", 500, binanceExchangeService))
             {
-                var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-                var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-                var tradeStrategy1 = new TestTradeStrategy();
-                var tradeStrategy2 = new TestTradeStrategy();
-
-                var binanceSymbolCache = new BinanceSymbolCache("TRXBTC", 500, binanceExchangeService);
-
                 // Act
                 binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
 
@@ -159,8 +146,6 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                 binanceSymbolCache.Unsubscribe("Test 1", strategySymbol1, tradeStrategy1);
 
                 await Task.Delay(1000);
-
-                binanceExchangeService.Cancel();
 
                 // Assert
                 Assert.IsFalse(binanceSymbolCache.HasSubscriptions);

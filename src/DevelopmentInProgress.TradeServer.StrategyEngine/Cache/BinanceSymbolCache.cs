@@ -17,6 +17,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
         private CancellationTokenSource aggregateTradesCancellationTokenSource;
 
+        private bool disposed;
+
         public BinanceSymbolCache(string symbol, int limit, IExchangeService exchangeService)
         {
             Symbol = symbol;
@@ -51,10 +53,24 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
         public void Dispose()
         {
-            if(!aggregateTradesCancellationTokenSource.IsCancellationRequested)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if (disposing)
             {
                 aggregateTradesCancellationTokenSource.Cancel();
+                aggregateTradesCancellationTokenSource.Dispose();
             }
+
+            disposed = true;
         }
 
         public void Subscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
@@ -78,7 +94,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
             if(!aggregateTradesSubscribers.Any())
             {
-                aggregateTradesCancellationTokenSource.Cancel();
+                if (!aggregateTradesCancellationTokenSource.IsCancellationRequested)
+                {
+                    aggregateTradesCancellationTokenSource.Cancel();
+                }
             }
         }
 
