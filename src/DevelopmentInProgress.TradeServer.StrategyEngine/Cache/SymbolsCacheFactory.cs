@@ -1,5 +1,6 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance;
 using DevelopmentInProgress.TradeServer.StrategyEngine.ExchangeService;
 using System.Collections.Generic;
 

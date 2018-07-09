@@ -4,11 +4,13 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
+namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 {
     public class BinanceSymbolsCache : ISymbolsCache
     {
         private readonly ConcurrentDictionary<string, BinanceSymbolCache> symbolsCache;
+
+        private bool disposed;
 
         public BinanceSymbolsCache(IExchangeService exchangeService)
         {
@@ -55,7 +57,26 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if(disposed)
+            {
+                return;
+            }
+
+            if(disposing)
+            {
+                foreach (var symbolCache in symbolsCache)
+                {
+                    symbolCache.Value.Dispose();
+                }
+            }
+
+            disposed = true;
         }
     }
 }

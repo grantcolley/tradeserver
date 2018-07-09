@@ -13,6 +13,8 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public IEnumerable<AggregateTrade> AggregateTrades { get; set; }
 
+        public OrderBook OrderBook { get; set; }
+
         public Task<Strategy> RunAsync(Strategy strategy)
         {
             throw new NotImplementedException();
@@ -40,7 +42,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeOrderBook(OrderBookEventArgs orderBookEventArgs)
         {
-            throw new NotImplementedException();
+            OrderBook = orderBookEventArgs.OrderBook;
         }
 
         public void SubscribeOrderBookException(Exception exception)

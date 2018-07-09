@@ -1,6 +1,6 @@
 using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
 using DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers;
-using DevelopmentInProgress.TradeServer.StrategyEngine.Cache;
+using DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
 {
     [TestClass]
-    public class BinanceSymbolCacheTests
+    public class BinanceSymbolCacheAggregateTradesTests
     {
         [TestMethod]
         public async Task Subscribe_AggregateTrades_Single_Subscriber()
@@ -27,7 +27,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
 
                 // Assert
                 Assert.IsTrue(binanceSymbolCache.HasSubscriptions);
-                Assert.AreEqual(binanceSymbolCache.AggregateTradesSubscribers.Count(), 1);
+                Assert.AreEqual(binanceSymbolCache.Subscriptions(Subscribe.AggregateTrades), 1);
                 Assert.IsNotNull(tradeStrategy.AggregateTrades);
                 Assert.IsTrue(tradeStrategy.AggregateTrades.Any());
             }
@@ -54,7 +54,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
 
                 // Assert
                 Assert.IsTrue(binanceSymbolCache.HasSubscriptions);
-                Assert.AreEqual(binanceSymbolCache.AggregateTradesSubscribers.Count(), 2);
+                Assert.AreEqual(binanceSymbolCache.Subscriptions(Subscribe.AggregateTrades), 2);
                 Assert.IsNotNull(tradeStrategy1.AggregateTrades);
                 Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
                 Assert.IsNotNull(tradeStrategy2.AggregateTrades);
@@ -83,7 +83,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
 
                 // Assert
                 Assert.IsFalse(binanceSymbolCache.HasSubscriptions);
-                Assert.AreEqual(binanceSymbolCache.AggregateTradesSubscribers.Count(), 0);
+                Assert.AreEqual(binanceSymbolCache.Subscriptions(Subscribe.AggregateTrades), 0);
                 Assert.IsNotNull(tradeStrategy.AggregateTrades);
                 Assert.IsTrue(tradeStrategy.AggregateTrades.Any());
             }
@@ -114,7 +114,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
 
                 // Assert
                 Assert.IsTrue(binanceSymbolCache.HasSubscriptions);
-                Assert.AreEqual(binanceSymbolCache.AggregateTradesSubscribers.Count(), 1);
+                Assert.AreEqual(binanceSymbolCache.Subscriptions(Subscribe.AggregateTrades), 1);
                 Assert.IsNotNull(tradeStrategy1.AggregateTrades);
                 Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
                 Assert.IsNotNull(tradeStrategy2.AggregateTrades);
@@ -149,7 +149,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
 
                 // Assert
                 Assert.IsFalse(binanceSymbolCache.HasSubscriptions);
-                Assert.AreEqual(binanceSymbolCache.AggregateTradesSubscribers.Count(), 0);
+                Assert.AreEqual(binanceSymbolCache.Subscriptions(Subscribe.AggregateTrades), 0);
                 Assert.IsNotNull(tradeStrategy1.AggregateTrades);
                 Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
                 Assert.IsNotNull(tradeStrategy2.AggregateTrades);

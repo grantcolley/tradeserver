@@ -7,8 +7,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
     public interface ISymbolCache : IDisposable
     {
         string Symbol { get; }
-        bool HasSubscriptions { get; }
         IExchangeService ExchangeService { get; }
+        bool HasSubscriptions { get; }
+        int Subscriptions(Subscribe subscribe);
         void Subscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy);
         void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy);
     }
