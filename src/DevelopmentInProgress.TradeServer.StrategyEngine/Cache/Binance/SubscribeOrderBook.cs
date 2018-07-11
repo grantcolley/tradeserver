@@ -5,9 +5,9 @@ using DevelopmentInProgress.MarketView.Interface.Interfaces;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 {
-    public class SubscribeAggregateTrades : SubscriptionManager<AggregateTradeEventArgs>
+    public class SubscribeOrderBook : SubscriptionManager<OrderBookEventArgs>
     {
-        public SubscribeAggregateTrades(string symbol, int limit, IExchangeService exchangeService)
+        public SubscribeOrderBook(string symbol, int limit, IExchangeService exchangeService)
             : base(exchangeService)
         {
             Symbol = symbol;
@@ -18,9 +18,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
         public int Limit { get; private set; }
 
-        public override void ExchangeSubscribe(Action<AggregateTradeEventArgs> update, Action<Exception> exception, CancellationToken cancellationToken)
+        public override void ExchangeSubscribe(Action<OrderBookEventArgs> update, Action<Exception> exception, CancellationToken cancellationToken)
         {
-            ExchangeService.SubscribeAggregateTrades(Symbol, Limit, update, exception, cancellationToken);
+            ExchangeService.SubscribeOrderBook(Symbol, Limit, update, exception, cancellationToken);
         }
     }
 }

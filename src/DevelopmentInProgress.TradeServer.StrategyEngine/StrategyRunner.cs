@@ -15,9 +15,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine
     {
         private IBatchNotification<StrategyNotification> strategyNotifier;
         private IExchangeServiceFactory<IExchangeService> exchangeServiceFactory;
-        private ISymbolsCacheManager symbolsCacheManager;
+        private ISubscriptionsCacheManager symbolsCacheManager;
 
-        public StrategyRunner(IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, ISymbolsCacheManager symbolsCacheManager)
+        public StrategyRunner(IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, ISubscriptionsCacheManager symbolsCacheManager)
         {
             this.symbolsCacheManager = symbolsCacheManager;
             strategyNotifier = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyNotifier);

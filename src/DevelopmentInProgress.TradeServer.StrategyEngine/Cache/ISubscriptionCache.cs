@@ -4,9 +4,8 @@ using System;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {
-    public interface ISymbolCache : IDisposable
+    public interface ISubscriptionCache : IDisposable
     {
-        string Symbol { get; }
         IExchangeService ExchangeService { get; }
         bool HasSubscriptions { get; }
         int Subscriptions(Subscribe subscribe);

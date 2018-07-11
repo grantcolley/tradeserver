@@ -6,17 +6,17 @@ using System.Collections.Generic;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 {
-    public class BinanceSymbolsCache : ISymbolsCache
+    public class BinanceSubscriptionsCache : ISubscriptionsCache
     {
-        private readonly ConcurrentDictionary<string, BinanceSymbolCache> symbolsCache;
+        private readonly ConcurrentDictionary<string, BinanceSubscriptionCache> symbolsCache;
 
         private bool disposed;
 
-        public BinanceSymbolsCache(IExchangeService exchangeService)
+        public BinanceSubscriptionsCache(IExchangeService exchangeService)
         {
             ExchangeService = exchangeService;
 
-            symbolsCache = new ConcurrentDictionary<string, BinanceSymbolCache>();
+            symbolsCache = new ConcurrentDictionary<string, BinanceSubscriptionCache>();
         }
 
         public IExchangeService ExchangeService { get; private set; }
@@ -25,10 +25,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         {
             foreach (var symbol in strategySymbols)
             {
-                BinanceSymbolCache symbolCache;
+                BinanceSubscriptionCache symbolCache;
                 if (!symbolsCache.TryGetValue(symbol.Symbol, out symbolCache))
                 {
-                    symbolCache = new BinanceSymbolCache(symbol.Symbol, symbol.Limit, ExchangeService);
+                    symbolCache = new BinanceSubscriptionCache(symbol.Symbol, symbol.Limit, ExchangeService);
                     symbolsCache.TryAdd(symbol.Symbol, symbolCache);
                 }
 
@@ -40,13 +40,13 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         {
             foreach (var symbol in strategySymbols)
             {
-                if (symbolsCache.TryGetValue(symbol.Symbol, out BinanceSymbolCache symbolCache))
+                if (symbolsCache.TryGetValue(symbol.Symbol, out BinanceSubscriptionCache symbolCache))
                 {
                     symbolCache.Unsubscribe(strategyName, symbol, tradeStrategy);
 
                     if (!symbolCache.HasSubscriptions)
                     {
-                        if (symbolsCache.TryRemove(symbol.Symbol, out BinanceSymbolCache symbolCacheDispose))
+                        if (symbolsCache.TryRemove(symbol.Symbol, out BinanceSubscriptionCache symbolCacheDispose))
                         {
                             symbolCacheDispose.Dispose();
                         }

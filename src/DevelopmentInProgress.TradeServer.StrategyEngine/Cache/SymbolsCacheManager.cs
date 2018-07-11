@@ -3,14 +3,14 @@ using System.Linq;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {
-    public class SymbolsCacheManager : ISymbolsCacheManager
+    public class SubscriptionsCacheManager : ISubscriptionsCacheManager
     {
-        private readonly ISymbolsCacheFactory symbolsCacheFactory;
-
-        public SymbolsCacheManager(ISymbolsCacheFactory symbolsCacheFactory)
+        public SubscriptionsCacheManager(ISubscriptionsCacheFactory subscriptionsCacheFactory)
         {
-            this.symbolsCacheFactory = symbolsCacheFactory;
+            SubscriptionsCacheFactory = subscriptionsCacheFactory;
         }
+
+        public ISubscriptionsCacheFactory SubscriptionsCacheFactory { get; private set; }
 
         public void Subscribe(Strategy strategy, ITradeStrategy tradeStrategy)
         {
@@ -20,7 +20,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
             foreach(var exchangeSymbols in exchangeSymbolsList)
             {
-                var symbolsCache = symbolsCacheFactory.GetSymbolsCache(exchangeSymbols.Exchange);
+                var symbolsCache = SubscriptionsCacheFactory.GetSubscriptionsCache(exchangeSymbols.Exchange);
                 symbolsCache.Subscribe(strategy.Name, exchangeSymbols.Symbols, tradeStrategy);
             }
         }
@@ -33,7 +33,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
             foreach (var exchangeSymbols in exchangeSymbolsList)
             {
-                var symbolsCache = symbolsCacheFactory.GetSymbolsCache(exchangeSymbols.Exchange);
+                var symbolsCache = SubscriptionsCacheFactory.GetSubscriptionsCache(exchangeSymbols.Exchange);
                 symbolsCache.Unsubscribe(strategy.Name, exchangeSymbols.Symbols, tradeStrategy);
             }
         }

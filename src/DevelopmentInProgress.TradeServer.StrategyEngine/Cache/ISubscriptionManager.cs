@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
+namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {
     public interface ISubscriptionManager<T> : IDisposable
     {

@@ -2,8 +2,8 @@
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {
-    public interface ISymbolsCacheFactory
+    public interface ISubscriptionsCacheFactory
     {
-        ISymbolsCache GetSymbolsCache(Exchange exchange);
+        ISubscriptionsCache GetSubscriptionsCache(Exchange exchange);
     }
 }

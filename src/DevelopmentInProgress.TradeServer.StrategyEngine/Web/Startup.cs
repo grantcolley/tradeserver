@@ -36,8 +36,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Web
             services.AddSingleton<IBatchNotificationFactory<IEnumerable<StrategyNotification>>, StrategyBatchNotificationListFactory>();
             services.AddSingleton<IBatchNotificationFactory<StrategyNotification>, StrategyBatchNotificationFactory>();
             services.AddSingleton<IExchangeServiceFactory<IExchangeService>, StrategyExchangeServiceFactory>();
-            services.AddSingleton<ISymbolsCacheFactory, SymbolsCacheFactory>();
-            services.AddSingleton<ISymbolsCacheManager, SymbolsCacheManager>();
+            services.AddSingleton<ISubscriptionsCacheFactory, SubscriptionsCacheFactory>();
+            services.AddSingleton<ISubscriptionsCacheManager, SubscriptionsCacheManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

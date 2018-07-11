@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
+namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {
     public abstract class SubscriptionManager<T> : ISubscriptionManager<T>, IDisposable
     {
@@ -14,22 +14,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
         private bool disposed;
 
-        public SubscriptionManager(string symbol, int limit, IExchangeService exchangeService)
+        public SubscriptionManager(IExchangeService exchangeService)
         {
-            Symbol = symbol;
-            Limit = limit;
             ExchangeService = exchangeService;
-
             subscribers = new ConcurrentDictionary<string, StrategyNotification<T>>();
-
             cancellationTokenSource = new CancellationTokenSource();
         }
 
-        public abstract void ExchangeSubscribe(string symbol, int limit, Action<T> update, Action<Exception> exception, CancellationToken cancellationToken);
-
-        public string Symbol { get; private set; }
-
-        public int Limit { get; private set; }
+        public abstract void ExchangeSubscribe(Action<T> update, Action<Exception> exception, CancellationToken cancellationToken);
 
         protected IExchangeService ExchangeService { get; set; }
 
@@ -72,7 +64,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
             if (!hasSubscribers)
             {
-                ExchangeSubscribe(Symbol, Limit, Update, Exception, cancellationTokenSource.Token);
+                ExchangeSubscribe(Update, Exception, cancellationTokenSource.Token);
             }
         }
 

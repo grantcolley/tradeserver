@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {
-    public interface ISymbolsCache : IDisposable
+    public interface ISubscriptionsCache : IDisposable
     {
         IExchangeService ExchangeService { get; }
         void Subscribe(string strategyName, List<StrategySymbol> strategySymbol, ITradeStrategy tradeStrategy);

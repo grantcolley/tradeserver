@@ -7,13 +7,13 @@ using System.Runtime.CompilerServices;
 [assembly:InternalsVisibleTo("DevelopmentInProgress.MarketView.StrategyEngine.Test")]
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 {
-    public class BinanceSymbolCache : ISymbolCache
+    public class BinanceSubscriptionCache : ISubscriptionCache
     {
         private SubscribeAggregateTrades subscribeAggregateTrades;
 
         private bool disposed;
 
-        public BinanceSymbolCache(string symbol, int limit, IExchangeService exchangeService)
+        public BinanceSubscriptionCache(string symbol, int limit, IExchangeService exchangeService)
         {
             Symbol = symbol;
             Limit = limit;
@@ -21,7 +21,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
             subscribeAggregateTrades = new SubscribeAggregateTrades(symbol, limit, exchangeService);
         }
-
+        
         public string Symbol { get; private set; }
 
         public int Limit { get; private set; }
