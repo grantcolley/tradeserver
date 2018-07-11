@@ -10,6 +10,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
     public class BinanceSubscriptionCache : ISubscriptionCache
     {
         private SubscribeAggregateTrades subscribeAggregateTrades;
+        private SubscribeAccountInfo subscribeAccountInfo;
+        private SubscribeStatistics subscribeStatistics;
+        private SubscribeOrderBook subscribeOrderBook;
 
         private bool disposed;
 
@@ -20,6 +23,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             ExchangeService = exchangeService;
 
             subscribeAggregateTrades = new SubscribeAggregateTrades(symbol, limit, exchangeService);
+            subscribeOrderBook = new SubscribeOrderBook(symbol, limit, exchangeService);
+            subscribeAccountInfo = new SubscribeAccountInfo(exchangeService);
+            subscribeStatistics = new SubscribeStatistics(exchangeService);
         }
         
         public string Symbol { get; private set; }
@@ -80,6 +86,41 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
                 subscribeAggregateTrades.Subscribe(strategyName, aggregateTrades);
             }
+
+            if(strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
+            {
+                var accountInfo = new StrategyNotification<AccountInfoEventArgs>
+                {
+                    Update = tradeStrategy.SubscribeAccountInfo,
+                    Exception = tradeStrategy.SubscribeAccountInfoException
+                };
+
+                subscribeAccountInfo.User.ApiKey = strategySymbol.ApiKey;
+                subscribeAccountInfo.User.ApiSecret = strategySymbol.ApiKey;
+                subscribeAccountInfo.Subscribe(strategyName, accountInfo);
+            }
+
+            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.OrderBook)
+            {
+                var orderBook = new StrategyNotification<OrderBookEventArgs>
+                {
+                    Update = tradeStrategy.SubscribeOrderBook,
+                    Exception = tradeStrategy.SubscribeOrderBookException
+                };
+
+                subscribeOrderBook.Subscribe(strategyName, orderBook);
+            }
+
+            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.Statistics)
+            {
+                var statistics = new StrategyNotification<StatisticsEventArgs>
+                {
+                    Update = tradeStrategy.SubscribeStatistics,
+                    Exception = tradeStrategy.SubscribeStatisticsException
+                };
+
+                subscribeStatistics.Subscribe(strategyName, statistics);
+            }
         }
 
         public void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
@@ -89,21 +130,5 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                 subscribeAggregateTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeAggregateTradesException);
             }
         }
-
-        //void SubscribeAggregateTrades(string symbol, int limit, Action<AggregateTradeEventArgs> callback, Action<Exception> exception);
-
-        //void SubscribeStatistics(Action<StatisticsEventArgs> callback, Action<Exception> exception);
-        //void SubscribeOrderBook(string symbol, int limit, Action<OrderBookEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken);
-        //void SubscribeAccountInfo(Interface.Model.User user, Action<AccountInfoEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken);
-
-
-        //void SubscribeStatistics(StatisticsEventArgs statisticsEventArgs);
-        //void SubscribeStatisticsException(Exception exception);
-        //void SubscribeOrderBook(OrderBookEventArgs orderBookEventArgs);
-        //void SubscribeOrderBookException(Exception exception);
-        //void SubscribeAccountInfo(AccountInfoEventArgs accountInfoEventArgs);
-        //void SubscribeAccountInfoException(Exception exception);
-
-
     }
 }

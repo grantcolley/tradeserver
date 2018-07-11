@@ -11,12 +11,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         public SubscribeAccountInfo(IExchangeService exchangeService)
             : base(exchangeService)
         {
+            User = new User();
         }
+
+        public User User { get; private set; }
 
         public override void ExchangeSubscribe(Action<AccountInfoEventArgs> update, Action<Exception> exception, CancellationToken cancellationToken)
         {
-            var user = new User();
-            ExchangeService.SubscribeAccountInfo(user, update, exception, cancellationToken);
+            ExchangeService.SubscribeAccountInfo(User, update, exception, cancellationToken);
         }
     }
 }
