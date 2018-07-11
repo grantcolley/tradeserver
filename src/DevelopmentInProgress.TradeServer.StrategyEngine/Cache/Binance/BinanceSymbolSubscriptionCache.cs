@@ -7,16 +7,14 @@ using System.Runtime.CompilerServices;
 [assembly:InternalsVisibleTo("DevelopmentInProgress.MarketView.StrategyEngine.Test")]
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 {
-    public class BinanceSubscriptionCache : ISubscriptionCache
+    public class BinanceSymbolSubscriptionCache : ISubscriptionCache
     {
         private SubscribeAggregateTrades subscribeAggregateTrades;
-        private SubscribeAccountInfo subscribeAccountInfo;
-        private SubscribeStatistics subscribeStatistics;
         private SubscribeOrderBook subscribeOrderBook;
 
         private bool disposed;
 
-        public BinanceSubscriptionCache(string symbol, int limit, IExchangeService exchangeService)
+        public BinanceSymbolSubscriptionCache(string symbol, int limit, IExchangeService exchangeService)
         {
             Symbol = symbol;
             Limit = limit;
@@ -24,8 +22,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
             subscribeAggregateTrades = new SubscribeAggregateTrades(symbol, limit, exchangeService);
             subscribeOrderBook = new SubscribeOrderBook(symbol, limit, exchangeService);
-            subscribeAccountInfo = new SubscribeAccountInfo(exchangeService);
-            subscribeStatistics = new SubscribeStatistics(exchangeService);
         }
         
         public string Symbol { get; private set; }
@@ -39,9 +35,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             get
             {
                 return subscribeAggregateTrades.HasSubscriptions
-                    || subscribeAccountInfo.HasSubscriptions
-                    || subscribeOrderBook.HasSubscriptions
-                    || subscribeStatistics.HasSubscriptions;
+                    || subscribeOrderBook.HasSubscriptions;
             }
         }
 
@@ -53,10 +47,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                     return subscribeAggregateTrades.Subscriptions;
                 case MarketView.Interface.TradeStrategy.Subscribe.OrderBook:
                     return subscribeOrderBook.Subscriptions;
-                case MarketView.Interface.TradeStrategy.Subscribe.AccountInfo:
-                    return subscribeAccountInfo.Subscriptions;
-                case MarketView.Interface.TradeStrategy.Subscribe.Statistics:
-                    return subscribeStatistics.Subscriptions;
                 default:
                     throw new NotImplementedException($"{this.GetType().Name}.Subscriptions({subscribe})");
             }
@@ -78,6 +68,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             if (disposing)
             {
                 subscribeAggregateTrades.Dispose();
+                subscribeOrderBook.Dispose();
             }
 
             disposed = true;
@@ -96,19 +87,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                 subscribeAggregateTrades.Subscribe(strategyName, aggregateTrades);
             }
 
-            if(strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
-            {
-                var accountInfo = new StrategyNotification<AccountInfoEventArgs>
-                {
-                    Update = tradeStrategy.SubscribeAccountInfo,
-                    Exception = tradeStrategy.SubscribeAccountInfoException
-                };
-
-                subscribeAccountInfo.User.ApiKey = strategySymbol.ApiKey;
-                subscribeAccountInfo.User.ApiSecret = strategySymbol.ApiKey;
-                subscribeAccountInfo.Subscribe(strategyName, accountInfo);
-            }
-
             if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.OrderBook)
             {
                 var orderBook = new StrategyNotification<OrderBookEventArgs>
@@ -119,17 +97,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
                 subscribeOrderBook.Subscribe(strategyName, orderBook);
             }
-
-            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.Statistics)
-            {
-                var statistics = new StrategyNotification<StatisticsEventArgs>
-                {
-                    Update = tradeStrategy.SubscribeStatistics,
-                    Exception = tradeStrategy.SubscribeStatisticsException
-                };
-
-                subscribeStatistics.Subscribe(strategyName, statistics);
-            }
         }
 
         public void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
@@ -137,6 +104,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades)
             {
                 subscribeAggregateTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeAggregateTradesException);
+            }
+
+            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.OrderBook)
+            {
+                subscribeOrderBook.Unsubscribe(strategyName, tradeStrategy.SubscribeAggregateTradesException);
             }
         }
     }
