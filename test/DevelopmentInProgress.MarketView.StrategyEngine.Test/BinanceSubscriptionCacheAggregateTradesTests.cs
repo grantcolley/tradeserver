@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
 {
     [TestClass]
-    public class BinanceSymbolCacheAggregateTradesTests
+    public class BinanceSubscriptionCacheAggregateTradesTests
     {
         [TestMethod]
         public async Task Subscribe_AggregateTrades_Single_Subscriber()
@@ -154,6 +154,30 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                 Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
                 Assert.IsNotNull(tradeStrategy2.AggregateTrades);
                 Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
+            }
+        }
+
+        [TestMethod]
+        public async Task AggregateTrades_Exception()
+        {
+            // Arrange
+            var binanceExchangeService = new TestBinanceExchangeService { AggregateTradesException = true };
+            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var tradeStrategy = new TestTradeStrategy();
+
+            // Act
+            using (var binanceSymbolCache = new BinanceSubscriptionCache("TRXBTC", 500, binanceExchangeService))
+            {
+                binanceSymbolCache.Subscribe("Test", strategySymbol, tradeStrategy);
+
+                await Task.Delay(1000);
+
+                // Assert
+                Assert.IsTrue(binanceSymbolCache.HasSubscriptions);
+                Assert.AreEqual(binanceSymbolCache.Subscriptions(Subscribe.AggregateTrades), 1);
+                Assert.IsNotNull(tradeStrategy.AggregateTrades);
+                Assert.IsTrue(tradeStrategy.AggregateTrades.Any());
+                Assert.IsTrue(tradeStrategy.AggregateTradesException);
             }
         }
     }

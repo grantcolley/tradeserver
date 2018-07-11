@@ -11,6 +11,11 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 {
     public class TestBinanceExchangeService : IExchangeService
     {
+        public bool AggregateTradesException { get; set; }
+        public bool OrderBookException { get; set; }
+        public bool StatisticsException { get; set; }
+        public bool AccountInfoException { get; set; }
+
         public Task<string> CancelOrderAsync(User user, string symbol, long orderId, string newClientOrderId = null, long recWindow = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
@@ -59,6 +64,11 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
                 {
                     callback.Invoke(new AccountInfoEventArgs { AccountInfo = TestDataHelper.AccountInfo });
                     Task.Delay(500);
+
+                    if (AccountInfoException)
+                    {
+                        exception.Invoke(new Exception("SubscribeAccountInfo"));
+                    }
                 }
             });
         }
@@ -71,6 +81,12 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
                 {
                     callback.Invoke(new AggregateTradeEventArgs { AggregateTrades = TestDataHelper.AggregateTradesUpdated });
                     Task.Delay(500);
+
+
+                    if(AggregateTradesException)
+                    {
+                        exception.Invoke(new Exception("SubscribeAggregateTrades"));
+                    }
                 }
             });
         }
@@ -83,6 +99,11 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
                 {
                     callback.Invoke(new OrderBookEventArgs { OrderBook = TestDataHelper.OrderBook });
                     Task.Delay(500);
+
+                    if (OrderBookException)
+                    {
+                        exception.Invoke(new Exception("SubscribeOrderBook"));
+                    }
                 }
             });
         }
@@ -95,6 +116,11 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
                 {
                     callback.Invoke(new StatisticsEventArgs { Statistics = TestDataHelper.SymbolsStatistics });
                     Task.Delay(500);
+
+                    if (StatisticsException)
+                    {
+                        exception.Invoke(new Exception("SubscribeStatistics"));
+                    }
                 }
             });
         }

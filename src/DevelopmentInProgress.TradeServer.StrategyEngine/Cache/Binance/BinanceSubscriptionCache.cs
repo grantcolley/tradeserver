@@ -38,7 +38,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         {
             get
             {
-                return subscribeAggregateTrades.HasSubscriptions;
+                return subscribeAggregateTrades.HasSubscriptions
+                    || subscribeAccountInfo.HasSubscriptions
+                    || subscribeOrderBook.HasSubscriptions
+                    || subscribeStatistics.HasSubscriptions;
             }
         }
 
@@ -48,6 +51,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             {
                 case MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades:
                     return subscribeAggregateTrades.Subscriptions;
+                case MarketView.Interface.TradeStrategy.Subscribe.OrderBook:
+                    return subscribeOrderBook.Subscriptions;
+                case MarketView.Interface.TradeStrategy.Subscribe.AccountInfo:
+                    return subscribeAccountInfo.Subscriptions;
+                case MarketView.Interface.TradeStrategy.Subscribe.Statistics:
+                    return subscribeStatistics.Subscriptions;
                 default:
                     throw new NotImplementedException($"{this.GetType().Name}.Subscriptions({subscribe})");
             }

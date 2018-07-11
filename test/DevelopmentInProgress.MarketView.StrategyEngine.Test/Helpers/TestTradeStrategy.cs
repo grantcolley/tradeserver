@@ -12,8 +12,14 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
         public event EventHandler<TradeStrategyNotificationEventArgs> TradeStrategyNotificationEvent;
 
         public IEnumerable<AggregateTrade> AggregateTrades { get; set; }
-
+        public IEnumerable<SymbolStats> Statistics { get; set; }
         public OrderBook OrderBook { get; set; }
+        public AccountInfo AccountInfo { get; set; }
+
+        public bool AggregateTradesException { get; set; }
+        public bool OrderBookException { get; set; }
+        public bool StatisticsException { get; set; }
+        public bool AccountInfoException { get; set; }
 
         public Task<Strategy> RunAsync(Strategy strategy)
         {
@@ -22,12 +28,12 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeAccountInfo(AccountInfoEventArgs accountInfoEventArgs)
         {
-            throw new NotImplementedException();
+            AccountInfo = accountInfoEventArgs.AccountInfo;
         }
 
         public void SubscribeAccountInfoException(Exception exception)
         {
-            throw new NotImplementedException();
+            AccountInfoException = true;
         }
 
         public void SubscribeAggregateTrades(AggregateTradeEventArgs aggregateTradeEventArgs)
@@ -37,7 +43,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeAggregateTradesException(Exception exception)
         {
-            throw new NotImplementedException();
+            AggregateTradesException = true;
         }
 
         public void SubscribeOrderBook(OrderBookEventArgs orderBookEventArgs)
@@ -47,17 +53,17 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeOrderBookException(Exception exception)
         {
-            throw new NotImplementedException();
+            OrderBookException = true;
         }
 
         public void SubscribeStatistics(StatisticsEventArgs statisticsEventArgs)
         {
-            throw new NotImplementedException();
+            Statistics = statisticsEventArgs.Statistics;
         }
 
         public void SubscribeStatisticsException(Exception exception)
         {
-            throw new NotImplementedException();
+            StatisticsException = true;
         }
     }
 }
