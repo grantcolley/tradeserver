@@ -72,7 +72,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         {
             if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.Statistics)
             {
-                subscribeStatistics.Unsubscribe(strategyName, tradeStrategy.SubscribeAggregateTradesException);
+                subscribeStatistics.Unsubscribe(strategyName, tradeStrategy.SubscribeStatisticsException);
             }
         }
     }

@@ -72,9 +72,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
         public void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
         {
-            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades)
+            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
             {
-                subscribeAccountInfo.Unsubscribe(strategyName, tradeStrategy.SubscribeAggregateTradesException);
+                subscribeAccountInfo.Unsubscribe(strategyName, tradeStrategy.SubscribeAccountInfoException);
             }
         }
     }
