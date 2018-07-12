@@ -108,7 +108,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
             if (strategySymbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
             {
-                subscribeOrderBook.Unsubscribe(strategyName, tradeStrategy.SubscribeAggregateTradesException);
+                subscribeOrderBook.Unsubscribe(strategyName, tradeStrategy.SubscribeOrderBookException);
             }
         }
     }
