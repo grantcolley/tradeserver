@@ -9,7 +9,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
         IExchangeService ExchangeService { get; }
         bool HasSubscriptions { get; }
         int Subscriptions(Subscribe subscribe);
-        void Subscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy);
-        void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy);
+        void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy);
+        void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy);
     }
 }

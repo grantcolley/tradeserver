@@ -15,13 +15,13 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
             using (var binanceAccountInfoCache = new BinanceAccountInfoSubscriptionCache(binanceExchangeService))
             {
-                binanceAccountInfoCache.Subscribe("Test", strategySymbol, tradeStrategy);
+                binanceAccountInfoCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
@@ -38,17 +38,17 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceAccountInfoCache = new BinanceAccountInfoSubscriptionCache(binanceExchangeService))
             {
                 // Act
-                binanceAccountInfoCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceAccountInfoCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceAccountInfoCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceAccountInfoCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
@@ -67,17 +67,17 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
             var tradeStrategy = new TestTradeStrategy();
 
             using (var binanceAccountInfoCache = new BinanceAccountInfoSubscriptionCache(binanceExchangeService))
             {
                 // Act
-                binanceAccountInfoCache.Subscribe("Test", strategySymbol, tradeStrategy);
+                binanceAccountInfoCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
-                binanceAccountInfoCache.Unsubscribe("Test", strategySymbol, tradeStrategy);
+                binanceAccountInfoCache.Unsubscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
@@ -94,21 +94,21 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceAccountInfoCache = new BinanceAccountInfoSubscriptionCache(binanceExchangeService))
             {
                 // Act
-                binanceAccountInfoCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceAccountInfoCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceAccountInfoCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceAccountInfoCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
-                binanceAccountInfoCache.Unsubscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceAccountInfoCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(1000);
 
@@ -127,23 +127,23 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceAccountInfoCache = new BinanceAccountInfoSubscriptionCache(binanceExchangeService))
             {
                 // Act
-                binanceAccountInfoCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceAccountInfoCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceAccountInfoCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceAccountInfoCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
-                binanceAccountInfoCache.Unsubscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceAccountInfoCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                binanceAccountInfoCache.Unsubscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceAccountInfoCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy1);
 
                 await Task.Delay(1000);
 
@@ -162,13 +162,13 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService { AccountInfoException = true };
-            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
             using (var binanceAccountInfoCache = new BinanceAccountInfoSubscriptionCache(binanceExchangeService))
             {
-                binanceAccountInfoCache.Subscribe("Test", strategySymbol, tradeStrategy);
+                binanceAccountInfoCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 

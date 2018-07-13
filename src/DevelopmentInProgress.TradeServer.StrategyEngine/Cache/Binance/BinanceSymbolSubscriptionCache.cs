@@ -74,9 +74,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             disposed = true;
         }
 
-        public void Subscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
+        public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySymbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades))
             {
                 var aggregateTrades = new StrategyNotification<AggregateTradeEventArgs>
                 {
@@ -87,7 +87,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                 subscribeAggregateTrades.Subscribe(strategyName, aggregateTrades);
             }
 
-            if (strategySymbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
             {
                 var orderBook = new StrategyNotification<OrderBookEventArgs>
                 {
@@ -99,14 +99,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             }
         }
 
-        public void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
+        public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySymbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades))
             {
                 subscribeAggregateTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeAggregateTradesException);
             }
 
-            if (strategySymbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
             {
                 subscribeOrderBook.Unsubscribe(strategyName, tradeStrategy.SubscribeOrderBookException);
             }

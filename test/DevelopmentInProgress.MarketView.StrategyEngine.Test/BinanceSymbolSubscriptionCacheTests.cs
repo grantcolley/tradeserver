@@ -15,13 +15,13 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
-                binanceSymbolCache.Subscribe("Test", strategySymbol, tradeStrategy);
+                binanceSymbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
@@ -38,17 +38,17 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
                 // Act
-                binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceSymbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceSymbolCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
@@ -67,17 +67,17 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
             var tradeStrategy = new TestTradeStrategy();
 
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
                 // Act
-                binanceSymbolCache.Subscribe("Test", strategySymbol, tradeStrategy);
+                binanceSymbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
-                binanceSymbolCache.Unsubscribe("Test", strategySymbol, tradeStrategy);
+                binanceSymbolCache.Unsubscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
@@ -94,21 +94,21 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
                 // Act
-                binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceSymbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceSymbolCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
-                binanceSymbolCache.Unsubscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(1000);
 
@@ -127,23 +127,23 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
                 // Act
-                binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceSymbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceSymbolCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
-                binanceSymbolCache.Unsubscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                binanceSymbolCache.Unsubscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceSymbolCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy1);
 
                 await Task.Delay(1000);
 
@@ -162,13 +162,13 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService { AggregateTradesException = true };
-            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.AggregateTrades };
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
-                binanceSymbolCache.Subscribe("Test", strategySymbol, tradeStrategy);
+                binanceSymbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
@@ -186,13 +186,13 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
-                binanceSymbolCache.Subscribe("Test", strategySymbol, tradeStrategy);
+                binanceSymbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
@@ -209,17 +209,17 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
                 // Act
-                binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceSymbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceSymbolCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
@@ -238,17 +238,17 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
             var tradeStrategy = new TestTradeStrategy();
 
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
                 // Act
-                binanceSymbolCache.Subscribe("Test", strategySymbol, tradeStrategy);
+                binanceSymbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
-                binanceSymbolCache.Unsubscribe("Test", strategySymbol, tradeStrategy);
+                binanceSymbolCache.Unsubscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
@@ -265,21 +265,21 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
                 // Act
-                binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceSymbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceSymbolCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
-                binanceSymbolCache.Unsubscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(1000);
 
@@ -298,23 +298,23 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
                 // Act
-                binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceSymbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceSymbolCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
-                binanceSymbolCache.Unsubscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                binanceSymbolCache.Unsubscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceSymbolCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy1);
 
                 await Task.Delay(1000);
 
@@ -333,13 +333,13 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService { OrderBookException = true };
-            var strategySymbol = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
-                binanceSymbolCache.Subscribe("Test", strategySymbol, tradeStrategy);
+                binanceSymbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
@@ -357,21 +357,21 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = (Subscribe.OrderBook | Subscribe.AggregateTrades) };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = (Subscribe.OrderBook | Subscribe.AggregateTrades) };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = (Subscribe.OrderBook | Subscribe.AggregateTrades) };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = (Subscribe.OrderBook | Subscribe.AggregateTrades) };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
                 // Act
-                binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceSymbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceSymbolCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
-                binanceSymbolCache.Unsubscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(1000);
 
@@ -395,23 +395,23 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeService();
-            var strategySymbol1 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = (Subscribe.OrderBook | Subscribe.AggregateTrades) };
-            var strategySymbol2 = new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = (Subscribe.OrderBook | Subscribe.AggregateTrades) };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = (Subscribe.OrderBook | Subscribe.AggregateTrades) };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = (Subscribe.OrderBook | Subscribe.AggregateTrades) };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
             using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
             {
                 // Act
-                binanceSymbolCache.Subscribe("Test 1", strategySymbol1, tradeStrategy1);
+                binanceSymbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                binanceSymbolCache.Subscribe("Test 2", strategySymbol2, tradeStrategy2);
+                binanceSymbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
                 await Task.Delay(2000);
 
-                binanceSymbolCache.Unsubscribe("Test 2", strategySymbol2, tradeStrategy1);
+                binanceSymbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy1);
 
-                binanceSymbolCache.Unsubscribe("Test 1", strategySymbol1, tradeStrategy2);
+                binanceSymbolCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy2);
 
                 await Task.Delay(1000);
 

@@ -14,7 +14,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
         public void Subscribe(Strategy strategy, ITradeStrategy tradeStrategy)
         {
-            var exchangeSymbolsList = (from s in strategy.Symbols
+            var exchangeSymbolsList = (from s in strategy.StrategySubscriptions
                                   group s by s.Exchange into es
                                   select new { Exchange = es.Key, Symbols = es.ToList() }).ToList();
 
@@ -27,7 +27,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
         public void Unsubscribe(Strategy strategy, ITradeStrategy tradeStrategy)
         {
-            var exchangeSymbolsList = (from s in strategy.Symbols
+            var exchangeSymbolsList = (from s in strategy.StrategySubscriptions
                                        group s by s.Exchange into es
                                        select new { Exchange = es.Key, Symbols = es.ToList() }).ToList();
 

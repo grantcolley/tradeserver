@@ -18,7 +18,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
             //var symbolsCacheManager = new SymbolsCacheManager(symbolsCacheFactory);
 
             //var strategy = new Strategy { Name = "TestStrategy" };
-            //strategy.Symbols.AddRange(new List<StrategySymbol> { new StrategySymbol { Exchange = Exchange.Binance, Symbol = "TRXBTC" } });
+            //strategy.Symbols.AddRange(new List<strategySubscription> { new strategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC" } });
 
             //var tradeStrategy = new TestTradeStrategy();
 

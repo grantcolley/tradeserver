@@ -54,9 +54,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             disposed = true;
         }
 
-        public void Subscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
+        public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
+            if (strategySubscription.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
             {
                 var accountInfo = new StrategyNotification<AccountInfoEventArgs>
                 {
@@ -64,15 +64,15 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                     Exception = tradeStrategy.SubscribeAccountInfoException
                 };
 
-                subscribeAccountInfo.User.ApiKey = strategySymbol.ApiKey;
-                subscribeAccountInfo.User.ApiSecret = strategySymbol.ApiKey;
+                subscribeAccountInfo.User.ApiKey = strategySubscription.ApiKey;
+                subscribeAccountInfo.User.ApiSecret = strategySubscription.ApiKey;
                 subscribeAccountInfo.Subscribe(strategyName, accountInfo);
             }
         }
 
-        public void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
+        public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
+            if (strategySubscription.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
             {
                 subscribeAccountInfo.Unsubscribe(strategyName, tradeStrategy.SubscribeAccountInfoException);
             }

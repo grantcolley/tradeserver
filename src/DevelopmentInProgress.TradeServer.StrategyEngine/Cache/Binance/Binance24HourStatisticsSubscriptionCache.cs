@@ -54,9 +54,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             disposed = true;
         }
 
-        public void Subscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
+        public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.Statistics)
+            if (strategySubscription.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.Statistics)
             {
                 var statistics = new StrategyNotification<StatisticsEventArgs>
                 {
@@ -68,9 +68,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             }
         }
 
-        public void Unsubscribe(string strategyName, StrategySymbol strategySymbol, ITradeStrategy tradeStrategy)
+        public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySymbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.Statistics)
+            if (strategySubscription.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.Statistics)
             {
                 subscribeStatistics.Unsubscribe(strategyName, tradeStrategy.SubscribeStatisticsException);
             }

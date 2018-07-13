@@ -3,6 +3,7 @@ using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 {
@@ -10,30 +11,38 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
     {
         private readonly string binance24HourStatisticsSubscriptionCacheKey = $"{nameof(BinanceSymbolSubscriptionCache)}";
 
-        private readonly ConcurrentDictionary<string, ISubscriptionCache> caches;
-
         private bool disposed;
 
         public BinanceSubscriptionsCache(IExchangeService exchangeService)
         {
             ExchangeService = exchangeService;
 
-            caches = new ConcurrentDictionary<string, ISubscriptionCache>();
+            Caches = new ConcurrentDictionary<string, ISubscriptionCache>();
         }
 
         public IExchangeService ExchangeService { get; private set; }
 
-        public void Subscribe(string strategyName, List<StrategySymbol> strategySymbols, ITradeStrategy tradeStrategy)
+        public ConcurrentDictionary<string, ISubscriptionCache> Caches { get; private set; }
+
+        public bool HasSubscriptions
         {
-            foreach (var symbol in strategySymbols)
+            get
+            {
+                return (from c in Caches.Values where c.HasSubscriptions select c).Any();
+            }
+        }
+
+        public void Subscribe(string strategyName, List<StrategySubscription> strategySubscriptions, ITradeStrategy tradeStrategy)
+        {
+            foreach (var symbol in strategySubscriptions)
             {
                 if (symbol.Subscribe == (MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades | MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
                 {
                     ISubscriptionCache symbolCache;
-                    if (!caches.TryGetValue(symbol.Symbol, out symbolCache))
+                    if (!Caches.TryGetValue(symbol.Symbol, out symbolCache))
                     {
                         symbolCache = new BinanceSymbolSubscriptionCache(symbol.Symbol, symbol.Limit, ExchangeService);
-                        caches.TryAdd(symbol.Symbol, symbolCache);
+                        Caches.TryAdd(symbol.Symbol, symbolCache);
                     }
 
                     symbolCache.Subscribe(strategyName, symbol, tradeStrategy);
@@ -42,10 +51,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                 if(symbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
                 {
                     ISubscriptionCache accountInfoCache;
-                    if (!caches.TryGetValue(symbol.ApiKey, out accountInfoCache))
+                    if (!Caches.TryGetValue(symbol.ApiKey, out accountInfoCache))
                     {
                         accountInfoCache = new BinanceAccountInfoSubscriptionCache(ExchangeService);
-                        caches.TryAdd(symbol.ApiKey, accountInfoCache);
+                        Caches.TryAdd(symbol.ApiKey, accountInfoCache);
                     }
 
                     accountInfoCache.Subscribe(strategyName, symbol, tradeStrategy);
@@ -54,10 +63,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                 if (symbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.Statistics)
                 {
                     ISubscriptionCache statisticsCache;
-                    if (!caches.TryGetValue(binance24HourStatisticsSubscriptionCacheKey, out statisticsCache))
+                    if (!Caches.TryGetValue(binance24HourStatisticsSubscriptionCacheKey, out statisticsCache))
                     {
                         statisticsCache = new Binance24HourStatisticsSubscriptionCache(ExchangeService);
-                        caches.TryAdd(binance24HourStatisticsSubscriptionCacheKey, statisticsCache);
+                        Caches.TryAdd(binance24HourStatisticsSubscriptionCacheKey, statisticsCache);
                     }
 
                     statisticsCache.Subscribe(strategyName, symbol, tradeStrategy);
@@ -65,9 +74,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             }
         }
 
-        public void Unsubscribe(string strategyName, List<StrategySymbol> strategySymbols, ITradeStrategy tradeStrategy)
+        public void Unsubscribe(string strategyName, List<StrategySubscription> strategySubscriptions, ITradeStrategy tradeStrategy)
         {
-            foreach (var symbol in strategySymbols)
+            foreach (var symbol in strategySubscriptions)
             {
                 if (symbol.Subscribe == (MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades | MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
                 {
@@ -86,15 +95,15 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             }
         }
 
-        public void Unsubscribe(string strategyName, StrategySymbol symbol, string cacheKey, ITradeStrategy tradeStrategy)
+        private void Unsubscribe(string strategyName, StrategySubscription symbol, string cacheKey, ITradeStrategy tradeStrategy)
         {
-            if (caches.TryGetValue(cacheKey, out ISubscriptionCache cache))
+            if (Caches.TryGetValue(cacheKey, out ISubscriptionCache cache))
             {
                 cache.Unsubscribe(strategyName, symbol, tradeStrategy);
 
                 if (!cache.HasSubscriptions)
                 {
-                    if (caches.TryRemove(cacheKey, out ISubscriptionCache cacheDispose))
+                    if (Caches.TryRemove(cacheKey, out ISubscriptionCache cacheDispose))
                     {
                         cacheDispose.Dispose();
                     }
@@ -117,7 +126,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
             if(disposing)
             {
-                foreach (var cache in caches)
+                foreach (var cache in Caches)
                 {
                     cache.Value.Dispose();
                 }
