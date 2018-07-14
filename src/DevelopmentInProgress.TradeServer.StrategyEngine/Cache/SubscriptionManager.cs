@@ -1,6 +1,7 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -97,17 +98,43 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
                 return;
             }
 
-            Parallel.ForEach(subscribers.Values, (value) =>
+            Parallel.ForEach(subscribers, (subscriber) =>
             {
-                OnUpdate(value.Update, args);
+                OnUpdate(subscriber, args);
             });
         }
 
-        private void OnUpdate(Action<T> action, T args)
+        /// <summary>
+        /// Updates raised by the subscription to the exchange will be reported back to the strategy.
+        /// When reporting the update to the strategy, if the strategy itself throws an exception
+        /// then the exception will be reported to the strategy.
+        /// Note: when reporting the exception to the strategy, if the strategy itself throws an 
+        /// exception then the strategy will be 'forcibly unsubscribed'.
+        /// </summary>
+        /// <param name="kvp"></param>
+        /// <param name="args"></param>
+        private void OnUpdate(KeyValuePair<string, StrategyNotification<T>> kvp, T args)
         {
-            Task.Factory.StartNew(() => action.Invoke(args));
+            Task.Factory.StartNew(() =>
+                {
+                    kvp.Value.Update.Invoke(args);
+                })
+                .ContinueWith((t) =>
+                {
+                    kvp.Value.Exception.Invoke(t.Exception);
+                }, TaskContinuationOptions.OnlyOnFaulted)
+                .ContinueWith((t) =>
+                {
+                    Unsubscribe(kvp.Key, kvp.Value.Exception);
+                }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
+        /// <summary>
+        /// An exception raised by the subscription to the exchange will be reported back to the strategy.
+        /// Note: when reporting the exchange exception to the strategy, if the strategy itself throws an 
+        /// exception then the strategy will be 'forcibly unsubscribed'.
+        /// </summary>
+        /// <param name="args">The exception to be reported to the strategy.</param>
         private async void Exception(Exception exception)
         {
             if (cancellationTokenSource.IsCancellationRequested)
@@ -115,15 +142,27 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
                 return;
             }
 
-            Parallel.ForEach(subscribers.Values, (value) =>
+            Parallel.ForEach(subscribers, (subscriber) =>
             {
-                OnException(value.Exception, exception);
+                OnException(subscriber, exception);
             });
         }
 
-        private void OnException(Action<Exception> exception, Exception args)
+        /// <summary>
+        /// An exception raissed by the subscription to the exchange will be reported back to the strategy.
+        /// Note: when reporting the exchange exception to the strategy, if the strategy itself throws an 
+        /// exception then the strategy will be 'unsubscribed'.
+        /// </summary>
+        /// <param name="kvp">The strategy's notification object.</param>
+        /// <param name="args">The exception to be reported to the strategy.</param>
+        private void OnException(KeyValuePair<string, StrategyNotification<T>> kvp, Exception args)
         {
-            Task.Factory.StartNew(() => exception.Invoke(args));
+            Task.Factory.StartNew(() => kvp.Value.Exception.Invoke(args))
+                .ContinueWith((t) =>
+                {
+                    Unsubscribe(kvp.Key, kvp.Value.Exception);
+                },
+                TaskContinuationOptions.OnlyOnFaulted);
         }
 
         public void Dispose()
