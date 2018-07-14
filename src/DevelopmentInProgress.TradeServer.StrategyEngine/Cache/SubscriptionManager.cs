@@ -141,6 +141,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 
             if (disposing)
             {
+                subscribers.Clear();
                 cancellationTokenSource.Cancel();
                 cancellationTokenSource.Dispose();
             }
