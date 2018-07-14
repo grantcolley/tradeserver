@@ -16,12 +16,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
         {
             var exchangeSymbolsList = (from s in strategy.StrategySubscriptions
                                   group s by s.Exchange into es
-                                  select new { Exchange = es.Key, Symbols = es.ToList() }).ToList();
+                                  select new { Exchange = es.Key, StrategySubscriptions = es.ToList() }).ToList();
 
             foreach(var exchangeSymbols in exchangeSymbolsList)
             {
                 var symbolsCache = SubscriptionsCacheFactory.GetSubscriptionsCache(exchangeSymbols.Exchange);
-                symbolsCache.Subscribe(strategy.Name, exchangeSymbols.Symbols, tradeStrategy);
+                symbolsCache.Subscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
             }
         }
 
@@ -29,12 +29,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
         {
             var exchangeSymbolsList = (from s in strategy.StrategySubscriptions
                                        group s by s.Exchange into es
-                                       select new { Exchange = es.Key, Symbols = es.ToList() }).ToList();
+                                       select new { Exchange = es.Key, StrategySubscriptions = es.ToList() }).ToList();
 
             foreach (var exchangeSymbols in exchangeSymbolsList)
             {
                 var symbolsCache = SubscriptionsCacheFactory.GetSubscriptionsCache(exchangeSymbols.Exchange);
-                symbolsCache.Unsubscribe(strategy.Name, exchangeSymbols.Symbols, tradeStrategy);
+                symbolsCache.Unsubscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
             }
         }
     }
