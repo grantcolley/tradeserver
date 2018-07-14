@@ -74,8 +74,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine
                 symbolsCacheManager.Subscribe(strategy, obj);
 
                 var result = await obj.RunAsync(strategy);
-
-                symbolsCacheManager.Unsubscribe(strategy, obj);
             }
             catch(Exception)
             {
@@ -83,6 +81,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine
             }
             finally
             {
+                symbolsCacheManager.Unsubscribe(strategy, obj);
                 ((ITradeStrategy)obj).TradeStrategyNotificationEvent -= TradeStrategyNotificationEvent;
             }
 
