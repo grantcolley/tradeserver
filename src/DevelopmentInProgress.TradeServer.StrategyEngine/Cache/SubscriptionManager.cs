@@ -90,21 +90,22 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
             }
         }
 
-        private async void Update(T args)
+        private void Update(T args)
         {
             if (cancellationTokenSource.IsCancellationRequested)
             {
                 return;
             }
 
-            var subs = (from s in subscribers.Values select OnUpdate(s.Update, args)).ToArray();
-
-            await Task.WhenAll(subs);
+            Parallel.ForEach(subscribers.Values, (value) =>
+            {
+                OnUpdate(value.Update, args);
+            });
         }
 
-        private async Task OnUpdate(Action<T> action, T args)
+        private void OnUpdate(Action<T> action, T args)
         {
-            await Task.Run(() => action.Invoke(args));
+            Task.Factory.StartNew(() => action.Invoke(args));
         }
 
         private async void Exception(Exception exception)
@@ -114,14 +115,15 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
                 return;
             }
 
-            var subs = (from s in subscribers.Values select OnException(s.Exception, exception)).ToArray();
-
-            await Task.WhenAll(subs);
+            Parallel.ForEach(subscribers.Values, (value) =>
+            {
+                OnException(value.Exception, exception);
+            });
         }
 
-        private async Task OnException(Action<Exception> exception, Exception args)
+        private void OnException(Action<Exception> exception, Exception args)
         {
-            await Task.Run(() => exception.Invoke(args));
+            Task.Factory.StartNew(() => exception.Invoke(args));
         }
 
         public void Dispose()

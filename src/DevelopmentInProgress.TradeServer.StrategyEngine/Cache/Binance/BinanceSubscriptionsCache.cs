@@ -36,7 +36,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         {
             foreach (var symbol in strategySubscriptions)
             {
-                if (symbol.Subscribe == (MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades | MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
+                if (symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades | MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
                 {
                     ISubscriptionCache symbolCache;
                     if (!Caches.TryGetValue(symbol.Symbol, out symbolCache))
@@ -48,7 +48,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                     symbolCache.Subscribe(strategyName, symbol, tradeStrategy);
                 }
 
-                if(symbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
+                if(symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AccountInfo))
                 {
                     ISubscriptionCache accountInfoCache;
                     if (!Caches.TryGetValue(symbol.ApiKey, out accountInfoCache))
@@ -60,7 +60,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                     accountInfoCache.Subscribe(strategyName, symbol, tradeStrategy);
                 }
 
-                if (symbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.Statistics)
+                if (symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.Statistics))
                 {
                     ISubscriptionCache statisticsCache;
                     if (!Caches.TryGetValue(binance24HourStatisticsSubscriptionCacheKey, out statisticsCache))
@@ -78,17 +78,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         {
             foreach (var symbol in strategySubscriptions)
             {
-                if (symbol.Subscribe == (MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades | MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
+                if (symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades | MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
                 {
                     Unsubscribe(strategyName, symbol, symbol.Symbol, tradeStrategy);
                 }
 
-                if (symbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
+                if (symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AccountInfo))
                 {
                     Unsubscribe(strategyName, symbol, symbol.ApiKey, tradeStrategy);
                 }
 
-                if (symbol.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.Statistics)
+                if (symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.Statistics))
                 {
                     Unsubscribe(strategyName, symbol, binance24HourStatisticsSubscriptionCacheKey, tradeStrategy);
                 }

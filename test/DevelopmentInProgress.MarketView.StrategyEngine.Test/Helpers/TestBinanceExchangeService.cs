@@ -58,12 +58,12 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeAccountInfo(User user, Action<AccountInfoEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
-            Task.Run(() =>
+            Task.Factory.StartNew(async () =>
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     callback.Invoke(new AccountInfoEventArgs { AccountInfo = TestDataHelper.AccountInfo });
-                    Task.Delay(500);
+                    await Task.Delay(500);
 
                     if (AccountInfoException)
                     {
@@ -75,12 +75,13 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeAggregateTrades(string symbol, int limit, Action<AggregateTradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
-            Task.Run(() =>
+            Task.Factory.StartNew(async () =>
             {
+                var localSymbol = symbol;
                 while(!cancellationToken.IsCancellationRequested)
                 {
-                    callback.Invoke(new AggregateTradeEventArgs { AggregateTrades = TestDataHelper.AggregateTradesUpdated });
-                    Task.Delay(500);
+                    callback.Invoke(new AggregateTradeEventArgs { AggregateTrades = TestDataHelper.GetAggregateTradesUpdated(localSymbol) });
+                    await Task.Delay(500);
 
 
                     if(AggregateTradesException)
@@ -93,12 +94,13 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeOrderBook(string symbol, int limit, Action<OrderBookEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
-            Task.Run(() =>
+            Task.Factory.StartNew(async () =>
             {
+                var localSymbol = symbol;
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    callback.Invoke(new OrderBookEventArgs { OrderBook = TestDataHelper.OrderBook });
-                    Task.Delay(500);
+                    callback.Invoke(new OrderBookEventArgs { OrderBook = TestDataHelper.GetOrderBook(localSymbol) });
+                    await Task.Delay(500);
 
                     if (OrderBookException)
                     {
@@ -110,12 +112,12 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeStatistics(Action<StatisticsEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
-            Task.Run(() =>
+            Task.Factory.StartNew(async () =>
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     callback.Invoke(new StatisticsEventArgs { Statistics = TestDataHelper.SymbolsStatistics });
-                    Task.Delay(500);
+                    await Task.Delay(500);
 
                     if (StatisticsException)
                     {

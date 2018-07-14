@@ -60,6 +60,13 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers.Data
             }
         }
 
+        public static OrderBook GetOrderBook(string symbol)
+        {
+            var orders = JsonConvert.DeserializeObject<OrderBook>(orderBook);
+            orders.Symbol = symbol;
+            return orders;
+        }
+
         public static OrderBook OrderBookUpdated
         {
             get
@@ -82,6 +89,13 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers.Data
             {
                 return JsonConvert.DeserializeObject<List<AggregateTrade>>(aggregateTradesUpdated);
             }
+        }
+
+        public static List<AggregateTrade> GetAggregateTradesUpdated(string symbol)
+        {
+            var trades = JsonConvert.DeserializeObject<List<AggregateTrade>>(aggregateTradesUpdated);
+            trades.ForEach(t => t.Symbol = symbol);
+            return trades;
         }
 
         public static AccountInfo AccountInfo

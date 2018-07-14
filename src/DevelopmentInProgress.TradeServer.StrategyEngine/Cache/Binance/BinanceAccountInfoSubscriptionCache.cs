@@ -56,7 +56,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
         public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AccountInfo))
             {
                 var accountInfo = new StrategyNotification<AccountInfoEventArgs>
                 {
@@ -72,7 +72,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
         public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe == MarketView.Interface.TradeStrategy.Subscribe.AccountInfo)
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AccountInfo))
             {
                 subscribeAccountInfo.Unsubscribe(strategyName, tradeStrategy.SubscribeAccountInfoException);
             }

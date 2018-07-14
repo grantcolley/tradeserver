@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DevelopmentInProgress.MarketView.Interface.Events;
 using DevelopmentInProgress.MarketView.Interface.Model;
@@ -16,10 +17,16 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
         public OrderBook OrderBook { get; set; }
         public AccountInfo AccountInfo { get; set; }
 
+        public List<string> TradeSymbols = new List<string>();
+        public List<string> OrderBookSymbols = new List<string>();
+
         public bool AggregateTradesException { get; set; }
         public bool OrderBookException { get; set; }
         public bool StatisticsException { get; set; }
         public bool AccountInfoException { get; set; }
+
+        private object tradeLock = new object();
+        private object orderBookLock = new object();
 
         public Task<Strategy> RunAsync(Strategy strategy)
         {
@@ -38,7 +45,17 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeAggregateTrades(AggregateTradeEventArgs aggregateTradeEventArgs)
         {
-            AggregateTrades = aggregateTradeEventArgs.AggregateTrades;
+            lock (tradeLock)
+            {
+                AggregateTrades = aggregateTradeEventArgs.AggregateTrades;
+
+                var symbol = aggregateTradeEventArgs.AggregateTrades.First().Symbol;
+
+                if (!TradeSymbols.Contains(symbol))
+                {
+                    TradeSymbols.Add(symbol);
+                }
+            }
         }
 
         public void SubscribeAggregateTradesException(Exception exception)
@@ -48,7 +65,17 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeOrderBook(OrderBookEventArgs orderBookEventArgs)
         {
-            OrderBook = orderBookEventArgs.OrderBook;
+            lock (orderBookLock)
+            {
+                OrderBook = orderBookEventArgs.OrderBook;
+
+                var symbol = orderBookEventArgs.OrderBook.Symbol;
+
+                if(!OrderBookSymbols.Contains(symbol))
+                {
+                    OrderBookSymbols.Add(symbol);
+                }
+            }
         }
 
         public void SubscribeOrderBookException(Exception exception)
