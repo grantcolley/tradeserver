@@ -36,7 +36,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         {
             foreach (var symbol in strategySubscriptions)
             {
-                if (symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades | MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
+                if (symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades)
+                    || symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
                 {
                     ISubscriptionCache symbolCache;
                     if (!Caches.TryGetValue(symbol.Symbol, out symbolCache))
@@ -78,7 +79,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         {
             foreach (var symbol in strategySubscriptions)
             {
-                if (symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades | MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
+                if (symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades)
+                    || symbol.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
                 {
                     Unsubscribe(strategyName, symbol, symbol.Symbol, tradeStrategy);
                 }
@@ -130,6 +132,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                 {
                     cache.Value.Dispose();
                 }
+
+                Caches.Clear();
             }
 
             disposed = true;

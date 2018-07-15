@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 using DevelopmentInProgress.MarketView.Interface.Events;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.Model;
+using DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers.Data;
 
 namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 {
     public class TestExchangeService : IExchangeService
     {
+        public bool AggregateTradesException { get; set; }
+
         public Task<string> CancelOrderAsync(User user, string symbol, long orderId, string newClientOrderId = null, long recWindow = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
@@ -57,7 +60,20 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 
         public void SubscribeAggregateTrades(string symbol, int limit, Action<AggregateTradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Task.Factory.StartNew(async () =>
+            {
+                var localSymbol = symbol;
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    callback.Invoke(new AggregateTradeEventArgs { AggregateTrades = TestDataHelper.GetAggregateTradesUpdated(localSymbol) });
+                    await Task.Delay(500);
+                    
+                    if (AggregateTradesException)
+                    {
+                        exception.Invoke(new Exception("SubscribeAggregateTrades"));
+                    }
+                }
+            });
         }
 
         public void SubscribeOrderBook(string symbol, int limit, Action<OrderBookEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
