@@ -13,6 +13,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
         {
             exchangesServices = new Dictionary<Exchange, IExchangeService>();
             exchangesServices.Add(Exchange.Binance, new TestBinanceExchangeService());
+            exchangesServices.Add(Exchange.Test, new TestExchangeService());
         }
 
         public override IExchangeService GetExchangeService(Exchange exchange)

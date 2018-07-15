@@ -33,27 +33,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             return subscribeAccountInfo.Subscriptions;
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                subscribeAccountInfo.Dispose();
-            }
-
-            disposed = true;
-        }
-
         public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
             if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AccountInfo))
@@ -76,6 +55,27 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             {
                 subscribeAccountInfo.Unsubscribe(strategyName, tradeStrategy.SubscribeAccountInfoException);
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                subscribeAccountInfo.Dispose();
+            }
+
+            disposed = true;
         }
     }
 }

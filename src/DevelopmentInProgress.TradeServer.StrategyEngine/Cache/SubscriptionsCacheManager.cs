@@ -1,10 +1,13 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using System;
 using System.Linq;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
 {
     public class SubscriptionsCacheManager : ISubscriptionsCacheManager
     {
+        private bool disposed;
+
         public SubscriptionsCacheManager(ISubscriptionsCacheFactory subscriptionsCacheFactory)
         {
             SubscriptionsCacheFactory = subscriptionsCacheFactory;
@@ -36,6 +39,27 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
                 var symbolsCache = SubscriptionsCacheFactory.GetSubscriptionsCache(exchangeSymbols.Exchange);
                 symbolsCache.Unsubscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                SubscriptionsCacheFactory.Dispose();
+            }
+
+            disposed = true;
         }
     }
 }

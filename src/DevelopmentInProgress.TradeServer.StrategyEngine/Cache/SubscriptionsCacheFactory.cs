@@ -2,6 +2,7 @@
 using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance;
 using DevelopmentInProgress.TradeServer.StrategyEngine.ExchangeService;
+using System;
 using System.Collections.Generic;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
@@ -9,6 +10,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
     public class SubscriptionsCacheFactory : ISubscriptionsCacheFactory
     {
         private readonly Dictionary<Exchange, ISubscriptionsCache> exchangeSubscriptionsCache;
+
+        private bool disposed;
 
         public SubscriptionsCacheFactory(IExchangeServiceFactory<IExchangeService> exchangeServiceFactory)
         {
@@ -19,6 +22,30 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache
         public ISubscriptionsCache GetSubscriptionsCache(Exchange exchange)
         {
             return exchangeSubscriptionsCache.GetValueOrDefault(exchange);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                foreach(var subscriptionsCache in exchangeSubscriptionsCache.Values)
+                {
+                    subscriptionsCache.Dispose();
+                }
+            }
+
+            disposed = true;
         }
     }
 }
