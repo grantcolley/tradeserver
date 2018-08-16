@@ -16,7 +16,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishi
 
         public async Task PublishAsync(IEnumerable<StrategyNotification> notifications)
         {
-            var notifyGroups = notifications.GroupBy(n => n.Id);
+            var notifyGroups = notifications.GroupBy(n => n.Name);
             foreach (var group in notifyGroups)
             {
                 await notificationHub.NotifyAsync(group.Key, group);

@@ -8,9 +8,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishi
     {
         public override async Task OnConnectedAsync()
         {
-            var strategyId = Context.GetHttpContext().Request.Query["strategyId"];
-            await Groups.AddToGroupAsync(Context.ConnectionId, strategyId);
-            await Clients.Client(Context.ConnectionId).SendAsync("Connected", $"Connected and listening for notifications from Strategy Id {strategyId}. ConnectionId {Context.ConnectionId}");
+            var strategyName = Context.GetHttpContext().Request.Query["strategyname"];
+            await Groups.AddToGroupAsync(Context.ConnectionId, strategyName);
+            await Clients.Client(Context.ConnectionId).SendAsync("Connected", $"Connected and listening for notifications from Strategy {strategyName}. ConnectionId {Context.ConnectionId}");
         }
 
         public override Task OnDisconnectedAsync(Exception exception)

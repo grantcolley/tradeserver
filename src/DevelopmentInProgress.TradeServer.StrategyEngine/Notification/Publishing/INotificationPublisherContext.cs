@@ -6,6 +6,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishi
 {
     public interface INotificationPublisherContext
     {
-        Task NotifyAsync(int runId, IEnumerable<StrategyNotification> message);
+        Task NotifyAsync(string strategyName, IEnumerable<StrategyNotification> message);
     }
 }

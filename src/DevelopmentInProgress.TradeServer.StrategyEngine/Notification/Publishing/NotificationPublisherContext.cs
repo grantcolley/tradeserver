@@ -14,12 +14,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishi
             this.context = context;
         }
 
-        public async Task NotifyAsync(int runId, IEnumerable<StrategyNotification> message)
+        public async Task NotifyAsync(string strategyName, IEnumerable<StrategyNotification> message)
         {
             var clients = context.Clients;
             var groups = context.Groups;
 
-            await context.Clients.Group(runId.ToString()).SendAsync("Send", message);
+            await context.Clients.Group(strategyName).SendAsync("Send", message);
         }
     }
 }
