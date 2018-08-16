@@ -18,34 +18,34 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Web.Middleware
 
         public async Task Invoke(HttpContext context, IStrategyRunner strategyRunner)
         {
-            var json = context.Request.Form["strategy"];
-
-            var strategy = JsonConvert.DeserializeObject<Strategy>(json);
-
-            var downloadsPath = Path.Combine(Directory.GetCurrentDirectory(), "downloads", Guid.NewGuid().ToString());
-
-            if (!Directory.Exists(downloadsPath))
-            {
-                Directory.CreateDirectory(downloadsPath);
-            }
-
-            if (context.Request.HasFormContentType)
-            {
-                var form = context.Request.Form;
-
-                var downloads = from f
-                                in form.Files
-                                select Download(f, downloadsPath);
-
-                await Task.WhenAll(downloads.ToArray());
-            }
-
             try
             {
+                var json = context.Request.Form["strategy"];
+
+                var strategy = JsonConvert.DeserializeObject<Strategy>(json);
+
+                var downloadsPath = Path.Combine(Directory.GetCurrentDirectory(), "downloads", Guid.NewGuid().ToString());
+
+                if (!Directory.Exists(downloadsPath))
+                {
+                    Directory.CreateDirectory(downloadsPath);
+                }
+
+                if (context.Request.HasFormContentType)
+                {
+                    var form = context.Request.Form;
+
+                    var downloads = from f
+                                    in form.Files
+                                    select Download(f, downloadsPath);
+
+                    await Task.WhenAll(downloads.ToArray());
+                }
+
                 var response = await strategyRunner.RunAsync(strategy, downloadsPath);
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(response), Encoding.UTF8);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var response = context.Response;
                 response.ContentType = "application/json";
