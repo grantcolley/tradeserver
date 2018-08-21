@@ -19,7 +19,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishi
             var clients = context.Clients;
             var groups = context.Groups;
 
-            await context.Clients.Group(strategyName).SendAsync("Send", message);
+            await context.Clients.Group(strategyName).SendAsync("Trade", message);
         }
     }
 }
