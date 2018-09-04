@@ -13,14 +13,22 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine
 {
     public class StrategyRunner : IStrategyRunner
     {
-        private IBatchNotification<StrategyNotification> strategyNotifier;
-        private IExchangeServiceFactory<IExchangeService> exchangeServiceFactory;
+        private IBatchNotification<StrategyNotification> strategyEngineLogger;
+        private IBatchNotification<StrategyNotification> strategyAccountInfoPublisher;
+        private IBatchNotification<StrategyNotification> strategyNotificationPublisher;
+        private IBatchNotification<StrategyNotification> strategyOrderBookPublisher;
+        private IBatchNotification<StrategyNotification> strategyTradePublisher;
         private ISubscriptionsCacheManager symbolsCacheManager;
 
         public StrategyRunner(IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, ISubscriptionsCacheManager symbolsCacheManager)
         {
             this.symbolsCacheManager = symbolsCacheManager;
-            strategyNotifier = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyNotifier);
+
+            strategyEngineLogger = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyEngineLogger);
+            strategyAccountInfoPublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyAccountInfoPublisher);
+            strategyNotificationPublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyNotificationPublisher);
+            strategyOrderBookPublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyOrderBookPublisher);
+            strategyTradePublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyTradePublisher);
         }
 
         public async Task<Strategy> RunAsync(Strategy strategy, string localPath)
@@ -63,7 +71,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine
             var type = assembly.GetType(strategy.TargetType);
             dynamic obj = Activator.CreateInstance(type);
 
-            ((ITradeStrategy)obj).TradeStrategyNotificationEvent += TradeStrategyNotificationEvent;
+            ((ITradeStrategy)obj).StrategyAccountInfoEvent += StrategyAccountInfoEvent;
+            ((ITradeStrategy)obj).StrategyNotificationEvent += StrategyNotificationEvent;
+            ((ITradeStrategy)obj).StrategyOrderBookEvent += StrategyOrderBookEvent;
+            ((ITradeStrategy)obj).StrategyTradeEvent += StrategyTradeEvent;
 
             try
             {
@@ -82,21 +93,40 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine
             finally
             {
                 symbolsCacheManager.Unsubscribe(strategy, obj);
-                ((ITradeStrategy)obj).TradeStrategyNotificationEvent -= TradeStrategyNotificationEvent;
+                ((ITradeStrategy)obj).StrategyAccountInfoEvent -= StrategyAccountInfoEvent;
+                ((ITradeStrategy)obj).StrategyNotificationEvent -= StrategyNotificationEvent;
+                ((ITradeStrategy)obj).StrategyOrderBookEvent -= StrategyOrderBookEvent;
+                ((ITradeStrategy)obj).StrategyTradeEvent -= StrategyTradeEvent;
             }
 
             return strategy;
         }
 
-        private void TradeStrategyNotificationEvent(object sender, TradeStrategyNotificationEventArgs e)
+        private void StrategyAccountInfoEvent(object sender, TradeStrategyNotificationEventArgs e)
         {
-            strategyNotifier.AddNotification(e.StrategyNotification);
+            strategyAccountInfoPublisher.AddNotification(e.StrategyNotification);
+        }
+
+        private void StrategyNotificationEvent(object sender, TradeStrategyNotificationEventArgs e)
+        {
+            strategyNotificationPublisher.AddNotification(e.StrategyNotification);
+        }
+
+        private void StrategyOrderBookEvent(object sender, TradeStrategyNotificationEventArgs e)
+        {
+            strategyOrderBookPublisher.AddNotification(e.StrategyNotification);
+        }
+
+        private void StrategyTradeEvent(object sender, TradeStrategyNotificationEventArgs e)
+        {
+            strategyTradePublisher.AddNotification(e.StrategyNotification);
         }
 
         private void Notify(NotificationLevel notificationLevel, int notificationEvent, Strategy strategy, string message = "")
         {
             var strategyNotification = strategy.GetNotification(notificationLevel, notificationEvent, message);
-            strategyNotifier.AddNotification(strategyNotification);
+            strategyNotificationPublisher.AddNotification(strategyNotification);
+            strategyEngineLogger.AddNotification(strategyNotification);
         }
 
         private IList<string> GetAssemblies(string localPath)

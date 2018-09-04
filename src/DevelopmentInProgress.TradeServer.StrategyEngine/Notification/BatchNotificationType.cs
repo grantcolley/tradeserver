@@ -2,8 +2,10 @@
 {
     public enum BatchNotificationType
     {
-        StrategyLogger,
-        StrategyNotifier,
-        StrategyPublisher
+        StrategyEngineLogger,
+        StrategyAccountInfoPublisher,
+        StrategyNotificationPublisher,
+        StrategyOrderBookPublisher,
+        StrategyTradePublisher
     }
 }

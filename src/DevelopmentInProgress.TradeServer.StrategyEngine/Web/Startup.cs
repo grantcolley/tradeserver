@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Web.Middleware;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishing;
-using System.Collections.Generic;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Notification;
 using DevelopmentInProgress.TradeServer.StrategyEngine.ExchangeService;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
@@ -33,7 +32,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Web
             services.AddSingleton<IStrategyRunner, StrategyRunner>();
             services.AddSingleton<INotificationPublisherContext, NotificationPublisherContext>();
             services.AddSingleton<INotificationPublisher, NotificationPublisher>();
-            services.AddSingleton<IBatchNotificationFactory<IEnumerable<StrategyNotification>>, StrategyBatchNotificationListFactory>();
             services.AddSingleton<IBatchNotificationFactory<StrategyNotification>, StrategyBatchNotificationFactory>();
             services.AddSingleton<IExchangeServiceFactory<IExchangeService>, StrategyExchangeServiceFactory>();
             services.AddSingleton<ISubscriptionsCacheFactory, SubscriptionsCacheFactory>();

@@ -7,7 +7,10 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 {
     public class TestTradeExceptionStrategy : ITradeStrategy
     {
-        public event EventHandler<TradeStrategyNotificationEventArgs> TradeStrategyNotificationEvent;
+        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyAccountInfoEvent;
+        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyNotificationEvent;
+        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyOrderBookEvent;
+        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyTradeEvent;
 
         public bool AggregateTradesException { get; set; }
         public bool OrderBookException { get; set; }

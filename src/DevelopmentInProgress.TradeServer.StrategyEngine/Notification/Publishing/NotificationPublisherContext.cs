@@ -7,19 +7,31 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishi
 {
     public class NotificationPublisherContext : INotificationPublisherContext
     {
-        private readonly IHubContext<NotificationHub> context;
+        private readonly IHubContext<NotificationHub> hubContext;
 
-        public NotificationPublisherContext(IHubContext<NotificationHub> context)
+        public NotificationPublisherContext(IHubContext<NotificationHub> hubContext)
         {
-            this.context = context;
+            this.hubContext = hubContext;
         }
 
-        public async Task NotifyAsync(string strategyName, IEnumerable<StrategyNotification> message)
+        public async Task PublishNotificationsAsync(string strategyName, IEnumerable<StrategyNotification> message)
         {
-            var clients = context.Clients;
-            var groups = context.Groups;
+            await hubContext.Clients.Group(strategyName).SendAsync("Notification", message);
+        }
 
-            await context.Clients.Group(strategyName).SendAsync("Trade", message);
+        public async Task PublishTradesAsync(string strategyName, IEnumerable<StrategyNotification> message)
+        {
+            await hubContext.Clients.Group(strategyName).SendAsync("Trade", message);
+        }
+
+        public async Task PublishOrderBookAsync(string strategyName, IEnumerable<StrategyNotification> message)
+        {
+            await hubContext.Clients.Group(strategyName).SendAsync("OrderBook", message);
+        }
+
+        public async Task PublishAccountInfoAsync(string strategyName, IEnumerable<StrategyNotification> message)
+        {
+            await hubContext.Clients.Group(strategyName).SendAsync("AccountInfo", message);
         }
     }
 }

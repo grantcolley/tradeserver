@@ -10,7 +10,10 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 {
     public class TestTradeStrategy : ITradeStrategy
     {
-        public event EventHandler<TradeStrategyNotificationEventArgs> TradeStrategyNotificationEvent;
+        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyAccountInfoEvent;
+        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyNotificationEvent;
+        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyOrderBookEvent;
+        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyTradeEvent;
 
         public IEnumerable<AggregateTrade> AggregateTrades { get; set; }
         public IEnumerable<SymbolStats> Statistics { get; set; }

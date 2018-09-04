@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Logging
 {
-    public class StrategyLogger : BatchNotification<IEnumerable<StrategyNotification>>, IBatchNotification<IEnumerable<StrategyNotification>>
+    public class StrategyEngineLogger : BatchNotification<StrategyNotification>, IBatchNotification<StrategyNotification>
     {
         private readonly ILogger logger;
 
-        public StrategyLogger(ILoggerFactory loggerFactory)
+        public StrategyEngineLogger(ILoggerFactory loggerFactory)
         {
-            logger = loggerFactory.CreateLogger<StrategyLogger>();
+            logger = loggerFactory.CreateLogger<StrategyEngineLogger>();
 
             Start();
         }
 
-        public override async Task NotifyAsync(IEnumerable<IEnumerable<StrategyNotification>> notifications, CancellationToken cancellationToken)
+        public override async Task NotifyAsync(IEnumerable<StrategyNotification> notifications, CancellationToken cancellationToken)
         {
-            var flattenedList = notifications.SelectMany(n => n).OrderBy(n => n.Timestamp).ToList();
-            foreach (var strategyNotification in flattenedList)
+            var strategyNotifications = notifications.OrderBy(n => n.Timestamp).ToList();
+            foreach (var strategyNotification in strategyNotifications)
             {
                 logger.Log<StrategyNotification>(GetStepNotificationLogLevel(strategyNotification), strategyNotification.NotificationEvent, strategyNotification, null, null);
             }

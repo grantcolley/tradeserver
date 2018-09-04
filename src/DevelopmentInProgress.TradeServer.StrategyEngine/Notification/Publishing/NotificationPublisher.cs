@@ -7,19 +7,46 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishi
 {
     public class NotificationPublisher : INotificationPublisher
     {
-        private readonly INotificationPublisherContext notificationHub;
+        private readonly INotificationPublisherContext notificationPublisherContext;
 
-        public NotificationPublisher(INotificationPublisherContext notificationHub)
+        public NotificationPublisher(INotificationPublisherContext notificationPublisherContext)
         {
-            this.notificationHub = notificationHub;
+            this.notificationPublisherContext = notificationPublisherContext;
         }
 
-        public async Task PublishAsync(IEnumerable<StrategyNotification> notifications)
+        public async Task PublishNotificationsAsync(IEnumerable<StrategyNotification> notifications)
         {
             var notifyGroups = notifications.GroupBy(n => n.Name);
             foreach (var group in notifyGroups)
             {
-                await notificationHub.NotifyAsync(group.Key, group);
+                await notificationPublisherContext.PublishNotificationsAsync(group.Key, group);
+            }
+        }
+
+        public async Task PublishTradesAsync(IEnumerable<StrategyNotification> notifications)
+        {
+            var notifyGroups = notifications.GroupBy(n => n.Name);
+            foreach (var group in notifyGroups)
+            {
+                await notificationPublisherContext.PublishTradesAsync(group.Key, group);
+            }
+        }
+
+        public async Task PublishOrderBookAsync(IEnumerable<StrategyNotification> notifications)
+        {
+            var notifyGroups = notifications.GroupBy(n => n.Name);
+            foreach (var group in notifyGroups)
+            {
+                await notificationPublisherContext.PublishOrderBookAsync(group.Key, group);
+            }
+        }
+
+        public async Task PublishAccountInfoAsync(IEnumerable<StrategyNotification> notifications)
+        {
+            var notifyGroups = notifications.GroupBy(n => n.Name);
+            foreach (var group in notifyGroups)
+            {
+                await notificationPublisherContext.PublishAccountInfoAsync(group.Key, group);
             }
         }
     }
