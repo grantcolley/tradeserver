@@ -58,8 +58,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
             {
                 var aggregateTrades = new StrategyNotification<AggregateTradeEventArgs>
                 {
-                    Update = tradeStrategy.SubscribeAggregateTrades,
-                    Exception = tradeStrategy.SubscribeAggregateTradesException
+                    Update = tradeStrategy.SubscribeTrades,
+                    Exception = tradeStrategy.SubscribeTradesException
                 };
 
                 subscribeAggregateTrades.Subscribe(strategyName, aggregateTrades);
@@ -81,7 +81,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         {
             if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades))
             {
-                subscribeAggregateTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeAggregateTradesException);
+                subscribeAggregateTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeTradesException);
             }
 
             if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.OrderBook))

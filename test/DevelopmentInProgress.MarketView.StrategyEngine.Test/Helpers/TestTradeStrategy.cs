@@ -46,7 +46,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
             AccountInfoException = true;
         }
 
-        public void SubscribeAggregateTrades(AggregateTradeEventArgs aggregateTradeEventArgs)
+        public void SubscribeTrades(AggregateTradeEventArgs aggregateTradeEventArgs)
         {
             lock (tradeLock)
             {
@@ -61,7 +61,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
             }
         }
 
-        public void SubscribeAggregateTradesException(Exception exception)
+        public void SubscribeTradesException(Exception exception)
         {
             AggregateTradesException = true;
         }
