@@ -1,6 +1,6 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.Events;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
-using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using DevelopmentInProgress.MarketView.Interface.Strategy;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -43,9 +43,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
         {
             switch(subscribe)
             {
-                case MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades:
+                case MarketView.Interface.Strategy.Subscribe.AggregateTrades:
                     return subscribeAggregateTrades.Subscriptions;
-                case MarketView.Interface.TradeStrategy.Subscribe.OrderBook:
+                case MarketView.Interface.Strategy.Subscribe.OrderBook:
                     return subscribeOrderBook.Subscriptions;
                 default:
                     throw new NotImplementedException($"{this.GetType().Name}.Subscriptions({subscribe})");
@@ -54,7 +54,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
         public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AggregateTrades))
             {
                 var aggregateTrades = new StrategyNotification<AggregateTradeEventArgs>
                 {
@@ -65,7 +65,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
                 subscribeAggregateTrades.Subscribe(strategyName, aggregateTrades);
             }
 
-            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook))
             {
                 var orderBook = new StrategyNotification<OrderBookEventArgs>
                 {
@@ -79,12 +79,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
         public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.AggregateTrades))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AggregateTrades))
             {
                 subscribeAggregateTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeTradesException);
             }
 
-            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.OrderBook))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook))
             {
                 subscribeOrderBook.Unsubscribe(strategyName, tradeStrategy.SubscribeOrderBookException);
             }

@@ -1,5 +1,5 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.Interfaces;
-using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using DevelopmentInProgress.MarketView.Interface.Strategy;
 using DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Cache;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance;

@@ -1,6 +1,6 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.Events;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
-using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using DevelopmentInProgress.MarketView.Interface.Strategy;
 using System;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
@@ -35,7 +35,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
         public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.Statistics))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Statistics))
             {
                 var statistics = new StrategyNotification<StatisticsEventArgs>
                 {
@@ -49,7 +49,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance
 
         public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.TradeStrategy.Subscribe.Statistics))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Statistics))
             {
                 subscribeStatistics.Unsubscribe(strategyName, tradeStrategy.SubscribeStatisticsException);
             }

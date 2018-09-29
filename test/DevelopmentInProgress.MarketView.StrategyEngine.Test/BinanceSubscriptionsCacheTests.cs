@@ -1,4 +1,4 @@
-using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using DevelopmentInProgress.MarketView.Interface.Strategy;
 using DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Cache;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance;
@@ -26,14 +26,14 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                 Exchange = Exchange.Binance,
                 Symbol = "TRXBTC",
                 ApiKey = apiKey,
-                Subscribe = (Interface.TradeStrategy.Subscribe.AggregateTrades | Interface.TradeStrategy.Subscribe.OrderBook | Interface.TradeStrategy.Subscribe.AccountInfo)
+                Subscribe = (Interface.Strategy.Subscribe.AggregateTrades | Interface.Strategy.Subscribe.OrderBook | Interface.Strategy.Subscribe.AccountInfo)
             };
 
             var eth = new StrategySubscription
             {
                 Exchange = Exchange.Binance,
                 Symbol = "ETHBTC",
-                Subscribe = (Interface.TradeStrategy.Subscribe.AggregateTrades | Interface.TradeStrategy.Subscribe.OrderBook | Interface.TradeStrategy.Subscribe.Statistics)
+                Subscribe = (Interface.Strategy.Subscribe.AggregateTrades | Interface.Strategy.Subscribe.OrderBook | Interface.Strategy.Subscribe.Statistics)
             };
 
             var bnb = new StrategySubscription
@@ -41,7 +41,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                 Exchange = Exchange.Binance,
                 Symbol = "BNBBTC",
                 ApiKey = apiKey,
-                Subscribe = (Interface.TradeStrategy.Subscribe.AggregateTrades | Interface.TradeStrategy.Subscribe.OrderBook | Interface.TradeStrategy.Subscribe.AccountInfo)
+                Subscribe = (Interface.Strategy.Subscribe.AggregateTrades | Interface.Strategy.Subscribe.OrderBook | Interface.Strategy.Subscribe.AccountInfo)
             };
 
             var strategySubscriptions1 = new List<StrategySubscription>(new[] { trx, eth });
@@ -80,8 +80,8 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                     Assert.IsNotNull(trxCache);
                     Assert.IsInstanceOfType(trxCache, typeof(BinanceSymbolSubscriptionCache));
                     Assert.IsTrue(trxCache.HasSubscriptions);
-                    Assert.AreEqual(trxCache.Subscriptions(Interface.TradeStrategy.Subscribe.AggregateTrades), 1);
-                    Assert.AreEqual(trxCache.Subscriptions(Interface.TradeStrategy.Subscribe.OrderBook), 1);
+                    Assert.AreEqual(trxCache.Subscriptions(Interface.Strategy.Subscribe.AggregateTrades), 1);
+                    Assert.AreEqual(trxCache.Subscriptions(Interface.Strategy.Subscribe.OrderBook), 1);
                 }
                 else
                 {
@@ -93,8 +93,8 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                     Assert.IsNotNull(ethCache);
                     Assert.IsInstanceOfType(ethCache, typeof(BinanceSymbolSubscriptionCache));
                     Assert.IsTrue(ethCache.HasSubscriptions);
-                    Assert.AreEqual(ethCache.Subscriptions(Interface.TradeStrategy.Subscribe.AggregateTrades), 2);
-                    Assert.AreEqual(ethCache.Subscriptions(Interface.TradeStrategy.Subscribe.OrderBook), 2);
+                    Assert.AreEqual(ethCache.Subscriptions(Interface.Strategy.Subscribe.AggregateTrades), 2);
+                    Assert.AreEqual(ethCache.Subscriptions(Interface.Strategy.Subscribe.OrderBook), 2);
                 }
                 else
                 {
@@ -106,8 +106,8 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                     Assert.IsNotNull(bnbCache);
                     Assert.IsInstanceOfType(bnbCache, typeof(BinanceSymbolSubscriptionCache));
                     Assert.IsTrue(bnbCache.HasSubscriptions);
-                    Assert.AreEqual(bnbCache.Subscriptions(Interface.TradeStrategy.Subscribe.AggregateTrades), 1);
-                    Assert.AreEqual(bnbCache.Subscriptions(Interface.TradeStrategy.Subscribe.OrderBook), 1);
+                    Assert.AreEqual(bnbCache.Subscriptions(Interface.Strategy.Subscribe.AggregateTrades), 1);
+                    Assert.AreEqual(bnbCache.Subscriptions(Interface.Strategy.Subscribe.OrderBook), 1);
                 }
                 else
                 {
@@ -119,7 +119,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                     Assert.IsNotNull(statsCache);
                     Assert.IsInstanceOfType(statsCache, typeof(Binance24HourStatisticsSubscriptionCache));
                     Assert.IsTrue(statsCache.HasSubscriptions);
-                    Assert.AreEqual(statsCache.Subscriptions(Interface.TradeStrategy.Subscribe.Statistics), 2);
+                    Assert.AreEqual(statsCache.Subscriptions(Interface.Strategy.Subscribe.Statistics), 2);
                 }
                 else
                 {
@@ -131,7 +131,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                     Assert.IsNotNull(accountCache);
                     Assert.IsInstanceOfType(accountCache, typeof(BinanceAccountInfoSubscriptionCache));
                     Assert.IsTrue(accountCache.HasSubscriptions);
-                    Assert.AreEqual(accountCache.Subscriptions(Interface.TradeStrategy.Subscribe.AccountInfo), 2);
+                    Assert.AreEqual(accountCache.Subscriptions(Interface.Strategy.Subscribe.AccountInfo), 2);
                 }
                 else
                 {
@@ -155,14 +155,14 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                 Exchange = Exchange.Binance,
                 Symbol = "TRXBTC",
                 ApiKey = apiKey,
-                Subscribe = (Interface.TradeStrategy.Subscribe.AggregateTrades | Interface.TradeStrategy.Subscribe.OrderBook | Interface.TradeStrategy.Subscribe.AccountInfo)
+                Subscribe = (Interface.Strategy.Subscribe.AggregateTrades | Interface.Strategy.Subscribe.OrderBook | Interface.Strategy.Subscribe.AccountInfo)
             };
 
             var eth = new StrategySubscription
             {
                 Exchange = Exchange.Binance,
                 Symbol = "ETHBTC",
-                Subscribe = (Interface.TradeStrategy.Subscribe.AggregateTrades | Interface.TradeStrategy.Subscribe.OrderBook | Interface.TradeStrategy.Subscribe.Statistics)
+                Subscribe = (Interface.Strategy.Subscribe.AggregateTrades | Interface.Strategy.Subscribe.OrderBook | Interface.Strategy.Subscribe.Statistics)
             };
 
             var bnb = new StrategySubscription
@@ -170,7 +170,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                 Exchange = Exchange.Binance,
                 Symbol = "BNBBTC",
                 ApiKey = apiKey,
-                Subscribe = (Interface.TradeStrategy.Subscribe.AggregateTrades | Interface.TradeStrategy.Subscribe.OrderBook | Interface.TradeStrategy.Subscribe.AccountInfo)
+                Subscribe = (Interface.Strategy.Subscribe.AggregateTrades | Interface.Strategy.Subscribe.OrderBook | Interface.Strategy.Subscribe.AccountInfo)
             };
 
             var strategySubscriptions1 = new List<StrategySubscription>(new[] { trx, eth });
@@ -208,8 +208,8 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                     Assert.IsNotNull(ethCache);
                     Assert.IsInstanceOfType(ethCache, typeof(BinanceSymbolSubscriptionCache));
                     Assert.IsTrue(ethCache.HasSubscriptions);
-                    Assert.AreEqual(ethCache.Subscriptions(Interface.TradeStrategy.Subscribe.AggregateTrades), 1);
-                    Assert.AreEqual(ethCache.Subscriptions(Interface.TradeStrategy.Subscribe.OrderBook), 1);
+                    Assert.AreEqual(ethCache.Subscriptions(Interface.Strategy.Subscribe.AggregateTrades), 1);
+                    Assert.AreEqual(ethCache.Subscriptions(Interface.Strategy.Subscribe.OrderBook), 1);
                 }
                 else
                 {
@@ -221,8 +221,8 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                     Assert.IsNotNull(bnbCache);
                     Assert.IsInstanceOfType(bnbCache, typeof(BinanceSymbolSubscriptionCache));
                     Assert.IsTrue(bnbCache.HasSubscriptions);
-                    Assert.AreEqual(bnbCache.Subscriptions(Interface.TradeStrategy.Subscribe.AggregateTrades), 1);
-                    Assert.AreEqual(bnbCache.Subscriptions(Interface.TradeStrategy.Subscribe.OrderBook), 1);
+                    Assert.AreEqual(bnbCache.Subscriptions(Interface.Strategy.Subscribe.AggregateTrades), 1);
+                    Assert.AreEqual(bnbCache.Subscriptions(Interface.Strategy.Subscribe.OrderBook), 1);
                 }
                 else
                 {
@@ -234,7 +234,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                     Assert.IsNotNull(statsCache);
                     Assert.IsInstanceOfType(statsCache, typeof(Binance24HourStatisticsSubscriptionCache));
                     Assert.IsTrue(statsCache.HasSubscriptions);
-                    Assert.AreEqual(statsCache.Subscriptions(Interface.TradeStrategy.Subscribe.Statistics), 1);
+                    Assert.AreEqual(statsCache.Subscriptions(Interface.Strategy.Subscribe.Statistics), 1);
                 }
                 else
                 {
@@ -246,7 +246,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                     Assert.IsNotNull(accountCache);
                     Assert.IsInstanceOfType(accountCache, typeof(BinanceAccountInfoSubscriptionCache));
                     Assert.IsTrue(accountCache.HasSubscriptions);
-                    Assert.AreEqual(accountCache.Subscriptions(Interface.TradeStrategy.Subscribe.AccountInfo), 1);
+                    Assert.AreEqual(accountCache.Subscriptions(Interface.Strategy.Subscribe.AccountInfo), 1);
                 }
                 else
                 {
@@ -270,14 +270,14 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                 Exchange = Exchange.Binance,
                 Symbol = "TRXBTC",
                 ApiKey = apiKey,
-                Subscribe = (Interface.TradeStrategy.Subscribe.AggregateTrades | Interface.TradeStrategy.Subscribe.OrderBook | Interface.TradeStrategy.Subscribe.AccountInfo)
+                Subscribe = (Interface.Strategy.Subscribe.AggregateTrades | Interface.Strategy.Subscribe.OrderBook | Interface.Strategy.Subscribe.AccountInfo)
             };
 
             var eth = new StrategySubscription
             {
                 Exchange = Exchange.Binance,
                 Symbol = "ETHBTC",
-                Subscribe = (Interface.TradeStrategy.Subscribe.AggregateTrades | Interface.TradeStrategy.Subscribe.OrderBook | Interface.TradeStrategy.Subscribe.Statistics)
+                Subscribe = (Interface.Strategy.Subscribe.AggregateTrades | Interface.Strategy.Subscribe.OrderBook | Interface.Strategy.Subscribe.Statistics)
             };
 
             var bnb = new StrategySubscription
@@ -285,7 +285,7 @@ namespace DevelopmentInProgress.MarketView.StrategyEngine.Test
                 Exchange = Exchange.Binance,
                 Symbol = "BNBBTC",
                 ApiKey = apiKey,
-                Subscribe = (Interface.TradeStrategy.Subscribe.AggregateTrades | Interface.TradeStrategy.Subscribe.OrderBook | Interface.TradeStrategy.Subscribe.AccountInfo)
+                Subscribe = (Interface.Strategy.Subscribe.AggregateTrades | Interface.Strategy.Subscribe.OrderBook | Interface.Strategy.Subscribe.AccountInfo)
             };
 
             var strategySubscriptions1 = new List<StrategySubscription>(new[] { trx, eth });

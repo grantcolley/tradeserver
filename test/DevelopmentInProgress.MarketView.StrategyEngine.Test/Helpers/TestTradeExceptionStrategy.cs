@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DevelopmentInProgress.MarketView.Interface.Events;
-using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using DevelopmentInProgress.MarketView.Interface.Strategy;
 
 namespace DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers
 {

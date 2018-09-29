@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
 using DevelopmentInProgress.MarketView.StrategyEngine.Test.Helpers;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Cache.Binance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -2,6 +2,6 @@
 {
     public interface IExchangeServiceFactory<T>
     {
-        T GetExchangeService(MarketView.Interface.TradeStrategy.Exchange exchange);
+        T GetExchangeService(MarketView.Interface.Strategy.Exchange exchange);
     }
 }

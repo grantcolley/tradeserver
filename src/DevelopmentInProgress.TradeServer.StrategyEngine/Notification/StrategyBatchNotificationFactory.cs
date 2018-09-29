@@ -1,6 +1,6 @@
 ﻿using DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Logging;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishing;
-using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using DevelopmentInProgress.MarketView.Interface.Strategy;
 using Microsoft.Extensions.Logging;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Notification

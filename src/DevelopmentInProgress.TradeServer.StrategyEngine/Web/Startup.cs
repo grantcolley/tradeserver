@@ -8,7 +8,7 @@ using DevelopmentInProgress.TradeServer.StrategyEngine.Notification.Publishing;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Notification;
 using DevelopmentInProgress.TradeServer.StrategyEngine.ExchangeService;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
-using DevelopmentInProgress.MarketView.Interface.TradeStrategy;
+using DevelopmentInProgress.MarketView.Interface.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyEngine.Cache;
 
 namespace DevelopmentInProgress.TradeServer.StrategyEngine.Web
