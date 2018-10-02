@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevelopmentInProgress.TradeServer.StrategyEngine\DevelopmentInProgress.TradeServer.StrategyEngine.csproj" />
+    <ProjectReference Include="..\DevelopmentInProgress.TradeServer.StrategyRunner.WebHost\DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.csproj" />
   </ItemGroup>
 
 </Project>

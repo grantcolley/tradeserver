@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>DevelopmentInProgress.TradeServer.StrategyEngine.WebHost</AssemblyName>
+    <RootNamespace>DevelopmentInProgress.TradeServer.StrategyEngine.WebHost</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
+    <PackageReference Include="System.IO" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.MarketView.Api.Binance\DevelopmentInProgress.MarketView.Api.Binance.csproj" />
+    <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.MarketView.Interface\DevelopmentInProgress.MarketView.Interface.csproj" />
+    <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.MarketView.Service\DevelopmentInProgress.MarketView.Service.csproj" />
+  </ItemGroup>
+
+</Project>
