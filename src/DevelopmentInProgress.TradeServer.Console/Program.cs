@@ -33,7 +33,7 @@ namespace DevelopmentInProgress.TradeServer.Console
 
                 var webHost = WebHost.CreateDefaultBuilder()
                     .UseUrls(url)
-                    .UseStrategyEngineStartup()
+                    .UseStrategyRunnerStartup()
                     .UseSerilog()
                     .Build();
 
