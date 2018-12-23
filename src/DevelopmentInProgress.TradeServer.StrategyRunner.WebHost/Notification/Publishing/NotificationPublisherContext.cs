@@ -1,5 +1,6 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
-using Microsoft.AspNetCore.SignalR;
+using DipSocket.Messages;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,31 +8,39 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 {
     public class NotificationPublisherContext : INotificationPublisherContext
     {
-        private readonly IHubContext<NotificationHub> hubContext;
+        private readonly NotificationHub notificationHub;
 
-        public NotificationPublisherContext(IHubContext<NotificationHub> hubContext)
+        public NotificationPublisherContext(NotificationHub notificationHub)
         {
-            this.hubContext = hubContext;
+            this.notificationHub = notificationHub;
         }
 
-        public async Task PublishNotificationsAsync(string strategyName, IEnumerable<StrategyNotification> message)
+        public async Task PublishNotificationsAsync(string strategyName, IEnumerable<StrategyNotification> notification)
         {
-            await hubContext.Clients.Group(strategyName).SendAsync("Notification", message);
+            var json = JsonConvert.SerializeObject(notification);
+            var msg = new Message { SenderConnectionId = strategyName, MethodName = "Notification", Data = json };
+            await notificationHub.SendMessageToChannelAsync(strategyName, msg);
         }
 
-        public async Task PublishTradesAsync(string strategyName, IEnumerable<StrategyNotification> message)
+        public async Task PublishTradesAsync(string strategyName, IEnumerable<StrategyNotification> notification)
         {
-            await hubContext.Clients.Group(strategyName).SendAsync("Trade", message);
+            var json = JsonConvert.SerializeObject(notification);
+            var msg = new Message { SenderConnectionId = strategyName, MethodName = "Trade", Data = json };
+            await notificationHub.SendMessageToChannelAsync(strategyName, msg);
         }
 
-        public async Task PublishOrderBookAsync(string strategyName, IEnumerable<StrategyNotification> message)
+        public async Task PublishOrderBookAsync(string strategyName, IEnumerable<StrategyNotification> notification)
         {
-            await hubContext.Clients.Group(strategyName).SendAsync("OrderBook", message);
+            var json = JsonConvert.SerializeObject(notification);
+            var msg = new Message { SenderConnectionId = strategyName, MethodName = "OrderBook", Data = json };
+            await notificationHub.SendMessageToChannelAsync(strategyName, msg);
         }
 
-        public async Task PublishAccountInfoAsync(string strategyName, IEnumerable<StrategyNotification> message)
+        public async Task PublishAccountInfoAsync(string strategyName, IEnumerable<StrategyNotification> notification)
         {
-            await hubContext.Clients.Group(strategyName).SendAsync("AccountInfo", message);
+            var json = JsonConvert.SerializeObject(notification);
+            var msg = new Message { SenderConnectionId = strategyName, MethodName = "AccountInfo", Data = json };
+            await notificationHub.SendMessageToChannelAsync(strategyName, msg);
         }
     }
 }

@@ -10,6 +10,7 @@ using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.ExchangeService;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
+using DipSocket.NetCore.Extensions;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
 {
@@ -28,7 +29,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR();
+            services.AddDipSocket<NotificationHub>();
             services.AddSingleton<IStrategyRunner, StrategyRunner>();
             services.AddSingleton<INotificationPublisherContext, NotificationPublisherContext>();
             services.AddSingleton<INotificationPublisher, NotificationPublisher>();
@@ -41,7 +42,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseSignalR(routes => { routes.MapHub<NotificationHub>("/notificationhub"); });
+            app.UseDipSocket<NotificationHub>("/notificationhub");
 
             app.Map("/runstrategy", HandleRun);
             app.Map("/ping", HandlePing);
