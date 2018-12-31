@@ -14,16 +14,23 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         {
         }
 
-        public async override Task OnClientConnectAsync(WebSocket websocket, string clientId)
+        public async override Task OnClientConnectAsync(WebSocket websocket, string clientId, string data)
         {
             if (string.IsNullOrWhiteSpace(clientId))
             {
                 throw new ArgumentNullException("clientId cannot be null or empty.");
             }
 
+            if(string.IsNullOrWhiteSpace(data))
+            {
+                throw new ArgumentNullException("The strategy to subscribe to must be specified in the data parameter.");
+            }
+
             var connection = await base.AddWebSocketAsync(websocket).ConfigureAwait(false);
 
             connection.Name = clientId;
+
+            SubscribeToChannel(data, websocket);
 
             var connectionInfo = connection.GetConnectionInfo();
 
