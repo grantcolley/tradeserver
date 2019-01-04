@@ -84,7 +84,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
                 var result = await obj.RunAsync(strategy);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
                 throw;
             }
