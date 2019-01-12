@@ -1,4 +1,5 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
+using DevelopmentInProgress.TradeServer.StrategyEngine.WebHost.Web.HostedService;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
@@ -16,7 +17,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
         {
         }
 
-        public async Task Invoke(HttpContext context, IStrategyRunner strategyRunner)
+        public async Task Invoke(HttpContext context, IStrategyRunner strategyRunner, IBackgroundTaskQueue backgroundTaskQueue)
         {
             try
             {
@@ -42,8 +43,19 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
                     await Task.WhenAll(downloads.ToArray());
                 }
 
-                var response = await strategyRunner.RunAsync(strategy, downloadsPath);
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(response), Encoding.UTF8);
+                backgroundTaskQueue.QueueBackgroundWorkItem(async tocken => 
+                {
+                    try
+                    {
+                        var response = await strategyRunner.RunAsync(strategy, downloadsPath);
+                    }
+                    catch(Exception ex)
+                    {
+                        // TODO: log the exception...
+                    }
+                });
+                
+                await context.Response.WriteAsync(json);
             }
             catch (Exception ex)
             {
