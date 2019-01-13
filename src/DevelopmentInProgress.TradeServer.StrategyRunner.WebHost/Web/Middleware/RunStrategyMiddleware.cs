@@ -51,9 +51,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
                 {
                     try
                     {
-
-                        // TODO pass in cancellation token...
-                        var response = await strategyRunner.RunAsync(strategy, downloadsPath);
+                        var response = await strategyRunner.RunAsync(strategy, downloadsPath, token);
                     }
                     catch(Exception ex)
                     {

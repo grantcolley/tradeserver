@@ -6,6 +6,7 @@ using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Utilities;
 using DevelopmentInProgress.MarketView.Interface.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
+using System.Threading;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 {
@@ -18,6 +19,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
         private IBatchNotification<StrategyNotification> strategyTradePublisher;
         private ISubscriptionsCacheManager symbolsCacheManager;
 
+        private CancellationToken cancellationToken;
+
         public StrategyRunner(IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, ISubscriptionsCacheManager symbolsCacheManager)
         {
             this.symbolsCacheManager = symbolsCacheManager;
@@ -29,8 +32,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
             strategyTradePublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyTradePublisher);
         }
 
-        public async Task<Strategy> RunAsync(Strategy strategy, string localPath)
+        public async Task<Strategy> RunAsync(Strategy strategy, string localPath, CancellationToken cancellationToken)
         {
+            this.cancellationToken = cancellationToken;
+
             try
             {
                 strategy.Status = StrategyStatus.Initialising;
@@ -82,7 +87,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
                 symbolsCacheManager.Subscribe(strategy, obj);
 
-                var result = await obj.RunAsync(strategy);
+                var result = await obj.RunAsync(strategy, cancellationToken);
             }
             catch(Exception ex)
             {

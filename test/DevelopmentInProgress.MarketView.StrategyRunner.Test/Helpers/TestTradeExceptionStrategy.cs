@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using DevelopmentInProgress.MarketView.Interface.Events;
 using DevelopmentInProgress.MarketView.Interface.Strategy;
@@ -15,7 +16,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         public bool AggregateTradesException { get; set; }
         public bool OrderBookException { get; set; }
 
-        public Task<Strategy> RunAsync(Strategy strategy)
+        public Task<Strategy> RunAsync(Strategy strategy, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

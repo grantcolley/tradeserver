@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using DevelopmentInProgress.MarketView.Interface.Events;
 using DevelopmentInProgress.MarketView.Interface.Model;
@@ -31,7 +32,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         private object tradeLock = new object();
         private object orderBookLock = new object();
 
-        public Task<Strategy> RunAsync(Strategy strategy)
+        public Task<Strategy> RunAsync(Strategy strategy, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
