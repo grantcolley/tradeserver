@@ -11,7 +11,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 {
     public class StrategyRunner : IStrategyRunner
     {
-        private IBatchNotification<StrategyNotification> strategyEngineLogger;
+        private IBatchNotification<StrategyNotification> strategyRunnerLogger;
         private IBatchNotification<StrategyNotification> strategyAccountInfoPublisher;
         private IBatchNotification<StrategyNotification> strategyNotificationPublisher;
         private IBatchNotification<StrategyNotification> strategyOrderBookPublisher;
@@ -22,7 +22,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
         {
             this.symbolsCacheManager = symbolsCacheManager;
 
-            strategyEngineLogger = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyEngineLogger);
+            strategyRunnerLogger = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyRunnerLogger);
             strategyAccountInfoPublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyAccountInfoPublisher);
             strategyNotificationPublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyNotificationPublisher);
             strategyOrderBookPublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyOrderBookPublisher);
@@ -124,7 +124,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
         {
             var strategyNotification = strategy.GetNotification(notificationLevel, notificationEvent, message);
             strategyNotificationPublisher.AddNotification(strategyNotification);
-            strategyEngineLogger.AddNotification(strategyNotification);
+            strategyRunnerLogger.AddNotification(strategyNotification);
         }
 
         private IList<string> GetAssemblies(string localPath)

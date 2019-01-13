@@ -20,8 +20,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
         {
             switch (batchNotifierType)
             {
-                case BatchNotificationType.StrategyEngineLogger:
-                    return new StrategyEngineLogger(loggerFactory);
+                case BatchNotificationType.StrategyRunnerLogger:
+                    return new StrategyRunnerLogger(loggerFactory);
 
                 case BatchNotificationType.StrategyAccountInfoPublisher:
                     return new StrategyAccountInfoPublisher(notificationPublisher);

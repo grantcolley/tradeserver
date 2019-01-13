@@ -1,5 +1,6 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyEngine.WebHost.Web.HostedService;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
@@ -13,8 +14,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
 {
     public class RunStrategyMiddleware
     {
-        public RunStrategyMiddleware(RequestDelegate next)
+        private readonly IBatchNotification<StrategyNotification> strategyRunnerLogger;
+
+        public RunStrategyMiddleware(RequestDelegate next, IBatchNotificationFactory<StrategyNotification> batchNotificationFactory)
         {
+            strategyRunnerLogger = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyRunnerLogger);
         }
 
         public async Task Invoke(HttpContext context, IStrategyRunner strategyRunner, IBackgroundTaskQueue backgroundTaskQueue)
@@ -43,15 +47,18 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
                     await Task.WhenAll(downloads.ToArray());
                 }
 
-                backgroundTaskQueue.QueueBackgroundWorkItem(async tocken => 
+                backgroundTaskQueue.QueueBackgroundWorkItem(async token => 
                 {
                     try
                     {
+
+                        // TODO pass in cancellation token...
                         var response = await strategyRunner.RunAsync(strategy, downloadsPath);
                     }
                     catch(Exception ex)
                     {
-                        // TODO: log the exception...
+                        var strategyNotification = strategy.GetNotification(NotificationLevel.Error, NotificationEventId.RunStrategyMiddleware, ex.ToString());
+                        strategyRunnerLogger.AddNotification(strategyNotification);
                     }
                 });
                 

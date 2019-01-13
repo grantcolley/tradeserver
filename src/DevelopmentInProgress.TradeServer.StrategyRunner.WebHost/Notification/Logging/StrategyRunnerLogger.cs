@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Logging
 {
-    public class StrategyEngineLogger : BatchNotification<StrategyNotification>, IBatchNotification<StrategyNotification>
+    public class StrategyRunnerLogger : BatchNotification<StrategyNotification>, IBatchNotification<StrategyNotification>
     {
         private readonly ILogger logger;
 
-        public StrategyEngineLogger(ILoggerFactory loggerFactory)
+        public StrategyRunnerLogger(ILoggerFactory loggerFactory)
         {
-            logger = loggerFactory.CreateLogger<StrategyEngineLogger>();
+            logger = loggerFactory.CreateLogger<StrategyRunnerLogger>();
 
             Start();
         }
