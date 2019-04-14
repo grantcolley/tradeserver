@@ -51,6 +51,11 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<Trade>> GetTradesAsync(string symbol, int limit, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Order> PlaceOrder(User user, ClientOrder clientOrder, long recWindow = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
@@ -80,7 +85,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
                 var localSymbol = symbol;
                 while(!cancellationToken.IsCancellationRequested)
                 {
-                    callback.Invoke(new AggregateTradeEventArgs { AggregateTrades = TestDataHelper.GetAggregateTradesUpdated(localSymbol) });
+                    callback.Invoke(new AggregateTradeEventArgs { Trades = TestDataHelper.GetAggregateTradesUpdated(localSymbol) });
                     await Task.Delay(500);
 
 
@@ -125,6 +130,11 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
                     }
                 }
             });
+        }
+
+        public void SubscribeTrades(string symbol, int limit, Action<TradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

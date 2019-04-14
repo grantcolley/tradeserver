@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DevelopmentInProgress.MarketView.Interface.Events;
+using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.Model;
 using DevelopmentInProgress.MarketView.Interface.Strategy;
 
@@ -16,7 +17,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         public event EventHandler<TradeStrategyNotificationEventArgs> StrategyOrderBookEvent;
         public event EventHandler<TradeStrategyNotificationEventArgs> StrategyTradeEvent;
 
-        public IEnumerable<AggregateTrade> AggregateTrades { get; set; }
+        public IEnumerable<ITrade> AggregateTrades { get; set; }
         public IEnumerable<SymbolStats> Statistics { get; set; }
         public OrderBook OrderBook { get; set; }
         public AccountInfo AccountInfo { get; set; }
@@ -51,9 +52,9 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         {
             lock (tradeLock)
             {
-                AggregateTrades = aggregateTradeEventArgs.AggregateTrades;
+                AggregateTrades = aggregateTradeEventArgs.Trades;
 
-                var symbol = aggregateTradeEventArgs.AggregateTrades.First().Symbol;
+                var symbol = aggregateTradeEventArgs.Trades.First().Symbol;
 
                 if (!TradeSymbols.Contains(symbol))
                 {
