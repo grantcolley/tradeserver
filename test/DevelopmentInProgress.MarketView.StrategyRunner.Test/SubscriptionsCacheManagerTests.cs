@@ -23,14 +23,14 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             {
                 Exchange = Exchange.Binance,
                 Symbol = "TRXBTC-BINANCE",
-                Subscribe = (Subscribe.AggregateTrades)
+                Subscribe = (Subscribe.Trades)
             };
 
             var trxTest = new StrategySubscription
             {
                 Exchange = Exchange.Test,
                 Symbol = "TRXBTC-TEST",
-                Subscribe = (Subscribe.AggregateTrades)
+                Subscribe = (Subscribe.Trades)
             };
 
             strategy.StrategySubscriptions.AddRange(new[] { trxBinance, trxTest });
@@ -52,7 +52,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
                     Assert.IsNotNull(trxBinanceCache);
                     Assert.IsInstanceOfType(trxBinanceCache, typeof(BinanceSymbolSubscriptionCache));
                     Assert.IsTrue(trxBinanceCache.HasSubscriptions);
-                    Assert.AreEqual(trxBinanceCache.Subscriptions(Subscribe.AggregateTrades), 1);
+                    Assert.AreEqual(trxBinanceCache.Subscriptions(Subscribe.Trades), 1);
                 }
                 else
                 {
@@ -88,14 +88,14 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             {
                 Exchange = Exchange.Binance,
                 Symbol = "TRXBTC-BINANCE",
-                Subscribe = (Subscribe.AggregateTrades)
+                Subscribe = (Subscribe.Trades)
             };
 
             var trxTest = new StrategySubscription
             {
                 Exchange = Exchange.Test,
                 Symbol = "TRXBTC-TEST",
-                Subscribe = (Subscribe.AggregateTrades)
+                Subscribe = (Subscribe.Trades)
             };
 
             strategy.StrategySubscriptions.AddRange(new[] { trxBinance, trxTest });
@@ -135,7 +135,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             {
                 Exchange = Exchange.Binance,
                 Symbol = "TRXBTC-BINANCE",
-                Subscribe = (Subscribe.AggregateTrades)
+                Subscribe = (Subscribe.Trades)
             };
 
             strategy1.StrategySubscriptions.Add(trxBinance);
@@ -146,7 +146,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             {
                 Exchange = Exchange.Test,
                 Symbol = "TRXBTC-TEST",
-                Subscribe = (Subscribe.AggregateTrades)
+                Subscribe = (Subscribe.Trades)
             };
 
             strategy2.StrategySubscriptions.Add(trxTest);
@@ -172,7 +172,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
                     Assert.IsNotNull(trxBinanceCache);
                     Assert.IsInstanceOfType(trxBinanceCache, typeof(BinanceSymbolSubscriptionCache));
                     Assert.IsTrue(trxBinanceCache.HasSubscriptions);
-                    Assert.AreEqual(trxBinanceCache.Subscriptions(Subscribe.AggregateTrades), 1);
+                    Assert.AreEqual(trxBinanceCache.Subscriptions(Subscribe.Trades), 1);
                 }
                 else
                 {
@@ -208,7 +208,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             {
                 Exchange = Exchange.Binance,
                 Symbol = "TRXBTC-BINANCE",
-                Subscribe = (Subscribe.AggregateTrades)
+                Subscribe = (Subscribe.Trades)
             };
 
             strategy1.StrategySubscriptions.Add(trxBinance);
@@ -219,7 +219,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             {
                 Exchange = Exchange.Test,
                 Symbol = "TRXBTC-TEST",
-                Subscribe = (Subscribe.AggregateTrades)
+                Subscribe = (Subscribe.Trades)
             };
 
             strategy2.StrategySubscriptions.Add(trxTest);

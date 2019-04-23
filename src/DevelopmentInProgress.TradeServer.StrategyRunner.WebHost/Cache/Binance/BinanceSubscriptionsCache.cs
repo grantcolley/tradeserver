@@ -36,7 +36,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
         {
             foreach (var symbol in strategySubscriptions)
             {
-                if (symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AggregateTrades)
+                if (symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades)
                     || symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook))
                 {
                     ISubscriptionCache symbolCache;
@@ -79,7 +79,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
         {
             foreach (var symbol in strategySubscriptions)
             {
-                if (symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AggregateTrades)
+                if (symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades)
                     || symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook))
                 {
                     Unsubscribe(strategyName, symbol, symbol.Symbol, tradeStrategy);

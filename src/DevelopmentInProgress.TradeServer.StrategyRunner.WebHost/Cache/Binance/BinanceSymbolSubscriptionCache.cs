@@ -43,7 +43,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
         {
             switch(subscribe)
             {
-                case MarketView.Interface.Strategy.Subscribe.AggregateTrades:
+                case MarketView.Interface.Strategy.Subscribe.Trades:
                     return subscribeAggregateTrades.Subscriptions;
                 case MarketView.Interface.Strategy.Subscribe.OrderBook:
                     return subscribeOrderBook.Subscriptions;
@@ -54,7 +54,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
 
         public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AggregateTrades))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades))
             {
                 var aggregateTrades = new StrategyNotification<AggregateTradeEventArgs>
                 {
@@ -79,7 +79,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
 
         public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AggregateTrades))
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades))
             {
                 subscribeAggregateTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeTradesException);
             }
