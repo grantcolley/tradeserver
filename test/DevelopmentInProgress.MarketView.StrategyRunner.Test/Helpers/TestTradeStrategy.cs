@@ -48,13 +48,13 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             AccountInfoException = true;
         }
 
-        public void SubscribeTrades(AggregateTradeEventArgs aggregateTradeEventArgs)
+        public void SubscribeTrades(TradeEventArgs tradeEventArgs)
         {
             lock (tradeLock)
             {
-                AggregateTrades = aggregateTradeEventArgs.Trades;
+                AggregateTrades = tradeEventArgs.Trades;
 
-                var symbol = aggregateTradeEventArgs.Trades.First().Symbol;
+                var symbol = tradeEventArgs.Trades.First().Symbol;
 
                 if (!TradeSymbols.Contains(symbol))
                 {

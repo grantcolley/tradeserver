@@ -31,7 +31,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
-        public void SubscribeTrades(AggregateTradeEventArgs aggregateTradeEventArgs)
+        public void SubscribeTrades(TradeEventArgs aggregateTradeEventArgs)
         {
             throw new Exception("SubscribeAggregateTrades");
         }

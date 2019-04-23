@@ -78,14 +78,15 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             });
         }
 
-        public void SubscribeAggregateTrades(string symbol, int limit, Action<AggregateTradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
+        public void SubscribeAggregateTrades(string symbol, int limit, Action<TradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
             Task.Factory.StartNew(async () =>
             {
                 var localSymbol = symbol;
                 while(!cancellationToken.IsCancellationRequested)
                 {
-                    callback.Invoke(new AggregateTradeEventArgs { Trades = TestDataHelper.GetAggregateTradesUpdated(localSymbol) });
+                    callback.Invoke(new 
+                        TradeEventArgs { Trades = TestDataHelper.GetAggregateTradesUpdated(localSymbol) });
                     await Task.Delay(500);
 
 

@@ -9,7 +9,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
 {
     public class BinanceSymbolSubscriptionCache : ISubscriptionCache
     {
-        private SubscribeAggregateTrades subscribeAggregateTrades;
+        private SubscribeTrades subscribeTrades;
         private SubscribeOrderBook subscribeOrderBook;
 
         private bool disposed;
@@ -20,7 +20,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
             Limit = limit;
             ExchangeService = exchangeService;
 
-            subscribeAggregateTrades = new SubscribeAggregateTrades(symbol, limit, exchangeService);
+            subscribeTrades = new SubscribeTrades(symbol, limit, exchangeService);
             subscribeOrderBook = new SubscribeOrderBook(symbol, limit, exchangeService);
         }
         
@@ -34,7 +34,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
         {
             get
             {
-                return subscribeAggregateTrades.HasSubscriptions
+                return subscribeTrades.HasSubscriptions
                     || subscribeOrderBook.HasSubscriptions;
             }
         }
@@ -44,7 +44,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
             switch(subscribe)
             {
                 case MarketView.Interface.Strategy.Subscribe.Trades:
-                    return subscribeAggregateTrades.Subscriptions;
+                    return subscribeTrades.Subscriptions;
                 case MarketView.Interface.Strategy.Subscribe.OrderBook:
                     return subscribeOrderBook.Subscriptions;
                 default:
@@ -56,13 +56,13 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
         {
             if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades))
             {
-                var aggregateTrades = new StrategyNotification<AggregateTradeEventArgs>
+                var trades = new StrategyNotification<TradeEventArgs>
                 {
                     Update = tradeStrategy.SubscribeTrades,
                     Exception = tradeStrategy.SubscribeTradesException
                 };
 
-                subscribeAggregateTrades.Subscribe(strategyName, aggregateTrades);
+                subscribeTrades.Subscribe(strategyName, trades);
             }
 
             if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook))
@@ -81,7 +81,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
         {
             if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades))
             {
-                subscribeAggregateTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeTradesException);
+                subscribeTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeTradesException);
             }
 
             if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook))
@@ -105,7 +105,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
 
             if (disposing)
             {
-                subscribeAggregateTrades.Dispose();
+                subscribeTrades.Dispose();
                 subscribeOrderBook.Dispose();
             }
 
