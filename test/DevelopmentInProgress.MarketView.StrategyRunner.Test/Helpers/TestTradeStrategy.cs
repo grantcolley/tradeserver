@@ -97,5 +97,10 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         {
             StatisticsException = true;
         }
+
+        public void AddExchangeService(Exchange exchange, IExchangeService exchangeService)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

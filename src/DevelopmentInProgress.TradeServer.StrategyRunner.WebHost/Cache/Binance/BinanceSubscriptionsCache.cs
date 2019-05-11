@@ -34,6 +34,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
 
         public void Subscribe(string strategyName, List<StrategySubscription> strategySubscriptions, ITradeStrategy tradeStrategy)
         {
+            tradeStrategy.AddExchangeService(Exchange.Binance, ExchangeService);
+
             foreach (var symbol in strategySubscriptions)
             {
                 if (symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades)

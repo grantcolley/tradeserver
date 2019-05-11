@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DevelopmentInProgress.MarketView.Interface.Events;
+using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.Strategy;
 
 namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
@@ -58,6 +59,11 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         }
 
         public void SubscribeStatisticsException(Exception exception)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddExchangeService(Exchange exchange, IExchangeService exchangeService)
         {
             throw new NotImplementedException();
         }
