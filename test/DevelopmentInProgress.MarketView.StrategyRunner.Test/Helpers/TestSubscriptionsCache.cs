@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
@@ -28,12 +29,15 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         {
         }
 
-        public void Subscribe(string strategyName, List<StrategySubscription> strategySubscription, ITradeStrategy tradeStrategy)
+        public async Task Subscribe(string strategyName, List<StrategySubscription> strategySubscription, ITradeStrategy tradeStrategy)
         {
-            foreach (var subscription in strategySubscription)
+            await Task.Factory.StartNew(()=>
             {
-                Caches.TryAdd(subscription.Symbol, new TestSubscriptionCache());
-            }
+                foreach (var subscription in strategySubscription)
+                {
+                    Caches.TryAdd(subscription.Symbol, new TestSubscriptionCache());
+                }
+            });
         }
 
         public void Unsubscribe(string strategyName, List<StrategySubscription> strategySubscription, ITradeStrategy tradeStrategy)

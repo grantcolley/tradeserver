@@ -1,6 +1,7 @@
 ﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
 {
@@ -15,7 +16,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
 
         public ISubscriptionsCacheFactory SubscriptionsCacheFactory { get; private set; }
 
-        public void Subscribe(Strategy strategy, ITradeStrategy tradeStrategy)
+        public async Task Subscribe(Strategy strategy, ITradeStrategy tradeStrategy)
         {
             var exchangeSymbolsList = (from s in strategy.StrategySubscriptions
                                   group s by s.Exchange into es
@@ -24,7 +25,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
             foreach(var exchangeSymbols in exchangeSymbolsList)
             {
                 var symbolsCache = SubscriptionsCacheFactory.GetSubscriptionsCache(exchangeSymbols.Exchange);
-                symbolsCache.Subscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
+                await symbolsCache.Subscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
             }
         }
 

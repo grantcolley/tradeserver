@@ -85,7 +85,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
                 Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Running {strategy.TargetType}");
 
-                symbolsCacheManager.Subscribe(strategy, obj);
+                await symbolsCacheManager.Subscribe(strategy, obj);
 
                 var result = await obj.RunAsync(strategy, cancellationToken);
             }

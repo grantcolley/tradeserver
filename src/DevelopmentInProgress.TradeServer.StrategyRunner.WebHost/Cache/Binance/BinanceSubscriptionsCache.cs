@@ -1,9 +1,13 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Interfaces;
+﻿using DevelopmentInProgress.MarketView.Interface.Events;
+using DevelopmentInProgress.MarketView.Interface.Interfaces;
+using DevelopmentInProgress.MarketView.Interface.Model;
 using DevelopmentInProgress.MarketView.Interface.Strategy;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
 {
@@ -32,7 +36,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
             }
         }
 
-        public void Subscribe(string strategyName, List<StrategySubscription> strategySubscriptions, ITradeStrategy tradeStrategy)
+        public async Task Subscribe(string strategyName, List<StrategySubscription> strategySubscriptions, ITradeStrategy tradeStrategy)
         {
             tradeStrategy.AddExchangeService(Exchange.Binance, ExchangeService);
 
@@ -53,6 +57,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
 
                 if(symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AccountInfo))
                 {
+                    var accountInfo = await ExchangeService.GetAccountInfoAsync(new User { ApiKey = symbol.ApiKey, ApiSecret = symbol.SecretKey }, new CancellationToken());
+
+                    tradeStrategy.SubscribeAccountInfo(new AccountInfoEventArgs { AccountInfo = accountInfo });
+
                     ISubscriptionCache accountInfoCache;
                     if (!Caches.TryGetValue(symbol.ApiKey, out accountInfoCache))
                     {
