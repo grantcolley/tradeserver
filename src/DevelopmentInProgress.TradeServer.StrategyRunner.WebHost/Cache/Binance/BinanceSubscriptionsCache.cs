@@ -38,7 +38,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
 
         public async Task Subscribe(string strategyName, List<StrategySubscription> strategySubscriptions, ITradeStrategy tradeStrategy)
         {
-            tradeStrategy.AddExchangeService(strategySubscriptions, Exchange.Binance, ExchangeService);
+            await tradeStrategy.AddExchangeService(strategySubscriptions, Exchange.Binance, ExchangeService);
 
             foreach (var symbol in strategySubscriptions)
             {
