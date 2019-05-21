@@ -7,11 +7,12 @@ using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middleware;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Publishing;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.ExchangeService;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
 using DevelopmentInProgress.MarketView.Interface.Interfaces;
 using DevelopmentInProgress.MarketView.Interface.Strategy;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
+
 using DipSocket.NetCore.Extensions;
-using DevelopmentInProgress.TradeServer.StrategyEngine.WebHost.Web.HostedService;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
 {
@@ -38,6 +39,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             services.AddSingleton<IExchangeServiceFactory<IExchangeService>, StrategyExchangeServiceFactory>();
             services.AddSingleton<ISubscriptionsCacheFactory, SubscriptionsCacheFactory>();
             services.AddSingleton<ISubscriptionsCacheManager, SubscriptionsCacheManager>();
+            services.AddSingleton<ITradeStrategyCacheManager, TradeStrategyCacheManager>();
 
             services.AddHostedService<QueuedHostedService>();
             services.AddDipSocket<NotificationHub>();
@@ -49,12 +51,18 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             app.UseDipSocket<NotificationHub>("/notificationhub");
 
             app.Map("/runstrategy", HandleRun);
+            app.Map("/updatestrategy", HandleUpdate);
             app.Map("/ping", HandlePing);
         }
 
         private static void HandleRun(IApplicationBuilder app)
         {
             app.UseRunStrategyMiddleware();
+        }
+
+        private static void HandleUpdate(IApplicationBuilder app)
+        {
+            app.UseUpdateStrategyMiddleware();
         }
 
         private static void HandlePing(IApplicationBuilder app)

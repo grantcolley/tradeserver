@@ -9,6 +9,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
             return builder.UseMiddleware<RunStrategyMiddleware>();
         }
 
+        internal static IApplicationBuilder UseUpdateStrategyMiddleware(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<UpdateStrategyMiddleware>();
+        }
+
         internal static IApplicationBuilder UsePingMiddleware(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<PingMiddleware>();
