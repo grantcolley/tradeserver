@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AssemblyName>DevelopmentInProgress.TradeServer.StrategyEngine.WebHost</AssemblyName>
-    <RootNamespace>DevelopmentInProgress.TradeServer.StrategyEngine.WebHost</RootNamespace>
+    <AssemblyName>DevelopmentInProgress.TradeServer.StrategyRunner.WebHost</AssemblyName>
+    <RootNamespace>DevelopmentInProgress.TradeServer.StrategyRunner.WebHost</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

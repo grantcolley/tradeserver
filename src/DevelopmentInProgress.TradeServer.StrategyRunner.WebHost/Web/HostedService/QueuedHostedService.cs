@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DevelopmentInProgress.TradeServer.StrategyEngine.WebHost.Web.HostedService
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService
 {
     public class QueuedHostedService : BackgroundService
     {
