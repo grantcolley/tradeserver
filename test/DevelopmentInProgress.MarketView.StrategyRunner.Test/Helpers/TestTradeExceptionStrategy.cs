@@ -68,5 +68,10 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> TryUpdateStrategy(Strategy strategy)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
