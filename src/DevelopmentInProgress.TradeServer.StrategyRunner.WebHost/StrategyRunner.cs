@@ -18,12 +18,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
         private IBatchNotification<StrategyNotification> strategyOrderBookPublisher;
         private IBatchNotification<StrategyNotification> strategyTradePublisher;
         private ISubscriptionsCacheManager symbolsCacheManager;
+        private ITradeStrategyCacheManager tradeStrategyCacheManager;
 
         private CancellationToken cancellationToken;
 
-        public StrategyRunner(IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, ISubscriptionsCacheManager symbolsCacheManager)
+        public StrategyRunner(
+            IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, 
+            ISubscriptionsCacheManager symbolsCacheManager, 
+            ITradeStrategyCacheManager tradeStrategyCacheManager)
         {
             this.symbolsCacheManager = symbolsCacheManager;
+            this.tradeStrategyCacheManager = tradeStrategyCacheManager;
 
             strategyRunnerLogger = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyRunnerLogger);
             strategyAccountInfoPublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyAccountInfoPublisher);
@@ -74,32 +79,48 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
             var type = assembly.GetType(strategy.TargetType);
             dynamic obj = Activator.CreateInstance(type);
 
-            ((ITradeStrategy)obj).StrategyAccountInfoEvent += StrategyAccountInfoEvent;
-            ((ITradeStrategy)obj).StrategyNotificationEvent += StrategyNotificationEvent;
-            ((ITradeStrategy)obj).StrategyOrderBookEvent += StrategyOrderBookEvent;
-            ((ITradeStrategy)obj).StrategyTradeEvent += StrategyTradeEvent;
+            var tradeStrategy = (ITradeStrategy)obj;
+
+            tradeStrategy.StrategyAccountInfoEvent += StrategyAccountInfoEvent;
+            tradeStrategy.StrategyNotificationEvent += StrategyNotificationEvent;
+            tradeStrategy.StrategyOrderBookEvent += StrategyOrderBookEvent;
+            tradeStrategy.StrategyTradeEvent += StrategyTradeEvent;
 
             try
             {
                 strategy.Status = StrategyStatus.Running;
 
-                Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Running {strategy.TargetType}");
+                if(tradeStrategyCacheManager.TryAddTradeStrategy(strategy.Name, tradeStrategy))
+                {
+                    Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Subscribing {strategy.TargetType}");
 
-                await symbolsCacheManager.Subscribe(strategy, obj);
+                    await symbolsCacheManager.Subscribe(strategy, tradeStrategy);
 
-                var result = await obj.RunAsync(strategy, cancellationToken);
+                    Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Running {strategy.TargetType}");
+
+                    var result = await tradeStrategy.RunAsync(strategy, cancellationToken);
+
+                    if(tradeStrategyCacheManager.TryRemoveTradeStrategy(strategy.Name, out ITradeStrategy ts))
+                    {
+                        Notify(NotificationLevel.Error, NotificationEventId.RunStrategyAsync, strategy, $"Failed to remove {strategy.Name} from the cache manager.");
+                    }
+                }
+                else
+                {
+                    Notify(NotificationLevel.Error, NotificationEventId.RunStrategyAsync, strategy, $"Failed to add {strategy.Name} to the cache manager.");
+                }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 throw;
             }
             finally
             {
-                symbolsCacheManager.Unsubscribe(strategy, obj);
-                ((ITradeStrategy)obj).StrategyAccountInfoEvent -= StrategyAccountInfoEvent;
-                ((ITradeStrategy)obj).StrategyNotificationEvent -= StrategyNotificationEvent;
-                ((ITradeStrategy)obj).StrategyOrderBookEvent -= StrategyOrderBookEvent;
-                ((ITradeStrategy)obj).StrategyTradeEvent -= StrategyTradeEvent;
+                symbolsCacheManager.Unsubscribe(strategy, tradeStrategy);
+                tradeStrategy.StrategyAccountInfoEvent -= StrategyAccountInfoEvent;
+                tradeStrategy.StrategyNotificationEvent -= StrategyNotificationEvent;
+                tradeStrategy.StrategyOrderBookEvent -= StrategyOrderBookEvent;
+                tradeStrategy.StrategyTradeEvent -= StrategyTradeEvent;
             }
 
             return strategy;
