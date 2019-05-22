@@ -103,7 +103,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
-        public Task<bool> TryUpdateStrategy(Strategy strategy)
+        public Task<bool> TryUpdateStrategy(string strategyParameters)
         {
             throw new NotImplementedException();
         }
