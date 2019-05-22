@@ -70,7 +70,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
                 return strategy;
             }
 
-            Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Loading {strategy.TargetType}");
+            Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Loading {strategy.Name}");
 
             var dependencies = GetAssemblies(localPath);
 
@@ -92,11 +92,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
                 if(tradeStrategyCacheManager.TryAddTradeStrategy(strategy.Name, tradeStrategy))
                 {
-                    Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Subscribing {strategy.TargetType}");
+                    Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Subscribing {strategy.Name}");
 
                     await symbolsCacheManager.Subscribe(strategy, tradeStrategy);
 
-                    Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Running {strategy.TargetType}");
+                    Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Running {strategy.Name}");
 
                     var result = await tradeStrategy.RunAsync(strategy, cancellationToken);
 
