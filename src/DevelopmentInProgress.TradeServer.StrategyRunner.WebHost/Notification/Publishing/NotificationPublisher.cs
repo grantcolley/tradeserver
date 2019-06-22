@@ -14,6 +14,15 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             this.notificationPublisherContext = notificationPublisherContext;
         }
 
+        public async Task PublishCustomNotificationsAsync(string methodName, IEnumerable<StrategyNotification> notifications)
+        {
+            var notifyGroups = notifications.GroupBy(n => n.Name);
+            foreach (var group in notifyGroups)
+            {
+                await notificationPublisherContext.PublishCustomNotificationsAsync(group.Key, methodName, group);
+            }
+        }
+
         public async Task PublishNotificationsAsync(IEnumerable<StrategyNotification> notifications)
         {
             var notifyGroups = notifications.GroupBy(n => n.Name);

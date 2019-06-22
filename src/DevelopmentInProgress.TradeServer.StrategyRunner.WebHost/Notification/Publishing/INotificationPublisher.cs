@@ -6,6 +6,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 {
     public interface INotificationPublisher
     {
+        Task PublishCustomNotificationsAsync(string methodName, IEnumerable<StrategyNotification> notifications);
         Task PublishNotificationsAsync(IEnumerable<StrategyNotification> notifications);
         Task PublishTradesAsync(IEnumerable<StrategyNotification> notifications);
         Task PublishOrderBookAsync(IEnumerable<StrategyNotification> notifications);

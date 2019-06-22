@@ -4,6 +4,7 @@
     {
         StrategyRunnerLogger,
         StrategyAccountInfoPublisher,
+        StrategyCustomNotificationPublisher,
         StrategyNotificationPublisher,
         StrategyOrderBookPublisher,
         StrategyTradePublisher

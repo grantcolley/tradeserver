@@ -15,6 +15,13 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             this.notificationHub = notificationHub;
         }
 
+        public async Task PublishCustomNotificationsAsync(string strategyName, string methodName, IEnumerable<StrategyNotification> notification)
+        {
+            var json = JsonConvert.SerializeObject(notification);
+            var msg = new Message { SenderConnectionId = strategyName, MessageType = MessageType.SendToChannel, MethodName = methodName, Data = json };
+            await notificationHub.SendMessageToChannelAsync(strategyName, msg);
+        }
+
         public async Task PublishNotificationsAsync(string strategyName, IEnumerable<StrategyNotification> notification)
         {
             var json = JsonConvert.SerializeObject(notification);
