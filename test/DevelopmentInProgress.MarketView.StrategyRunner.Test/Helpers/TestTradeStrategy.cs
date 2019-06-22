@@ -13,6 +13,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
     public class TestTradeStrategy : ITradeStrategy
     {
         public event EventHandler<TradeStrategyNotificationEventArgs> StrategyAccountInfoEvent;
+        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyCustomNotificationEvent;
         public event EventHandler<TradeStrategyNotificationEventArgs> StrategyNotificationEvent;
         public event EventHandler<TradeStrategyNotificationEventArgs> StrategyOrderBookEvent;
         public event EventHandler<TradeStrategyNotificationEventArgs> StrategyTradeEvent;
