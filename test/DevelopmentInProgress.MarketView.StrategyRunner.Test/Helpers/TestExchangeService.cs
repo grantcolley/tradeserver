@@ -38,6 +38,11 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<Candlestick>> GetCandlesticksAsync(string symbol, CandlestickInterval interval, DateTime startTime, DateTime endTime, int limit = 0, CancellationToken token = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<Order>> GetOpenOrdersAsync(User user, string symbol = null, long recWindow = 0, Action<Exception> exception = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
