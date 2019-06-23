@@ -1,5 +1,5 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Extensions;
+﻿using DevelopmentInProgress.Common.Extensions;
+using DevelopmentInProgress.MarketView.Interface.Strategy;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
