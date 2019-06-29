@@ -130,27 +130,27 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
             return strategy;
         }
 
-        private void StrategyAccountInfoEvent(object sender, TradeStrategyNotificationEventArgs e)
+        private void StrategyAccountInfoEvent(object sender, StrategyNotificationEventArgs e)
         {
             strategyAccountInfoPublisher.AddNotification(e.StrategyNotification);
         }
 
-        private void StrategyCustomNotificationEvent(object sender, TradeStrategyNotificationEventArgs e)
+        private void StrategyCustomNotificationEvent(object sender, StrategyNotificationEventArgs e)
         {
             strategyCustomNotificationPublisher.AddNotification(e.StrategyNotification);
         }
 
-        private void StrategyNotificationEvent(object sender, TradeStrategyNotificationEventArgs e)
+        private void StrategyNotificationEvent(object sender, StrategyNotificationEventArgs e)
         {
             strategyNotificationPublisher.AddNotification(e.StrategyNotification);
         }
 
-        private void StrategyOrderBookEvent(object sender, TradeStrategyNotificationEventArgs e)
+        private void StrategyOrderBookEvent(object sender, StrategyNotificationEventArgs e)
         {
             strategyOrderBookPublisher.AddNotification(e.StrategyNotification);
         }
 
-        private void StrategyTradeEvent(object sender, TradeStrategyNotificationEventArgs e)
+        private void StrategyTradeEvent(object sender, StrategyNotificationEventArgs e)
         {
             strategyTradePublisher.AddNotification(e.StrategyNotification);
         }
