@@ -91,6 +91,11 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             });
         }
 
+        public void SubscribeCandlesticks(string symbol, CandlestickInterval candlestickInterval, int limit, Action<CandlestickEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SubscribeOrderBook(string symbol, int limit, Action<OrderBookEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();

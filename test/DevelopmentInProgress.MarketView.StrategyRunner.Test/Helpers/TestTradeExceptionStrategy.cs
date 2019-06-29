@@ -10,11 +10,12 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 {
     public class TestTradeExceptionStrategy : ITradeStrategy
     {
-        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyAccountInfoEvent;
-        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyCustomNotificationEvent;
-        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyNotificationEvent;
-        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyOrderBookEvent;
-        public event EventHandler<TradeStrategyNotificationEventArgs> StrategyTradeEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyAccountInfoEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyCustomNotificationEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyNotificationEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyOrderBookEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyTradeEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyCandlestickEvent;
 
         public bool AggregateTradesException { get; set; }
         public bool OrderBookException { get; set; }
@@ -71,6 +72,16 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         }
 
         public Task<bool> TryUpdateStrategy(string strategyParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SubscribeCandlesticks(AccountInfoEventArgs accountInfoEventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SubscribeCandlesticksException(Exception exception)
         {
             throw new NotImplementedException();
         }
