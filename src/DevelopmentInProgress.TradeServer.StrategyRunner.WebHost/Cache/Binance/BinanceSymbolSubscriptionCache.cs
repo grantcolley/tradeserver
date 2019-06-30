@@ -11,10 +11,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
     {
         private SubscribeTrades subscribeTrades;
         private SubscribeOrderBook subscribeOrderBook;
+        private SubscribeCandlesticks subscribeCandlesticks;
 
         private bool disposed;
 
-        public BinanceSymbolSubscriptionCache(string symbol, int limit, IExchangeService exchangeService)
+        public BinanceSymbolSubscriptionCache(string symbol, int limit, MarketView.Interface.Model.CandlestickInterval candlestickInterval, IExchangeService exchangeService)
         {
             Symbol = symbol;
             Limit = limit;
@@ -22,6 +23,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
 
             subscribeTrades = new SubscribeTrades(symbol, limit, exchangeService);
             subscribeOrderBook = new SubscribeOrderBook(symbol, limit, exchangeService);
+            subscribeCandlesticks = new SubscribeCandlesticks(symbol, candlestickInterval, limit, exchangeService);
         }
         
         public string Symbol { get; private set; }
@@ -35,7 +37,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
             get
             {
                 return subscribeTrades.HasSubscriptions
-                    || subscribeOrderBook.HasSubscriptions;
+                    || subscribeOrderBook.HasSubscriptions
+                    || subscribeCandlesticks.HasSubscriptions;
             }
         }
 
@@ -47,6 +50,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
                     return subscribeTrades.Subscriptions;
                 case MarketView.Interface.Strategy.Subscribe.OrderBook:
                     return subscribeOrderBook.Subscriptions;
+                case MarketView.Interface.Strategy.Subscribe.Candlesticks:
+                    return subscribeCandlesticks.Subscriptions;
                 default:
                     throw new NotImplementedException($"{this.GetType().Name}.Subscriptions({subscribe})");
             }
@@ -75,6 +80,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
 
                 subscribeOrderBook.Subscribe(strategyName, orderBook);
             }
+
+            if(strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Candlesticks))
+            {
+                var candlestick = new StrategyNotification<CandlestickEventArgs>
+                {
+                    Update = tradeStrategy.SubscribeCandlesticks,
+                    Exception = tradeStrategy.SubscribeCandlesticksException
+                };
+
+                subscribeCandlesticks.Subscribe(strategyName, candlestick);
+            }
         }
 
         public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
@@ -87,6 +103,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
             if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook))
             {
                 subscribeOrderBook.Unsubscribe(strategyName, tradeStrategy.SubscribeOrderBookException);
+            }
+
+            if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Candlesticks))
+            {
+                subscribeCandlesticks.Unsubscribe(strategyName, tradeStrategy.SubscribeCandlesticksException);
             }
         }
 
@@ -107,6 +128,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
             {
                 subscribeTrades.Dispose();
                 subscribeOrderBook.Dispose();
+                subscribeCandlesticks.Dispose();
             }
 
             disposed = true;

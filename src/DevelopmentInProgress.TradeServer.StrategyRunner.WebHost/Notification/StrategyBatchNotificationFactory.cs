@@ -37,6 +37,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
 
                 case BatchNotificationType.StrategyTradePublisher:
                     return new StrategyTradePublisher(notificationPublisher);
+
+                case BatchNotificationType.StrategyCandlesticksPublisher:
+                    return new StrategyCandlesticksPublisher(notificationPublisher);
+
+                case BatchNotificationType.StrategyStatisticsPublisher:
+                    return new StrategyStatisticsPublisher(notificationPublisher);
             }
 
             return null;

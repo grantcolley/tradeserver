@@ -17,7 +17,8 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         public event EventHandler<StrategyNotificationEventArgs> StrategyNotificationEvent;
         public event EventHandler<StrategyNotificationEventArgs> StrategyOrderBookEvent;
         public event EventHandler<StrategyNotificationEventArgs> StrategyTradeEvent;
-        public event EventHandler<StrategyNotificationEventArgs> StrategyCandlestickEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyCandlesticksEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyStatisticsEvent;
 
         public IEnumerable<ITrade> AggregateTrades { get; set; }
         public IEnumerable<SymbolStats> Statistics { get; set; }
@@ -116,6 +117,11 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         }
 
         public void SubscribeCandlesticksException(Exception exception)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SubscribeCandlesticks(CandlestickEventArgs candlestickEventArgs)
         {
             throw new NotImplementedException();
         }

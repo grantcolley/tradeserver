@@ -10,6 +10,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         Task PublishNotificationsAsync(IEnumerable<StrategyNotification> notifications);
         Task PublishTradesAsync(IEnumerable<StrategyNotification> notifications);
         Task PublishOrderBookAsync(IEnumerable<StrategyNotification> notifications);
+        Task PublishCandlesticksAsync(IEnumerable<StrategyNotification> notifications);
+        Task PublishStatisticsAsync(IEnumerable<StrategyNotification> notifications);
         Task PublishAccountInfoAsync(IEnumerable<StrategyNotification> notifications);
     }
 }

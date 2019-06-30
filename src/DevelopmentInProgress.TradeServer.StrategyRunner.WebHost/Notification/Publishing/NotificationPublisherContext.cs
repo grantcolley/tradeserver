@@ -36,6 +36,20 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             await notificationHub.SendMessageToChannelAsync(strategyName, msg);
         }
 
+        public async Task PublishCandlesticksAsync(string strategyName, IEnumerable<StrategyNotification> notification)
+        {
+            var json = JsonConvert.SerializeObject(notification);
+            var msg = new Message { SenderConnectionId = strategyName, MessageType = MessageType.SendToChannel, MethodName = "Candlesticks", Data = json };
+            await notificationHub.SendMessageToChannelAsync(strategyName, msg);
+        }
+
+        public async Task PublishStatisticsAsync(string strategyName, IEnumerable<StrategyNotification> notification)
+        {
+            var json = JsonConvert.SerializeObject(notification);
+            var msg = new Message { SenderConnectionId = strategyName, MessageType = MessageType.SendToChannel, MethodName = "Statistics", Data = json };
+            await notificationHub.SendMessageToChannelAsync(strategyName, msg);
+        }
+
         public async Task PublishOrderBookAsync(string strategyName, IEnumerable<StrategyNotification> notification)
         {
             var json = JsonConvert.SerializeObject(notification);

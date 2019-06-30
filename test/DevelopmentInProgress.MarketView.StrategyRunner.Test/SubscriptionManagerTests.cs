@@ -18,7 +18,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy = new TestTradeExceptionStrategy();
 
             // Act
-            using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
+            using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, Interface.Model.CandlestickInterval.Day, binanceExchangeService))
             {
                 binanceSymbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
@@ -40,7 +40,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy = new TestTradeExceptionStrategy();
 
             // Act
-            using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, binanceExchangeService))
+            using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, Interface.Model.CandlestickInterval.Day, binanceExchangeService))
             {
                 binanceSymbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 

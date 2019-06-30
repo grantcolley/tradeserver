@@ -7,6 +7,8 @@
         StrategyCustomNotificationPublisher,
         StrategyNotificationPublisher,
         StrategyOrderBookPublisher,
-        StrategyTradePublisher
+        StrategyTradePublisher,
+        StrategyStatisticsPublisher,
+        StrategyCandlesticksPublisher
     }
 }

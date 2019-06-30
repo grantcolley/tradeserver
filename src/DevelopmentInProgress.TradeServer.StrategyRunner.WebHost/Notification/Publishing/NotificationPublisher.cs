@@ -58,5 +58,23 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                 await notificationPublisherContext.PublishAccountInfoAsync(group.Key, group);
             }
         }
+
+        public async Task PublishCandlesticksAsync(IEnumerable<StrategyNotification> notifications)
+        {
+            var notifyGroups = notifications.GroupBy(n => n.Name);
+            foreach (var group in notifyGroups)
+            {
+                await notificationPublisherContext.PublishCandlesticksAsync(group.Key, group);
+            }
+        }
+
+        public async Task PublishStatisticsAsync(IEnumerable<StrategyNotification> notifications)
+        {
+            var notifyGroups = notifications.GroupBy(n => n.Name);
+            foreach (var group in notifyGroups)
+            {
+                await notificationPublisherContext.PublishStatisticsAsync(group.Key, group);
+            }
+        }
     }
 }

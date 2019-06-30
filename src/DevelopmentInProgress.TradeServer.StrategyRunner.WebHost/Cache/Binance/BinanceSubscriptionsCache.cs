@@ -40,38 +40,39 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
         {
             await tradeStrategy.AddExchangeService(strategySubscriptions, Exchange.Binance, ExchangeService);
 
-            foreach (var symbol in strategySubscriptions)
+            foreach (var strategySubscription in strategySubscriptions)
             {
-                if (symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades)
-                    || symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook))
+                if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades)
+                    || strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook)
+                    || strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Candlesticks))
                 {
                     ISubscriptionCache symbolCache;
-                    if (!Caches.TryGetValue(symbol.Symbol, out symbolCache))
+                    if (!Caches.TryGetValue(strategySubscription.Symbol, out symbolCache))
                     {
-                        symbolCache = new BinanceSymbolSubscriptionCache(symbol.Symbol, symbol.Limit, ExchangeService);
-                        Caches.TryAdd(symbol.Symbol, symbolCache);
+                        symbolCache = new BinanceSymbolSubscriptionCache(strategySubscription.Symbol, strategySubscription.Limit, strategySubscription.CandlestickInterval, ExchangeService);
+                        Caches.TryAdd(strategySubscription.Symbol, symbolCache);
                     }
 
-                    symbolCache.Subscribe(strategyName, symbol, tradeStrategy);
+                    symbolCache.Subscribe(strategyName, strategySubscription, tradeStrategy);
                 }
 
-                if(symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AccountInfo))
+                if(strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AccountInfo))
                 {
-                    var accountInfo = await ExchangeService.GetAccountInfoAsync(new User { ApiKey = symbol.ApiKey, ApiSecret = symbol.SecretKey }, new CancellationToken());
+                    var accountInfo = await ExchangeService.GetAccountInfoAsync(new User { ApiKey = strategySubscription.ApiKey, ApiSecret = strategySubscription.SecretKey }, new CancellationToken());
 
                     tradeStrategy.SubscribeAccountInfo(new AccountInfoEventArgs { AccountInfo = accountInfo });
 
                     ISubscriptionCache accountInfoCache;
-                    if (!Caches.TryGetValue(symbol.ApiKey, out accountInfoCache))
+                    if (!Caches.TryGetValue(strategySubscription.ApiKey, out accountInfoCache))
                     {
                         accountInfoCache = new BinanceAccountInfoSubscriptionCache(ExchangeService);
-                        Caches.TryAdd(symbol.ApiKey, accountInfoCache);
+                        Caches.TryAdd(strategySubscription.ApiKey, accountInfoCache);
                     }
 
-                    accountInfoCache.Subscribe(strategyName, symbol, tradeStrategy);
+                    accountInfoCache.Subscribe(strategyName, strategySubscription, tradeStrategy);
                 }
 
-                if (symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Statistics))
+                if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Statistics))
                 {
                     ISubscriptionCache statisticsCache;
                     if (!Caches.TryGetValue(binance24HourStatisticsSubscriptionCacheKey, out statisticsCache))
@@ -80,29 +81,30 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance
                         Caches.TryAdd(binance24HourStatisticsSubscriptionCacheKey, statisticsCache);
                     }
 
-                    statisticsCache.Subscribe(strategyName, symbol, tradeStrategy);
+                    statisticsCache.Subscribe(strategyName, strategySubscription, tradeStrategy);
                 }
             }
         }
 
         public void Unsubscribe(string strategyName, List<StrategySubscription> strategySubscriptions, ITradeStrategy tradeStrategy)
         {
-            foreach (var symbol in strategySubscriptions)
+            foreach (var strategySubscription in strategySubscriptions)
             {
-                if (symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades)
-                    || symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook))
+                if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Trades)
+                    || strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.OrderBook)
+                    || strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Candlesticks))
                 {
-                    Unsubscribe(strategyName, symbol, symbol.Symbol, tradeStrategy);
+                    Unsubscribe(strategyName, strategySubscription, strategySubscription.Symbol, tradeStrategy);
                 }
 
-                if (symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AccountInfo))
+                if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.AccountInfo))
                 {
-                    Unsubscribe(strategyName, symbol, symbol.ApiKey, tradeStrategy);
+                    Unsubscribe(strategyName, strategySubscription, strategySubscription.ApiKey, tradeStrategy);
                 }
 
-                if (symbol.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Statistics))
+                if (strategySubscription.Subscribe.HasFlag(MarketView.Interface.Strategy.Subscribe.Statistics))
                 {
-                    Unsubscribe(strategyName, symbol, binance24HourStatisticsSubscriptionCacheKey, tradeStrategy);
+                    Unsubscribe(strategyName, strategySubscription, binance24HourStatisticsSubscriptionCacheKey, tradeStrategy);
                 }
             }
         }
