@@ -55,7 +55,22 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 
         public async override Task ReceiveAsync(WebSocket webSocket, Message message)
         {
-            throw new NotImplementedException();
+            try
+            {
+                switch (message.MessageType)
+                {
+                    case MessageType.UnsubscribeFromChannel:
+                        var unsubscribedChannel = UnsubscribeFromChannel(message.Data, webSocket);
+                        break;
+                    default:
+                        throw new NotImplementedException($"NotificationHub.ReceiveAsync : Unable to handle {message.MessageType}");
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = new Message { MethodName = message.MethodName, SenderConnectionId = message.SenderConnectionId, Data = $"{MessageType.UnsubscribeFromChannel} Error : {ex.Message}" };
+                await SendMessageAsync(webSocket, message).ConfigureAwait(false);
+            }
         }
     }
 }
