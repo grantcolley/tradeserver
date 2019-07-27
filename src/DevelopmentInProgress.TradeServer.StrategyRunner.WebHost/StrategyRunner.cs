@@ -103,11 +103,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
                 {
                     Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Subscribing {strategy.Name}");
 
-                    await symbolsCacheManager.Subscribe(strategy, tradeStrategy);
+                    await symbolsCacheManager.Subscribe(strategy, tradeStrategy).ConfigureAwait(false);
 
                     Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Running {strategy.Name}");
 
-                    var result = await tradeStrategy.RunAsync(strategy, cancellationToken);
+                    var result = await tradeStrategy.RunAsync(strategy, cancellationToken).ConfigureAwait(false);
 
                     if(tradeStrategyCacheManager.TryRemoveTradeStrategy(strategy.Name, out ITradeStrategy ts))
                     {
