@@ -111,6 +111,11 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
+        public Task<bool> TryStopStrategy(string strategyParameters)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SubscribeCandlesticks(AccountInfoEventArgs accountInfoEventArgs)
         {
             throw new NotImplementedException();
