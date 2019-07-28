@@ -109,7 +109,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
                     var result = await tradeStrategy.RunAsync(strategy, cancellationToken).ConfigureAwait(false);
 
-                    if(tradeStrategyCacheManager.TryRemoveTradeStrategy(strategy.Name, out ITradeStrategy ts))
+                    if(!tradeStrategyCacheManager.TryRemoveTradeStrategy(strategy.Name, out ITradeStrategy ts))
                     {
                         Notify(NotificationLevel.Error, NotificationEventId.RunStrategyAsync, strategy, $"Failed to remove {strategy.Name} from the cache manager.");
                     }
