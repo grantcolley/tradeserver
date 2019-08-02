@@ -53,6 +53,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             app.Map("/runstrategy", HandleRun);
             app.Map("/updatestrategy", HandleUpdate);
             app.Map("/stopstrategy", HandleStop);
+            app.Map("/isstrategyrunning", HandleIsStrategyRunning);
             app.Map("/ping", HandlePing);
         }
 
@@ -64,6 +65,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         private static void HandleUpdate(IApplicationBuilder app)
         {
             app.UseUpdateStrategyMiddleware();
+        }
+
+        private static void HandleIsStrategyRunning(IApplicationBuilder app)
+        {
+            app.UseIsStrategyRunningMiddleware();
         }
 
         private static void HandleStop(IApplicationBuilder app)

@@ -50,8 +50,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                     case MessageType.UnsubscribeFromChannel:
                         var unsubscribedChannel = UnsubscribeFromChannel(message.Data, webSocket);
                         break;
-                    default:
-                        throw new NotImplementedException($"NotificationHub.ReceiveAsync : Unable to handle {message.MessageType}");
                 }
             }
             catch (Exception ex)
