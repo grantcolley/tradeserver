@@ -96,5 +96,10 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateParameters(string parameters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
