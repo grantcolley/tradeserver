@@ -31,7 +31,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddSingleton<IStrategyRunner, StrategyRunner>();
             services.AddSingleton<INotificationPublisherContext, NotificationPublisherContext>();
             services.AddSingleton<INotificationPublisher, NotificationPublisher>();
@@ -41,7 +40,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             services.AddSingleton<ISubscriptionsCacheManager, SubscriptionsCacheManager>();
             services.AddSingleton<ITradeStrategyCacheManager, TradeStrategyCacheManager>();
 
-            services.AddHostedService<QueuedHostedService>();
+            services.AddHostedService<StrategyRunnerBackgroundService>();
             services.AddDipSocket<NotificationHub>();
         }
 

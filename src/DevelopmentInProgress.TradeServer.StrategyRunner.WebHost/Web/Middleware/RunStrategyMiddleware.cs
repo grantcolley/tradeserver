@@ -21,7 +21,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
             strategyRunnerLogger = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyRunnerLogger);
         }
 
-        public async Task Invoke(HttpContext context, IStrategyRunner strategyRunner, IBackgroundTaskQueue backgroundTaskQueue)
+        public async Task Invoke(HttpContext context, IStrategyRunner strategyRunner, StrategyRunnerBackgroundService strategyRunnerBackgroundService)
         {
             try
             {
@@ -47,18 +47,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
                     await Task.WhenAll(downloads.ToArray());
                 }
 
-                backgroundTaskQueue.QueueBackgroundWorkItem(async token => 
-                {
-                    try
-                    {
-                        var response = await strategyRunner.RunAsync(strategy, downloadsPath, token);
-                    }
-                    catch(Exception ex)
-                    {
-                        var strategyNotification = strategy.GetNotification(NotificationLevel.Error, NotificationEventId.RunStrategyMiddleware, ex.ToString());
-                        strategyRunnerLogger.AddNotification(strategyNotification);
-                    }
-                });
+                await strategyRunnerBackgroundService.RunStrategyAsync(strategyRunner, strategy, downloadsPath);
                 
                 await context.Response.WriteAsync(json);
             }
