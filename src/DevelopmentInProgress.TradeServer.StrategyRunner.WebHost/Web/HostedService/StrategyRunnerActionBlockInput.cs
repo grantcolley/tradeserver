@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService
 {
-    public class ActionBlockInput
+    public class StrategyRunnerActionBlockInput
     {
         public Strategy Strategy { get; set; }
         public string DownloadsPath { get; set; }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middleware
 {
@@ -21,7 +22,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
             strategyRunnerLogger = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyRunnerLogger);
         }
 
-        public async Task Invoke(HttpContext context, IStrategyRunner strategyRunner, StrategyRunnerBackgroundService strategyRunnerBackgroundService)
+        public async Task Invoke(HttpContext context, IStrategyRunner strategyRunner, IStrategyRunnerActionBlock strategyRunnerActionBlock)
         {
             try
             {
@@ -47,8 +48,16 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
                     await Task.WhenAll(downloads.ToArray());
                 }
 
-                await strategyRunnerBackgroundService.RunStrategyAsync(strategyRunner, strategy, downloadsPath);
-                
+                var strategyRunnerActionBlockInput = new StrategyRunnerActionBlockInput
+                {
+                    StrategyRunner = strategyRunner,
+                    Strategy = strategy,
+                    DownloadsPath = downloadsPath,
+                    CancellationToken = new CancellationToken()
+                };
+
+                await strategyRunnerActionBlock.RunStrategyAsync(strategyRunnerActionBlockInput).ConfigureAwait(false);
+
                 await context.Response.WriteAsync(json);
             }
             catch (Exception ex)

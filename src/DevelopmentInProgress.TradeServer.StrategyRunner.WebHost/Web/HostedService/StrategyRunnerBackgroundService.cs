@@ -11,11 +11,13 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedSer
     public class StrategyRunnerBackgroundService : BackgroundService
     {
         private readonly ILogger logger;
-        private ActionBlock<ActionBlockInput> strategyRunnerActionBlock;
+        private IStrategyRunnerActionBlock strategyRunnerActionBlock;
         private CancellationToken cancellationToken;
 
-        public StrategyRunnerBackgroundService(ILoggerFactory loggerFactory)
+        public StrategyRunnerBackgroundService(IStrategyRunnerActionBlock strategyRunnerActionBlock, ILoggerFactory loggerFactory)
         {
+            this.strategyRunnerActionBlock = strategyRunnerActionBlock;
+
             logger = loggerFactory.CreateLogger<StrategyRunnerBackgroundService>();
         }
 
@@ -27,12 +29,13 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedSer
 
             try
             {
-                strategyRunnerActionBlock = new ActionBlock<ActionBlockInput>(async actionBlockInput =>
+                strategyRunnerActionBlock.ActionBlock = new ActionBlock<StrategyRunnerActionBlockInput>(async actionBlockInput =>
                 {
                     await actionBlockInput.StrategyRunner.RunAsync(actionBlockInput.Strategy, actionBlockInput.DownloadsPath, actionBlockInput.CancellationToken).ConfigureAwait(false);
-                });
+                },
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-                while(!cancellationToken.IsCancellationRequested)
+                while (!cancellationToken.IsCancellationRequested)
                 {
                     await Task.Delay(1000);
                 }
@@ -41,19 +44,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedSer
             {
                 logger.LogError(ex, "ExecuteAsync");
             }
-        }
-
-        public async Task RunStrategyAsync(IStrategyRunner strategyRunner, Strategy strategy, string downloadsPath)
-        {
-            var actionBlockInput = new ActionBlockInput
-            {
-                StrategyRunner = strategyRunner,
-                Strategy = strategy,
-                DownloadsPath = downloadsPath,
-                CancellationToken = cancellationToken
-            };
-
-            await strategyRunnerActionBlock.SendAsync(actionBlockInput).ConfigureAwait(false);
         }
     }
 }
