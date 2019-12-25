@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DipSocket.Messages;
 using Newtonsoft.Json;
 using System.Collections.Generic;

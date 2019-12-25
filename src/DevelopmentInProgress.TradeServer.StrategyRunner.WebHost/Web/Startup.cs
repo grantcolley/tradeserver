@@ -6,13 +6,12 @@ using Microsoft.Extensions.Logging;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middleware;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Publishing;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.ExchangeService;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
-using DevelopmentInProgress.MarketView.Interface.Interfaces;
-using DevelopmentInProgress.MarketView.Interface.Strategy;
-
+using DevelopmentInProgress.TradeView.Interface.Interfaces;
+using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DipSocket.NetCore.Extensions;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService;
+using DevelopmentInProgress.TradeView.Service;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
 {
@@ -36,8 +35,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             services.AddSingleton<INotificationPublisherContext, NotificationPublisherContext>();
             services.AddSingleton<INotificationPublisher, NotificationPublisher>();
             services.AddSingleton<IBatchNotificationFactory<StrategyNotification>, StrategyBatchNotificationFactory>();
-            services.AddSingleton<IExchangeServiceFactory<IExchangeService>, StrategyExchangeServiceFactory>();
-            services.AddSingleton<ISubscriptionsCacheFactory, SubscriptionsCacheFactory>();
+            services.AddSingleton<IExchangeService, ExchangeService>();
+            services.AddSingleton<IExchangeSubscriptionsCacheFactory, ExchangeSubscriptionsCacheFactory>();
             services.AddSingleton<ISubscriptionsCacheManager, SubscriptionsCacheManager>();
             services.AddSingleton<ITradeStrategyCacheManager, TradeStrategyCacheManager>();
 

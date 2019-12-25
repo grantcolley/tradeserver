@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Interfaces;
+﻿using DevelopmentInProgress.TradeView.Interface.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
 {
-    public abstract class SubscriptionManager<T> : ISubscriptionManager<T>, IDisposable
+    public abstract class SubscriptionBase<T> : ISubscriptionBase<T>, IDisposable
     {
         private ConcurrentDictionary<string, StrategyNotification<T>> subscribers;
         private CancellationTokenSource cancellationTokenSource;
 
         private bool disposed;
 
-        public SubscriptionManager(IExchangeService exchangeService)
+        public SubscriptionBase(IExchangeApi exchangeApi)
         {
-            ExchangeService = exchangeService;
+            ExchangeApi = exchangeApi;
             subscribers = new ConcurrentDictionary<string, StrategyNotification<T>>();
             cancellationTokenSource = new CancellationTokenSource();
         }
 
         public abstract void ExchangeSubscribe(Action<T> update, Action<Exception> exception, CancellationToken cancellationToken);
 
-        protected IExchangeService ExchangeService { get; set; }
+        protected IExchangeApi ExchangeApi { get; set; }
 
         public bool HasSubscriptions
         {
@@ -135,7 +135,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
         /// exception then the strategy will be 'forcibly unsubscribed'.
         /// </summary>
         /// <param name="args">The exception to be reported to the strategy.</param>
-        private async void Exception(Exception exception)
+        private void Exception(Exception exception)
         {
             if (cancellationTokenSource.IsCancellationRequested)
             {

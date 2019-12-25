@@ -1,6 +1,8 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Interface.Enums;
+using DevelopmentInProgress.TradeView.Interface.Model;
+using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -13,20 +15,20 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
         public async Task AggregateTradeUpdate_Exception_RemainSubscribed_HandleException()
         {
             // Arrange
-            var binanceExchangeService = new TestBinanceExchangeService();
+            var binanceExchangeService = new TestBinanceExchangeApi();
             var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.Trades };
             var tradeStrategy = new TestTradeExceptionStrategy();
 
             // Act
-            using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, Interface.Model.CandlestickInterval.Day, binanceExchangeService))
+            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
             {
-                binanceSymbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
+                symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
                 // Assert
-                Assert.IsTrue(binanceSymbolCache.HasSubscriptions);
-                Assert.AreEqual(binanceSymbolCache.Subscriptions(Subscribe.Trades), 1);
+                Assert.IsTrue(symbolCache.HasSubscriptions);
+                Assert.AreEqual(symbolCache.Subscriptions(Subscribe.Trades), 1);
                 Assert.IsTrue(tradeStrategy.AggregateTradesException);
             }
         }
@@ -35,20 +37,20 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
         public async Task OrderBookException_ForciblyUnsubscribed()
         {
             // Arrange
-            var binanceExchangeService = new TestBinanceExchangeService();
+            var binanceExchangeService = new TestBinanceExchangeApi();
             var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
             var tradeStrategy = new TestTradeExceptionStrategy();
 
             // Act
-            using (var binanceSymbolCache = new BinanceSymbolSubscriptionCache("TRXBTC", 500, Interface.Model.CandlestickInterval.Day, binanceExchangeService))
+            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
             {
-                binanceSymbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
+                symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
                 await Task.Delay(1000);
 
                 // Assert
-                Assert.IsFalse(binanceSymbolCache.HasSubscriptions);
-                Assert.AreEqual(binanceSymbolCache.Subscriptions(Subscribe.OrderBook), 0);
+                Assert.IsFalse(symbolCache.HasSubscriptions);
+                Assert.AreEqual(symbolCache.Subscriptions(Subscribe.OrderBook), 0);
                 Assert.IsTrue(tradeStrategy.OrderBookException);
             }
         }

@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

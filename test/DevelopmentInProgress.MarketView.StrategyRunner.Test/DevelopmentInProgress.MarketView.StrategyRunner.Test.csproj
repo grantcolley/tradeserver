@@ -51,7 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.MarketView.Interface\DevelopmentInProgress.MarketView.Interface.csproj" />
+    <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.TradeView.Interface\DevelopmentInProgress.TradeView.Interface.csproj" />
     <ProjectReference Include="..\..\src\DevelopmentInProgress.TradeServer.StrategyRunner.WebHost\DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.csproj" />
   </ItemGroup>
 

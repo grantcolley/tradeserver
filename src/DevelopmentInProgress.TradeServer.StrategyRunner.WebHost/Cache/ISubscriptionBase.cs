@@ -2,7 +2,7 @@
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
 {
-    public interface ISubscriptionManager<T> : IDisposable
+    public interface ISubscriptionBase<T> : IDisposable
     {
         bool HasSubscriptions { get; }
         int Subscriptions { get; }

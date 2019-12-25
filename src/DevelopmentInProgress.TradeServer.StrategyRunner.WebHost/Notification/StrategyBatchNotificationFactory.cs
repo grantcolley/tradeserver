@@ -1,6 +1,6 @@
 ﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Logging;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Publishing;
-using DevelopmentInProgress.MarketView.Interface.Strategy;
+using DevelopmentInProgress.TradeView.Interface.Strategy;
 using Microsoft.Extensions.Logging;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification

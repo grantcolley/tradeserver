@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;

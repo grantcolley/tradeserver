@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using DevelopmentInProgress.MarketView.Interface.Events;
-using DevelopmentInProgress.MarketView.Interface.Interfaces;
-using DevelopmentInProgress.MarketView.Interface.Model;
+using DevelopmentInProgress.TradeView.Interface.Events;
+using DevelopmentInProgress.TradeView.Interface.Interfaces;
+using DevelopmentInProgress.TradeView.Interface.Model;
 using DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers.Data;
 
 namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 {
-    public class TestExchangeService : IExchangeService
+    public class TestExchangeApi : IExchangeApi
     {
         public bool AggregateTradesException { get; set; }
 
-        public Task<string> CancelOrderAsync(User user, string symbol, long orderId, string newClientOrderId = null, long recWindow = 0, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<string> CancelOrderAsync(User user, string symbol, string orderId, string newClientOrderId = null, long recWindow = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<Symbol>> GetSymbols24HourStatisticsAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+
+        }
         public Task<IEnumerable<SymbolStats>> Get24HourStatisticsAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -68,45 +73,47 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
-        public void SubscribeAccountInfo(User user, Action<AccountInfoEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
+        public Task SubscribeAccountInfo(User user, Action<AccountInfoEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public void SubscribeAggregateTrades(string symbol, int limit, Action<TradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
+        public async Task SubscribeAggregateTrades(string symbol, int limit, Action<TradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
-            Task.Factory.StartNew(async () =>
+            var localSymbol = symbol;
+            while (!cancellationToken.IsCancellationRequested)
             {
-                var localSymbol = symbol;
-                while (!cancellationToken.IsCancellationRequested)
+                callback.Invoke(new TradeEventArgs { Trades = TestDataHelper.GetAggregateTradesUpdated(localSymbol) });
+                await Task.Delay(500);
+
+                if (AggregateTradesException)
                 {
-                    callback.Invoke(new TradeEventArgs { Trades = TestDataHelper.GetAggregateTradesUpdated(localSymbol) });
-                    await Task.Delay(500);
-                    
-                    if (AggregateTradesException)
-                    {
-                        exception.Invoke(new Exception("SubscribeAggregateTrades"));
-                    }
+                    exception.Invoke(new Exception("SubscribeAggregateTrades"));
                 }
-            });
+            }
         }
 
-        public void SubscribeCandlesticks(string symbol, CandlestickInterval candlestickInterval, int limit, Action<CandlestickEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
+        public Task SubscribeCandlesticks(string symbol, CandlestickInterval candlestickInterval, int limit, Action<CandlestickEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public void SubscribeOrderBook(string symbol, int limit, Action<OrderBookEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
+        public Task SubscribeOrderBook(string symbol, int limit, Action<OrderBookEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public void SubscribeStatistics(Action<StatisticsEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
+        public Task SubscribeStatistics(Action<StatisticsEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public void SubscribeTrades(string symbol, int limit, Action<TradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
+        public Task SubscribeTrades(string symbol, int limit, Action<TradeEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SubscribeStatistics(IEnumerable<string> symbols, Action<StatisticsEventArgs> callback, Action<Exception> exception, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

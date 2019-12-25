@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
 using System.Threading;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService

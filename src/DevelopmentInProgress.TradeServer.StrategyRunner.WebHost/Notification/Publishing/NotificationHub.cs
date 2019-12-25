@@ -55,7 +55,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             catch (Exception ex)
             {
                 var errorMessage = new Message { MethodName = message.MethodName, SenderConnectionId = message.SenderConnectionId, Data = $"{MessageType.UnsubscribeFromChannel} Error : {ex.Message}" };
-                await SendMessageAsync(webSocket, message).ConfigureAwait(false);
+                await SendMessageAsync(webSocket, errorMessage).ConfigureAwait(false);
             }
         }
     }

@@ -1,22 +1,23 @@
-﻿using DevelopmentInProgress.MarketView.Api.Binance;
-using DevelopmentInProgress.MarketView.Interface.Interfaces;
-using System.Collections.Generic;
+﻿//using DevelopmentInProgress.TradeView.Api.Binance;
+//using DevelopmentInProgress.TradeView.Interface.Enums;
+//using DevelopmentInProgress.TradeView.Interface.Interfaces;
+//using System.Collections.Generic;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.ExchangeService
-{
-    public class StrategyExchangeServiceFactory : ExchangeServiceFactory<IExchangeService>
-    {
-        private readonly Dictionary<MarketView.Interface.Strategy.Exchange, IExchangeService> exchangesServices;
+//namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.ExchangeService
+//{
+//    public class StrategyExchangeServiceFactory : ExchangeServiceFactory<IExchangeService>
+//    {
+//        private readonly Dictionary<Exchange, IExchangeService> exchangesServices;
 
-        public StrategyExchangeServiceFactory()
-        {
-            exchangesServices = new Dictionary<MarketView.Interface.Strategy.Exchange, IExchangeService>();
-            exchangesServices.Add(MarketView.Interface.Strategy.Exchange.Binance, new MarketView.Service.ExchangeService(new BinanceExchangeApi()));
-        }
+//        public StrategyExchangeServiceFactory()
+//        {
+//            exchangesServices = new Dictionary<Exchange, IExchangeService>();
+//            exchangesServices.Add(Exchange.Binance, new ExchangeService(new BinanceExchangeApi()));
+//        }
 
-        public override IExchangeService GetExchangeService(MarketView.Interface.Strategy.Exchange exchange)
-        {
-            return exchangesServices[exchange];
-        }
-    }
-}
+//        public override IExchangeService GetExchangeService(Exchange exchange)
+//        {
+//            return exchangesServices[exchange];
+//        }
+//    }
+//}

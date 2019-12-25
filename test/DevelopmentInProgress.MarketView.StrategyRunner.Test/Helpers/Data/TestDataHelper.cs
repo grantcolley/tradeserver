@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Model;
+﻿using DevelopmentInProgress.TradeView.Interface.Model;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;

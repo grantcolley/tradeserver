@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DevelopmentInProgress.MarketView.Interface.Interfaces;
-using DevelopmentInProgress.MarketView.Interface.Strategy;
+using DevelopmentInProgress.TradeView.Interface.Interfaces;
+using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
 
 namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 {
-    public class TestSubscriptionsCache : ISubscriptionsCache
+    public class TestSubscriptionsCache : IExchangeSubscriptionsCache
     {
         public TestSubscriptionsCache(IExchangeService exchangeService)
         {

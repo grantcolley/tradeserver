@@ -1,5 +1,5 @@
-﻿using DevelopmentInProgress.Common.Extensions;
-using DevelopmentInProgress.MarketView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Common.Extensions;
+using DevelopmentInProgress.TradeView.Interface.Strategy;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

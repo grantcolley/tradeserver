@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
 using Microsoft.AspNetCore.Http;

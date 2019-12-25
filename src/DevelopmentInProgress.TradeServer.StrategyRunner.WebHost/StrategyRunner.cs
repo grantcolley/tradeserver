@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Utilities;
-using DevelopmentInProgress.MarketView.Interface.Strategy;
+using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
 using System.Threading;
 
@@ -20,17 +20,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
         private IBatchNotification<StrategyNotification> strategyTradePublisher;
         private IBatchNotification<StrategyNotification> strategyStatisticsPublisher;
         private IBatchNotification<StrategyNotification> strategyCandlesticksPublisher;
-        private ISubscriptionsCacheManager symbolsCacheManager;
+        private ISubscriptionsCacheManager subscriptionsCacheManager;
         private ITradeStrategyCacheManager tradeStrategyCacheManager;
 
         private CancellationToken cancellationToken;
 
         public StrategyRunner(
             IBatchNotificationFactory<StrategyNotification> batchNotificationFactory, 
-            ISubscriptionsCacheManager symbolsCacheManager, 
+            ISubscriptionsCacheManager subscriptionsCacheManager, 
             ITradeStrategyCacheManager tradeStrategyCacheManager)
         {
-            this.symbolsCacheManager = symbolsCacheManager;
+            this.subscriptionsCacheManager = subscriptionsCacheManager;
             this.tradeStrategyCacheManager = tradeStrategyCacheManager;
 
             strategyRunnerLogger = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyRunnerLogger);
@@ -53,6 +53,18 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
                 Notify(NotificationLevel.Information, NotificationEventId.RunAsync, strategy, "Initialising strategy");
 
+                if (string.IsNullOrWhiteSpace(strategy.TargetAssembly))
+                {
+                    Notify(NotificationLevel.Error, NotificationEventId.RunAsync, strategy, "No TargetAssembly");
+                    return strategy;
+                }
+
+                if (string.IsNullOrWhiteSpace(strategy.TargetType))
+                {
+                    Notify(NotificationLevel.Error, NotificationEventId.RunAsync, strategy, "No TargetType");
+                    return strategy;
+                }
+
                 return await RunStrategyAsync(strategy, localPath).ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -64,46 +76,36 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
         internal async Task<Strategy> RunStrategyAsync(Strategy strategy, string localPath)
         {
-            if (string.IsNullOrWhiteSpace(strategy.TargetAssembly))
-            {
-                Notify(NotificationLevel.Error, NotificationEventId.RunStrategyAsync, strategy, "No TargetAssembly");
-                return strategy;
-            }
-
-            if (string.IsNullOrWhiteSpace(strategy.TargetType))
-            {
-                Notify(NotificationLevel.Error, NotificationEventId.RunStrategyAsync, strategy, "No TargetType");
-                return strategy;
-            }
-
-            Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Loading {strategy.Name}");
-
-            var dependencies = GetAssemblies(localPath);
-
-            var assemblyLoader = new AssemblyLoader(localPath, dependencies);
-            var assembly = assemblyLoader.LoadFromMemoryStream(Path.Combine(localPath, strategy.TargetAssembly));
-            var type = assembly.GetType(strategy.TargetType);
-            dynamic obj = Activator.CreateInstance(type);
-
-            var tradeStrategy = (ITradeStrategy)obj;
-
-            tradeStrategy.StrategyNotificationEvent += StrategyNotificationEvent;
-            tradeStrategy.StrategyAccountInfoEvent += StrategyAccountInfoEvent;
-            tradeStrategy.StrategyOrderBookEvent += StrategyOrderBookEvent;
-            tradeStrategy.StrategyTradeEvent += StrategyTradeEvent;
-            tradeStrategy.StrategyStatisticsEvent += StrategyStatisticsEvent;
-            tradeStrategy.StrategyCandlesticksEvent += StrategyCandlesticksEvent;
-            tradeStrategy.StrategyCustomNotificationEvent += StrategyCustomNotificationEvent;
+            ITradeStrategy tradeStrategy = null;
 
             try
             {
+                Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Loading {strategy.Name}");
+
+                var dependencies = GetAssemblies(localPath);
+
+                var assemblyLoader = new AssemblyLoader(localPath, dependencies);
+                var assembly = assemblyLoader.LoadFromMemoryStream(Path.Combine(localPath, strategy.TargetAssembly));
+                var type = assembly.GetType(strategy.TargetType);
+                dynamic obj = Activator.CreateInstance(type);
+
+                tradeStrategy = (ITradeStrategy)obj;
+
+                tradeStrategy.StrategyNotificationEvent += StrategyNotificationEvent;
+                tradeStrategy.StrategyAccountInfoEvent += StrategyAccountInfoEvent;
+                tradeStrategy.StrategyOrderBookEvent += StrategyOrderBookEvent;
+                tradeStrategy.StrategyTradeEvent += StrategyTradeEvent;
+                tradeStrategy.StrategyStatisticsEvent += StrategyStatisticsEvent;
+                tradeStrategy.StrategyCandlesticksEvent += StrategyCandlesticksEvent;
+                tradeStrategy.StrategyCustomNotificationEvent += StrategyCustomNotificationEvent;
+
                 strategy.Status = StrategyStatus.Running;
 
                 if(tradeStrategyCacheManager.TryAddTradeStrategy(strategy.Name, tradeStrategy))
                 {
                     Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Subscribing {strategy.Name}");
 
-                    await symbolsCacheManager.Subscribe(strategy, tradeStrategy).ConfigureAwait(false);
+                    await subscriptionsCacheManager.Subscribe(strategy, tradeStrategy).ConfigureAwait(false);
 
                     Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Running {strategy.Name}");
 
@@ -119,18 +121,20 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
                     Notify(NotificationLevel.Error, NotificationEventId.RunStrategyAsync, strategy, $"Failed to add {strategy.Name} to the cache manager.");
                 }
             }
-            catch(Exception)
-            {
-                throw;
-            }
             finally
             {
-                symbolsCacheManager.Unsubscribe(strategy, tradeStrategy);
-                tradeStrategy.StrategyNotificationEvent -= StrategyNotificationEvent;
-                tradeStrategy.StrategyAccountInfoEvent -= StrategyAccountInfoEvent;
-                tradeStrategy.StrategyOrderBookEvent -= StrategyOrderBookEvent;
-                tradeStrategy.StrategyTradeEvent -= StrategyTradeEvent;
-                tradeStrategy.StrategyCustomNotificationEvent -= StrategyCustomNotificationEvent;
+                if(tradeStrategy != null)
+                {
+                    subscriptionsCacheManager.Unsubscribe(strategy, tradeStrategy);
+
+                    tradeStrategy.StrategyNotificationEvent -= StrategyNotificationEvent;
+                    tradeStrategy.StrategyAccountInfoEvent -= StrategyAccountInfoEvent;
+                    tradeStrategy.StrategyOrderBookEvent -= StrategyOrderBookEvent;
+                    tradeStrategy.StrategyTradeEvent -= StrategyTradeEvent;
+                    tradeStrategy.StrategyCustomNotificationEvent -= StrategyCustomNotificationEvent;
+                }
+
+                // TODO: Unload target assembly and it's dependencies from memory and delete them.
             }
 
             return strategy;

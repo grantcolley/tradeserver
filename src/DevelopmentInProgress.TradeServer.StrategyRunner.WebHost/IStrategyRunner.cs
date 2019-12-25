@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using DevelopmentInProgress.MarketView.Interface.Strategy;
+using DevelopmentInProgress.TradeView.Interface.Strategy;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 {

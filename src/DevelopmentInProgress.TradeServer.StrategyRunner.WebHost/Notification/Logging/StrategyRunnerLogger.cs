@@ -1,5 +1,6 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -18,13 +19,27 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             Start();
         }
 
-        public override async Task NotifyAsync(IEnumerable<StrategyNotification> notifications, CancellationToken cancellationToken)
+        public override Task NotifyAsync(IEnumerable<StrategyNotification> notifications, CancellationToken cancellationToken)
         {
-            var strategyNotifications = notifications.OrderBy(n => n.Timestamp).ToList();
-            foreach (var strategyNotification in strategyNotifications)
+            var tcs = new TaskCompletionSource<object>();
+
+            try
             {
-                logger.Log<StrategyNotification>(GetStepNotificationLogLevel(strategyNotification), strategyNotification.NotificationEvent, strategyNotification, null, null);
+                var strategyNotifications = notifications.OrderBy(n => n.Timestamp).ToList();
+
+                foreach (var strategyNotification in strategyNotifications)
+                {
+                    logger.Log<StrategyNotification>(GetStepNotificationLogLevel(strategyNotification), strategyNotification.NotificationEvent, strategyNotification, null, null);
+                }
+
+                tcs.SetResult(null);
             }
+            catch (Exception ex)
+            {
+                tcs.SetException(ex);
+            }
+
+            return tcs.Task;
         }
 
         private LogLevel GetStepNotificationLogLevel(StrategyNotification strategyNotification)

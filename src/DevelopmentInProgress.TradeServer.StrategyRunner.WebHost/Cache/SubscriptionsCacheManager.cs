@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,12 +9,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
     {
         private bool disposed;
 
-        public SubscriptionsCacheManager(ISubscriptionsCacheFactory subscriptionsCacheFactory)
+        public SubscriptionsCacheManager(IExchangeSubscriptionsCacheFactory exchangeSubscriptionsCacheFactory)
         {
-            SubscriptionsCacheFactory = subscriptionsCacheFactory;
+            ExchangeSubscriptionsCacheFactory = exchangeSubscriptionsCacheFactory;
         }
 
-        public ISubscriptionsCacheFactory SubscriptionsCacheFactory { get; private set; }
+        public IExchangeSubscriptionsCacheFactory ExchangeSubscriptionsCacheFactory { get; private set; }
 
         public async Task Subscribe(Strategy strategy, ITradeStrategy tradeStrategy)
         {
@@ -24,8 +24,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
 
             foreach(var exchangeSymbols in exchangeSymbolsList)
             {
-                var symbolsCache = SubscriptionsCacheFactory.GetSubscriptionsCache(exchangeSymbols.Exchange);
-                await symbolsCache.Subscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
+                var echangeSubscriptionsCache = ExchangeSubscriptionsCacheFactory.GetExchangeSubscriptionsCache(exchangeSymbols.Exchange);
+                await echangeSubscriptionsCache.Subscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
             }
         }
 
@@ -37,8 +37,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
 
             foreach (var exchangeSymbols in exchangeSymbolsList)
             {
-                var symbolsCache = SubscriptionsCacheFactory.GetSubscriptionsCache(exchangeSymbols.Exchange);
-                symbolsCache.Unsubscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
+                var echangeSubscriptionsCache = ExchangeSubscriptionsCacheFactory.GetExchangeSubscriptionsCache(exchangeSymbols.Exchange);
+                echangeSubscriptionsCache.Unsubscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
             }
         }
 
@@ -57,7 +57,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
 
             if (disposing)
             {
-                SubscriptionsCacheFactory.Dispose();
+                ExchangeSubscriptionsCacheFactory.Dispose();
             }
 
             disposed = true;

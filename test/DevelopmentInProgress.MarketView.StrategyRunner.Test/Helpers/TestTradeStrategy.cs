@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DevelopmentInProgress.MarketView.Interface.Events;
-using DevelopmentInProgress.MarketView.Interface.Interfaces;
-using DevelopmentInProgress.MarketView.Interface.Model;
-using DevelopmentInProgress.MarketView.Interface.Strategy;
+using DevelopmentInProgress.TradeView.Interface.Enums;
+using DevelopmentInProgress.TradeView.Interface.Events;
+using DevelopmentInProgress.TradeView.Interface.Interfaces;
+using DevelopmentInProgress.TradeView.Interface.Model;
+using DevelopmentInProgress.TradeView.Interface.Strategy;
 
 namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 {
@@ -101,11 +102,6 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             StatisticsException = true;
         }
 
-        public Task AddExchangeService(IEnumerable<StrategySubscription> strategySubscriptions, Exchange exchange, IExchangeService exchangeService)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<bool> TryUpdateStrategy(string strategyParameters)
         {
             throw new NotImplementedException();
@@ -132,6 +128,11 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         }
 
         public void UpdateParameters(string parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddExchangeService(IEnumerable<StrategySubscription> strategySubscriptions, Exchange exchange, IExchangeService exchangeService)
         {
             throw new NotImplementedException();
         }

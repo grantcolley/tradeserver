@@ -1,5 +1,4 @@
-﻿using DevelopmentInProgress.MarketView.Interface.Strategy;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
