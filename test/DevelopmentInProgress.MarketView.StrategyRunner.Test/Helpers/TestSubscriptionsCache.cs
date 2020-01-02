@@ -31,7 +31,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 
         public async Task Subscribe(string strategyName, List<StrategySubscription> strategySubscription, ITradeStrategy tradeStrategy)
         {
-            await Task.Factory.StartNew(()=>
+            await Task.Run(()=>
             {
                 foreach (var subscription in strategySubscription)
                 {
