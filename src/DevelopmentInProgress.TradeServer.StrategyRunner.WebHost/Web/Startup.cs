@@ -35,6 +35,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             services.AddSingleton<INotificationPublisherContext, NotificationPublisherContext>();
             services.AddSingleton<INotificationPublisher, NotificationPublisher>();
             services.AddSingleton<IBatchNotificationFactory<StrategyNotification>, StrategyBatchNotificationFactory>();
+            services.AddSingleton<IExchangeApiFactory, ExchangeApiFactory>();
             services.AddSingleton<IExchangeService, ExchangeService>();
             services.AddSingleton<IExchangeSubscriptionsCacheFactory, ExchangeSubscriptionsCacheFactory>();
             services.AddSingleton<ISubscriptionsCacheManager, SubscriptionsCacheManager>();
