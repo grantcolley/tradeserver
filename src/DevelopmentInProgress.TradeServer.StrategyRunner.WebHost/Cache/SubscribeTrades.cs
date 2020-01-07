@@ -14,7 +14,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
 
         public override void ExchangeSubscribe(Action<TradeEventArgs> update, Action<Exception> exception, CancellationToken cancellationToken)
         {
-            ExchangeApi.SubscribeAggregateTrades(Symbol, Limit, update, exception, cancellationToken);
+            ExchangeApi.SubscribeTrades(Symbol, Limit, update, exception, cancellationToken);
         }
     }
 }
