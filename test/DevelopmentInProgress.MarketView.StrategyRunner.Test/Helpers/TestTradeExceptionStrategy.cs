@@ -68,7 +68,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
-        public Task<bool> TryUpdateStrategy(string strategyParameters)
+        public Task<bool> TryUpdateStrategyAsync(string strategyParameters)
         {
             throw new NotImplementedException();
         }
@@ -93,7 +93,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
-        public void UpdateParameters(string parameters)
+        public Task UpdateParametersAsync(string parameters)
         {
             throw new NotImplementedException();
         }
