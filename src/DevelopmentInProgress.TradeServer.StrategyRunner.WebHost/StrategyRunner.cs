@@ -189,6 +189,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
             foreach (string filePath in files)
             {
+                if(filePath.EndsWith(".pdb"))
+                {
+                    continue;
+                }
+
                 var filePathSplit = filePath.Split('\\');
                 var fileName = filePathSplit[filePathSplit.Length - 1];
                 var name = fileName.Substring(0, fileName.LastIndexOf('.'));
