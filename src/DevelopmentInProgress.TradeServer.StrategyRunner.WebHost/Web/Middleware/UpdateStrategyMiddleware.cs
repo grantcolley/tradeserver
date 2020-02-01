@@ -24,7 +24,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
 
                 if(tradeStrategyCacheManager.TryGetTradeStrategy(strategyParameters.StrategyName, out ITradeStrategy tradeStrategy))
                 {
-                    await tradeStrategy.TryUpdateStrategy(json);
+                    await tradeStrategy.TryUpdateStrategyAsync(json);
                 }
             }
             catch (Exception ex)
