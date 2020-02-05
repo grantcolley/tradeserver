@@ -24,8 +24,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
 
             foreach(var exchangeSymbols in exchangeSymbolsList)
             {
-                var echangeSubscriptionsCache = ExchangeSubscriptionsCacheFactory.GetExchangeSubscriptionsCache(exchangeSymbols.Exchange);
-                await echangeSubscriptionsCache.Subscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
+                var exchangeSubscriptionsCache = ExchangeSubscriptionsCacheFactory.GetExchangeSubscriptionsCache(exchangeSymbols.Exchange);
+                await exchangeSubscriptionsCache.Subscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
             }
         }
 
@@ -37,8 +37,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
 
             foreach (var exchangeSymbols in exchangeSymbolsList)
             {
-                var echangeSubscriptionsCache = ExchangeSubscriptionsCacheFactory.GetExchangeSubscriptionsCache(exchangeSymbols.Exchange);
-                echangeSubscriptionsCache.Unsubscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
+                var exchangeSubscriptionsCache = ExchangeSubscriptionsCacheFactory.GetExchangeSubscriptionsCache(exchangeSymbols.Exchange);
+                exchangeSubscriptionsCache.Unsubscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
             }
         }
 
