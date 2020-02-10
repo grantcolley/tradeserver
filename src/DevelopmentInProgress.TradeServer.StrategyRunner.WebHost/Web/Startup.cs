@@ -12,16 +12,19 @@ using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DipSocket.NetCore.Extensions;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService;
 using DevelopmentInProgress.TradeView.Service;
+using Microsoft.Extensions.Configuration.CommandLine;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public Startup(IHostingEnvironment env, IConfiguration configuration, ILoggerFactory loggerFactory)
         {
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables()
+                .AddConfiguration(configuration);
             Configuration = builder.Build();
         }
 

@@ -10,17 +10,17 @@ namespace DevelopmentInProgress.TradeServer.Console
     {
         static void Main(string[] args)
         {
-            string url;
-
             if (args == null
                 || args.Length.Equals(0))
             {
-                url = "http://+:5500";
+                args = new[] 
+                {
+                    $"ServerName=TradeServer_{Guid.NewGuid().ToString()}", 
+                    "Url=http://+:5500" 
+                };
             }
-            else
-            {
-                url = args[0];
-            }
+
+            var url = args[1].Split("=")[1];
 
             try
             {
@@ -33,7 +33,7 @@ namespace DevelopmentInProgress.TradeServer.Console
 
                 var webHost = WebHost.CreateDefaultBuilder()
                     .UseUrls(url)
-                    .UseStrategyRunnerStartup()
+                    .UseStrategyRunnerStartup(args)
                     .UseSerilog()
                     .Build();
 
