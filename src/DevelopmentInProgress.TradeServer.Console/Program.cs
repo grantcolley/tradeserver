@@ -31,6 +31,11 @@ namespace DevelopmentInProgress.TradeServer.Console
 
                 Log.Information("Launching DevelopmentInProgress.TradeServer.Console");
 
+                foreach (var arg in args)
+                {
+                    Log.Information($"{arg}");
+                }
+
                 var webHost = WebHost.CreateDefaultBuilder()
                     .UseUrls(url)
                     .UseStrategyRunnerStartup(args)
