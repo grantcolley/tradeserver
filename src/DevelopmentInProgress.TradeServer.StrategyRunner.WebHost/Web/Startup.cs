@@ -12,7 +12,6 @@ using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DipSocket.NetCore.Extensions;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService;
 using DevelopmentInProgress.TradeView.Service;
-using Microsoft.Extensions.Configuration.CommandLine;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
 {
