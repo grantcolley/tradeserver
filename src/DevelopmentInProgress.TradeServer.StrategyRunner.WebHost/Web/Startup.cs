@@ -44,6 +44,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             services.AddSingleton<ITradeStrategyCacheManager, TradeStrategyCacheManager>();
 
             services.AddHostedService<StrategyRunnerBackgroundService>();
+
             services.AddDipSocket<NotificationHub>();
         }
 
