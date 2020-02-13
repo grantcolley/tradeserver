@@ -6,6 +6,7 @@ A .Net Core web host for running crypto currency strategies.
 #####
 
 #### Table of Contents
+* [The Console](#the-console)
 * [The WebHost](#the-webhost)
 * [HostedService](#hostedservice)
 * [Notifications](#notifications)
@@ -14,8 +15,15 @@ A .Net Core web host for running crypto currency strategies.
 * [Trade Server Manager](#trade-server-manager)
 * [Subscriptions Caching](#subscriptions-caching)
 
+## The Console
+The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes two parameters: ServerName and Url. It creates and runs an instance of a WebHost.
+
+```C#
+      dotnet DevelopmentInProgress.TradeServer.Console.dll --ServerName=TradeServer1 --Url=http://+:5500
+```
+
 ## The WebHost
-A console app[DevelopmentInProgress.TradeServer.Console.dll](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) creates an instance of a WebHost which is responsible for trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
+The WebHost is responsible for trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
 
 ```C#
                 var webHost = WebHost.CreateDefaultBuilder()
@@ -25,13 +33,8 @@ A console app[DevelopmentInProgress.TradeServer.Console.dll](https://github.com/
                     .Build();
 ```
 
-The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes two parameters: ServerName and Url:
+The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/WebHostExtensions.cs) extension method passes in the command line args to the WebHost and species the [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class to use.
 
-```C#
-      dotnet DevelopmentInProgress.TradeServer.Console.dll --ServerName=TradeServer1 --Url=http://+:5500
-```
-
-The [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/WebHostExtensions.cs) extension method passes in command line args to the WebHost and species the [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class to use.
 ```C#
     public static class WebHostExtensions
     {
