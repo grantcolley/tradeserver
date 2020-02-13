@@ -23,7 +23,7 @@ The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/Dev
 ```
 
 ## The WebHost
-The WebHost is responsible for trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
+The WebHost has HTTP server features and is responsible for trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
 
 ```C#
                 var webHost = WebHost.CreateDefaultBuilder()
