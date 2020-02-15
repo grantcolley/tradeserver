@@ -6,6 +6,7 @@ A .Net Core web host for running crypto currency strategies.
 #####
 
 #### Table of Contents
+* [The Console](#the-console)
 * [The WebHost](#the-webhost)
 * [HostedService](#hostedservice)
 * [Notifications](#notifications)
@@ -14,10 +15,37 @@ A .Net Core web host for running crypto currency strategies.
 * [Trade Server Manager](#trade-server-manager)
 * [Subscriptions Caching](#subscriptions-caching)
 
-## The WebHost
-A [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) creating an instance of a WebHost which is responsible for trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
+## The Console
+The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes two parameters: ServerName and Url. It creates and runs an instance of a WebHost.
 
 ```C#
+      dotnet DevelopmentInProgress.TradeServer.Console.dll --ServerName=TradeServer1 --Url=http://+:5500
+```
+
+## The WebHost
+The WebHost has HTTP server features and is responsible for trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
+
+```C#
+                var webHost = WebHost.CreateDefaultBuilder()
+                    .UseUrls(url)
+                    .UseStrategyRunnerStartup(args)
+                    .UseSerilog()
+                    .Build();
+```
+
+The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/WebHostExtensions.cs) extension method passes in the command line args to the WebHost and species the [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class to use.
+
+```C#
+    public static class WebHostExtensions
+    {
+        public static IWebHostBuilder UseStrategyRunnerStartup(this IWebHostBuilder webHost, string[] args)
+        {
+            return webHost.ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                config.AddCommandLine(args);
+            }).UseStartup<Startup>();
+        }
+    }
 ```
 
 ## HostedService
