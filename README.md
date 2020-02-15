@@ -21,7 +21,7 @@ A .Net Core web host for running crypto currency strategies.
 The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes two parameters: ServerName and Url. It creates and runs an instance of a WebHost, passing the parameters into it.
 
 ```C#
-      dotnet DevelopmentInProgress.TradeServer.Console.dll --ServerName=TradeServer1 --Url=http://+:5500
+          dotnet DevelopmentInProgress.TradeServer.Console.dll --ServerName=TradeServer1 --Url=http://+:5500
 ```
 
 ## WebHost
