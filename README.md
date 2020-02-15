@@ -7,7 +7,9 @@ A .Net Core web host for running crypto currency strategies.
 
 #### Table of Contents
 * [The Console](#the-console)
-* [The WebHost](#the-webhost)
+* [WebHost](#webhost)
+* [Startup](#startup)
+* [StrategyRunnerBackgroundService](#strategyrunnerbackgroundservice)
 * [HostedService](#hostedservice)
 * [Notifications](#notifications)
 * [Middleware](#middleware)
@@ -47,6 +49,10 @@ The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeser
         }
     }
 ```
+
+## Startup
+
+## StrategyRunnerBackgroundService
 
 ## HostedService
 
