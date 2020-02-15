@@ -24,7 +24,7 @@ The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/Dev
       dotnet DevelopmentInProgress.TradeServer.Console.dll --ServerName=TradeServer1 --Url=http://+:5500
 ```
 
-## The WebHost
+## WebHost
 The WebHost has HTTP server features and is responsible for trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
 
 ```C#
