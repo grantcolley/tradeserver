@@ -51,7 +51,7 @@ The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeser
 ```
 
 ## Startup
-ASP.NET Core uses a [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class (named Startup by convention) to configures services and the request pipeline.
+ASP.NET Core uses a [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class (named Startup by convention) to configure services and the request pipeline.
 
 The Startup class must include a Configure method, which is used to create the request processing pipeline. 
 
