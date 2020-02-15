@@ -34,7 +34,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedSer
                 },
                 new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 5 });
 
-                while (!cancellationToken.IsCancellationRequested)
+                while (!this.cancellationToken.IsCancellationRequested)
                 {
                     await Task.Delay(1000);
                 }
