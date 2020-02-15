@@ -28,32 +28,47 @@ The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/Dev
 The WebHost has HTTP server features and is responsible for trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
 
 ```C#
-                var webHost = WebHost.CreateDefaultBuilder()
-                    .UseUrls(url)
-                    .UseStrategyRunnerStartup(args)
-                    .UseSerilog()
-                    .Build();
+          var webHost = WebHost.CreateDefaultBuilder()
+              .UseUrls(url)
+              .UseStrategyRunnerStartup(args)
+              .UseSerilog()
+              .Build();
 ```
 
 The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/WebHostExtensions.cs) extension method passes in the command line args to the WebHost and species the [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class to use.
 
 ```C#
-    public static class WebHostExtensions
-    {
-        public static IWebHostBuilder UseStrategyRunnerStartup(this IWebHostBuilder webHost, string[] args)
-        {
-            return webHost.ConfigureAppConfiguration((hostingContext, config) =>
-            {
-                config.AddCommandLine(args);
-            }).UseStartup<Startup>();
-        }
-    }
+          public static class WebHostExtensions
+          {
+              public static IWebHostBuilder UseStrategyRunnerStartup(this IWebHostBuilder webHost, string[] args)
+              {
+                  return webHost.ConfigureAppConfiguration((hostingContext, config) =>
+                  {
+                      config.AddCommandLine(args);
+                  }).UseStartup<Startup>();
+              }
+          }
 ```
 
 ## Startup
 ASP.NET Core uses a [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class (named Startup by convention) to configure services and the request pipeline.
 
 The Startup class must include a Configure method, which is used to create the request processing pipeline. 
+
+```C#
+        public void Configure(IApplicationBuilder app)
+        {
+            app.UseDipSocket<NotificationHub>("/notificationhub");
+
+            app.Map("/runstrategy", HandleRun);
+            app.Map("/updatestrategy", HandleUpdate);
+            app.Map("/stopstrategy", HandleStop);
+            app.Map("/isstrategyrunning", HandleIsStrategyRunning);
+            app.Map("/ping", HandlePing);
+        }
+```
+
+The Startup class can optionally include a ConfigureServices method, which is used to configure services. Services are registered components that can be consumed via dependency injection or ApplicationServices (IServiceProvider providing access to the service container).
 
 ```C#
         public void ConfigureServices(IServiceCollection services)
@@ -72,21 +87,6 @@ The Startup class must include a Configure method, which is used to create the r
             services.AddHostedService<StrategyRunnerBackgroundService>();
 
             services.AddDipSocket<NotificationHub>();
-        }
-```
-
-The Startup class can optionally include a ConfigureServices method, which is used to configure services. Services are registered components that can be consumed via dependency injection or ApplicationServices (IServiceProvider providing access to the service container).
-
-```C#
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseDipSocket<NotificationHub>("/notificationhub");
-
-            app.Map("/runstrategy", HandleRun);
-            app.Map("/updatestrategy", HandleUpdate);
-            app.Map("/stopstrategy", HandleStop);
-            app.Map("/isstrategyrunning", HandleIsStrategyRunning);
-            app.Map("/ping", HandlePing);
         }
 ```
 
