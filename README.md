@@ -98,8 +98,10 @@ The StrategyRunnerBackgroundService contains a reference to the singleton [Strat
 ```C#
           strategyRunnerActionBlock.ActionBlock = new ActionBlock<StrategyRunnerActionBlockInput>(async actionBlockInput =>
           {
-               await actionBlockInput.StrategyRunner.RunAsync(actionBlockInput.Strategy, actionBlockInput.DownloadsPath,
-                                                              actionBlockInput.CancellationToken).ConfigureAwait(false);
+               await actionBlockInput.StrategyRunner.RunAsync(actionBlockInput.Strategy,
+                                                              actionBlockInput.DownloadsPath,
+                                                              actionBlockInput.CancellationToken)
+                                                              .ConfigureAwait(false);
           }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = maxDegreeOfParallelism });
 ```
 
