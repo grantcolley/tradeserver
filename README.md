@@ -10,7 +10,6 @@ A .Net Core web host for running crypto currency strategies.
 * [WebHost](#webhost)
 * [Startup](#startup)
 * [StrategyRunnerBackgroundService](#strategyrunnerbackgroundservice)
-* [HostedService](#hostedservice)
 * [Notifications](#notifications)
 * [Middleware](#middleware)
 * [Running a Strategy](#running-a-strategy)
@@ -18,10 +17,15 @@ A .Net Core web host for running crypto currency strategies.
 * [Subscriptions Caching](#subscriptions-caching)
 
 ## The Console
-The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes two parameters: ServerName and Url. It creates and runs an instance of a WebHost, passing the parameters into it.
+The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes 3 parameters:
+- s = server name
+- u = url of the webhost
+- p = MaxDegreeOfParallelism for the StrategyRunnerActionBlock execution options
+
+It creates and runs an instance of a WebHost, passing the parameters into it.
 
 ```C#
-          dotnet DevelopmentInProgress.TradeServer.Console.dll --ServerName=TradeServer1 --Url=http://+:5500
+          dotnet DevelopmentInProgress.TradeServer.Console.dll --s=ServerName --u=http://+:5500 --p=5
 ```
 
 ## WebHost
@@ -35,7 +39,7 @@ The WebHost has HTTP server features and is responsible for trade server startup
               .Build();
 ```
 
-The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/WebHostExtensions.cs) extension method passes in the command line args to the WebHost and species the [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class to use.
+The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/WebHostExtensions.cs) extension method passes in the command line args to the WebHost and specifies the [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class to use.
 
 ```C#
           public static class WebHostExtensions
@@ -53,7 +57,7 @@ The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeser
 ## Startup
 ASP.NET Core uses a [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class (named Startup by convention) to configure services and the request pipeline.
 
-The Startup class must include a Configure method, which is used to create the request processing pipeline. 
+The Startup class includes a Configure method, which is used to create the request processing pipeline. 
 
 ```C#
         public void Configure(IApplicationBuilder app)
@@ -68,11 +72,22 @@ The Startup class must include a Configure method, which is used to create the r
         }
 ```
 
-The Startup class can optionally include a ConfigureServices method, which is used to configure services. Services are registered components that can be consumed via dependency injection or ApplicationServices (IServiceProvider providing access to the service container).
+The Startup class also includes a ConfigureServices method, which is used to configure services to be consumed via dependency injection.
 
 ```C#
         public void ConfigureServices(IServiceCollection services)
         {
+            var server = new Server();
+            server.Started = DateTime.Now;
+            server.StartedBy = Environment.UserName;
+            server.Name = Configuration["s"].ToString();
+            server.Url = Configuration["u"].ToString();
+            if(Convert.ToInt32(Configuration["p"]) > 0)
+            {
+                server.MaxDegreeOfParallelism = Convert.ToInt32(Configuration["p"]);
+            }
+
+            services.AddSingleton<IServer>(server);
             services.AddSingleton<IStrategyRunnerActionBlock, StrategyRunnerActionBlock>();
             services.AddSingleton<IStrategyRunner, StrategyRunner>();
             services.AddSingleton<INotificationPublisherContext, NotificationPublisherContext>();
@@ -91,9 +106,9 @@ The Startup class can optionally include a ConfigureServices method, which is us
 ```
 
 ## StrategyRunnerBackgroundService
-The Startup class adds a long running hosted service [StrategyRunnerBackgroundService](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerBackgroundService.cs) which inherits BackgroundService. The StrategyRunnerBackgroundService is a long running background task for running trade strategies that have been posted to the trade servers runstrategy request pipeline.
+The Startup class adds a long running hosted service [StrategyRunnerBackgroundService](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerBackgroundService.cs) which inherits the BackgroundService. It is a long running background task for running trade strategies that have been posted to the trade servers runstrategy request pipeline.
 
-The StrategyRunnerBackgroundService contains a reference to the singleton [StrategyRunnerActionBlock](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerActionBlock.cs) which has a ActionBlock dataflow which invokes an ActionBlock<StrategyRunnerActionBlockInput> delegate for each request to run a trade strategy.
+The StrategyRunnerBackgroundService contains a reference to the singleton [StrategyRunnerActionBlock](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerActionBlock.cs) which has an ActionBlock dataflow that invokes an ActionBlock<StrategyRunnerActionBlockInput> delegate for each request to run a trade strategy.
 
 ```C#
           strategyRunnerActionBlock.ActionBlock = new ActionBlock<StrategyRunnerActionBlockInput>(async actionBlockInput =>
@@ -102,10 +117,8 @@ The StrategyRunnerBackgroundService contains a reference to the singleton [Strat
                                                               actionBlockInput.DownloadsPath,
                                                               actionBlockInput.CancellationToken)
                                                               .ConfigureAwait(false);
-          }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = maxDegreeOfParallelism });
+          }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = server.MaxDegreeOfParallelism });
 ```
-
-## HostedService
 
 ## Notifications
 
