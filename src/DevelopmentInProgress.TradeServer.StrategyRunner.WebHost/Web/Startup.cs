@@ -12,12 +12,14 @@ using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DipSocket.NetCore.Extensions;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService;
 using DevelopmentInProgress.TradeView.Service;
+using DevelopmentInProgress.TradeView.Interface.Server;
+using System;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env, IConfiguration configuration, ILoggerFactory loggerFactory)
+        public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
 
             var builder = new ConfigurationBuilder()
@@ -32,6 +34,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var server = new Server();
+            server.Name = Configuration["s"].ToString();
+            server.Url = Configuration["u"].ToString();
+            server.MaxDegreeOfParallelism = Convert.ToInt32(Configuration["p"]);
+            server.Started = DateTime.Now;
+            server.StartedBy = Environment.UserName;
+            services.AddSingleton<IServer>(server);
+
             services.AddSingleton<IStrategyRunnerActionBlock, StrategyRunnerActionBlock>();
             services.AddSingleton<IStrategyRunner, StrategyRunner>();
             services.AddSingleton<INotificationPublisherContext, NotificationPublisherContext>();
@@ -49,7 +59,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseDipSocket<NotificationHub>("/notificationhub");
 
