@@ -120,7 +120,8 @@ The StrategyRunnerBackgroundService contains a reference to the singleton [Strat
           }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = server.MaxDegreeOfParallelism });
 ```
 
-## Notifications
+## NotificationHub
+The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a lightweight publisher / subscriber implementation using WebSockets, for sending and receiving notifications to and from clients. The [NotificationHub](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/Publishing/NotificationHub.cs) inherits the abstract class [DipSocketServer](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket/Server/DipSocketServer.cs) to manage client connections and channels. A client e.g. a running instance of [tradeview](https://github.com/grantcolley/tradeview) establishes a connection to the server with the purpose of running or monitoring a strategy on it. The strategy registers a DipSocket channel to which multiple client connections can subscribe. The strategy broadcasts notifications (e.g. live trade feed) to the client connections. 
 
 ## Middleware
 
