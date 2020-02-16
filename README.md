@@ -10,7 +10,7 @@ A .Net Core web host for running crypto currency strategies.
 * [WebHost](#webhost)
 * [Startup](#startup)
 * [StrategyRunnerBackgroundService](#strategyrunnerbackgroundservice)
-* [Notifications](#notifications)
+* [NotificationHub](#notificationhub)
 * [Middleware](#middleware)
 * [Running a Strategy](#running-a-strategy)
 * [Trade Server Manager](#trade-server-manager)
