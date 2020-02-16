@@ -47,6 +47,8 @@ namespace DevelopmentInProgress.TradeServer.Console
                     return;
                 }
 
+                Log.Information($"Running as {Environment.UserName}");
+                Log.Information($"args");
                 foreach (var arg in args)
                 {
                     Log.Information($"{arg}");
