@@ -25,11 +25,12 @@ namespace DevelopmentInProgress.TradeServer.Console
 
                     args = new[]
                     {
-                        $"ServerName=TradeServer_{Guid.NewGuid().ToString()}",
-                        "Url=http://+:5500"
+                        $"s=TradeServer_{Guid.NewGuid().ToString()}",
+                        "u=http://+:5500",
+                        "p=5"
                     };
                 }
-                else if (InValidArgs(args))
+                else if (InvalidArgs(args))
                 {
                     Log.Error($"Invalid args");
 
@@ -39,8 +40,9 @@ namespace DevelopmentInProgress.TradeServer.Console
                     }
 
                     Log.Error($"You must provide the following args:");
-                    Log.Error($"--ServerName=YourServerName");
-                    Log.Error($"--Url=http://+:5500");
+                    Log.Error($"--s=YourServerName");
+                    Log.Error($"--u=http://+:5500");
+                    Log.Error($"--p=5");
 
                     return;
                 }
@@ -50,7 +52,7 @@ namespace DevelopmentInProgress.TradeServer.Console
                     Log.Information($"{arg}");
                 }
 
-                var url = args.First(a => a.StartsWith("Url=")).Split("=")[1];
+                var url = args.First(a => a.StartsWith("u=")).Split("=")[1];
 
                 Log.Information("Launching DevelopmentInProgress.TradeServer.Console");
 
@@ -73,25 +75,37 @@ namespace DevelopmentInProgress.TradeServer.Console
             }
         }
 
-        private static bool InValidArgs(string[] args)
+        private static bool InvalidArgs(string[] args)
         {
-            if (args.Length != 2)
+            var snMissing = true;
+            for(int i = 0; i < args.Length; i++)
             {
-                return true;
+                if(args[i].StartsWith("--s="))
+                {
+                    snMissing = false;
+                    break;
+                }
             }
-            
-            if(!args[0].StartsWith("--ServerName=") && !args[1].StartsWith("--ServerName="))
+
+            var urlMissing = false;
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i].StartsWith("--u="))
+                {
+                    urlMissing = false;
+                    break;
+                }
+            }
+
+            if(snMissing || urlMissing)
             {
                 return true;
             }
 
-            if(!args[0].StartsWith("--Url=") && !args[1].StartsWith("--Url="))
+            for (int i = 0; i < args.Length; i++)
             {
-                return true;
+                args[i] = args[i].Substring(2, args[i].Length - 2);
             }
-
-            args[0] = args[0].Substring(2, args[0].Length - 2);
-            args[1] = args[1].Substring(2, args[1].Length - 2);
 
             return false;
         }
