@@ -14,14 +14,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         {
         }
 
-        public async override Task OnClientConnectAsync(WebSocket websocket, string clientId, string data)
+        public async override Task OnClientConnectAsync(WebSocket websocket, string clientId, string strategyName)
         {
             if (string.IsNullOrWhiteSpace(clientId))
             {
                 throw new ArgumentNullException("clientId cannot be null or empty.");
             }
 
-            if(string.IsNullOrWhiteSpace(data))
+            if(string.IsNullOrWhiteSpace(strategyName))
             {
                 throw new ArgumentNullException("The strategy to subscribe to must be specified in the data parameter.");
             }
@@ -30,7 +30,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 
             connection.Name = clientId;
 
-            SubscribeToChannel(data, websocket);
+            SubscribeToChannel(strategyName, websocket);
 
             var connectionInfo = connection.GetConnectionInfo();
 
@@ -48,7 +48,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                 switch (message.MessageType)
                 {
                     case MessageType.UnsubscribeFromChannel:
-                        var unsubscribedChannel = UnsubscribeFromChannel(message.Data, webSocket);
+                        UnsubscribeFromChannel(message.Data, webSocket);
                         break;
                 }
             }
