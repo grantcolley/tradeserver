@@ -35,11 +35,15 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         public void ConfigureServices(IServiceCollection services)
         {
             var server = new Server();
-            server.Name = Configuration["s"].ToString();
-            server.Url = Configuration["u"].ToString();
-            server.MaxDegreeOfParallelism = Convert.ToInt32(Configuration["p"]);
             server.Started = DateTime.Now;
             server.StartedBy = Environment.UserName;
+            server.Name = Configuration["s"].ToString();
+            server.Url = Configuration["u"].ToString();
+            if(Convert.ToInt32(Configuration["p"]) > 0)
+            {
+                server.MaxDegreeOfParallelism = Convert.ToInt32(Configuration["p"]);
+            }
+
             services.AddSingleton<IServer>(server);
 
             services.AddSingleton<IStrategyRunnerActionBlock, StrategyRunnerActionBlock>();

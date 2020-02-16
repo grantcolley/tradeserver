@@ -27,7 +27,7 @@ namespace DevelopmentInProgress.TradeServer.Console
                     {
                         $"s=TradeServer_{Guid.NewGuid().ToString()}",
                         "u=http://+:5500",
-                        "p=5"
+                        //"p=5"
                     };
                 }
                 else if (InvalidArgs(args))
