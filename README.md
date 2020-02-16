@@ -18,10 +18,10 @@ A .Net Core web host for running crypto currency strategies.
 * [Subscriptions Caching](#subscriptions-caching)
 
 ## The Console
-The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes two parameters: ServerName and Url. It creates and runs an instance of a WebHost, passing the parameters into it.
+The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes 3 parameters: s (server name), u (url of webhost) and p (MaxDegreeOfParallelism for the StrategyRunnerActionBlock execution options). It creates and runs an instance of a WebHost, passing the parameters into it.
 
 ```C#
-          dotnet DevelopmentInProgress.TradeServer.Console.dll --ServerName=TradeServer1 --Url=http://+:5500
+          dotnet DevelopmentInProgress.TradeServer.Console.dll --s=ServerName --u=http://+:5500 --p=5
 ```
 
 ## WebHost
@@ -102,7 +102,7 @@ The StrategyRunnerBackgroundService contains a reference to the singleton [Strat
                                                               actionBlockInput.DownloadsPath,
                                                               actionBlockInput.CancellationToken)
                                                               .ConfigureAwait(false);
-          }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = maxDegreeOfParallelism });
+          }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = server.MaxDegreeOfParallelism });
 ```
 
 ## HostedService
