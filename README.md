@@ -11,7 +11,7 @@ A .Net Core web host for running crypto currency strategies.
 * [Startup](#startup)
 * [StrategyRunnerBackgroundService](#strategyrunnerbackgroundservice)
 * [NotificationHub](#notificationhub)
-* [Middleware](#middleware)
+* [Request pipelines and Middleware](#request-pipelines-and-middleware)
 * [Running a Strategy](#running-a-strategy)
 * [Trade Server Manager](#trade-server-manager)
 * [Subscriptions Caching](#subscriptions-caching)
@@ -151,6 +151,7 @@ The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a li
 ```
 
 ## Middleware
+The middleware assembled into the 
 
 ## Running a Strategy
 
