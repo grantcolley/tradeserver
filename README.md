@@ -17,7 +17,7 @@ A .Net Core web host for running crypto currency strategies.
 * [Subscriptions Caching](#subscriptions-caching)
 
 ## The Console
-The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes 3 parameters:
+The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes three parameters:
 - s = server name
 - u = url of the webhost
 - p = MaxDegreeOfParallelism for the StrategyRunnerActionBlock execution options
