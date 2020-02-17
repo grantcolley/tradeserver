@@ -9,9 +9,9 @@ A .Net Core web host for running crypto currency strategies.
 * [The Console](#the-console)
 * [WebHost](#webhost)
 * [Startup](#startup)
+* [Request pipelines and Middleware](#request-pipelines-and-middleware)
 * [StrategyRunnerBackgroundService](#strategyrunnerbackgroundservice)
 * [NotificationHub](#notificationhub)
-* [Request pipelines and Middleware](#request-pipelines-and-middleware)
 * [Running a Strategy](#running-a-strategy)
 * [Trade Server Manager](#trade-server-manager)
 * [Subscriptions Caching](#subscriptions-caching)
@@ -57,7 +57,7 @@ The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeser
 ## Startup
 ASP.NET Core uses a [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class (named Startup by convention) to configure services and the request pipeline.
 
-The Startup class includes a Configure method, which is used to create the request processing pipeline. 
+The Startup class includes a Configure method, which is used to create the request processing pipeline by branching the request path to the appropriate middleware. 
 
 ```C#
         public void Configure(IApplicationBuilder app)
@@ -105,6 +105,8 @@ The Startup class also includes a ConfigureServices method, which is used to con
         }
 ```
 
+## Request pipelines and Middleware
+
 ## StrategyRunnerBackgroundService
 The Startup class adds a long running hosted service [StrategyRunnerBackgroundService](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerBackgroundService.cs) which inherits the BackgroundService. It is a long running background task for running trade strategies that have been posted to the trade servers runstrategy request pipeline.
 
@@ -149,9 +151,6 @@ The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a li
                 }
           }
 ```
-
-## Request pipelines and Middleware
-The middleware assembled into the 
 
 ## Running a Strategy
 
