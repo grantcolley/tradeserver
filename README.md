@@ -150,7 +150,7 @@ The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a li
           }
 ```
 
-## Middleware
+## Request pipelines and Middleware
 The middleware assembled into the 
 
 ## Running a Strategy
