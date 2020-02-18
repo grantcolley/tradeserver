@@ -18,15 +18,13 @@ A .Net Core web host for running crypto currency strategies.
 
 ## The Console
 The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes three parameters:
-- s = server name
-- u = url of the webhost
-- p = MaxDegreeOfParallelism for the dataflow StrategyRunnerActionBlock execution options
+- **s** = server name
+- **u** = url of the webhost
+- **p** = MaxDegreeOfParallelism for the dataflow StrategyRunnerActionBlock execution options
 
 It creates and runs an instance of a WebHost, passing the parameters into it.
 
-```C#
-          dotnet DevelopmentInProgress.TradeServer.Console.dll --s=ServerName --u=http://+:5500 --p=5
-```
+`dotnet DevelopmentInProgress.TradeServer.Console.dll --s=ServerName --u=http://+:5500 --p=5`
 
 ## WebHost
 The WebHost has HTTP server features and is responsible for the trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
@@ -57,7 +55,7 @@ The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeser
 ## Startup
 ASP.NET Core uses a [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class (named Startup by convention) to configure services and the applications request pipeline.
 
-The Startup class includes a Configure method, which is used to create the request processing pipeline by branching the request path to the appropriate middleware. 
+The Startup class includes a `Configure` method, which is used to create the request processing pipeline by branching the request path to the appropriate middleware. 
 
 ```C#
         public void Configure(IApplicationBuilder app)
@@ -72,7 +70,7 @@ The Startup class includes a Configure method, which is used to create the reque
         }
 ```
 
-The Startup class also includes a ConfigureServices method, which is used to configure services to be consumed via dependency injection.
+The Startup class also includes a `ConfigureServices` method, which is used to configure services to be consumed via dependency injection.
 
 ```C#
         public void ConfigureServices(IServiceCollection services)
