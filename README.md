@@ -1,5 +1,5 @@
 # tradeserver
-A .Net Core web host for running crypto currency strategies.
+A **.Net Core** web host for running crypto currency strategies.
 
 ##### Technologies
 *	###### Net Core 2.2 and .Net Standard 2.0
