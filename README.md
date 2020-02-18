@@ -29,7 +29,7 @@ It creates and runs an instance of a WebHost, passing the parameters into it.
 ```
 
 ## WebHost
-The WebHost has HTTP server features and is responsible for trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
+The WebHost has HTTP server features and is responsible for the trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
 
 ```C#
           var webHost = WebHost.CreateDefaultBuilder()
