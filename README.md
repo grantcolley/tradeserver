@@ -13,6 +13,7 @@ A **.Net Core** web host for running crypto currency strategies.
 * [StrategyRunnerBackgroundService](#strategyrunnerbackgroundservice)
 * [NotificationHub](#notificationhub)
 * [Running a Strategy](#running-a-strategy)
+* [Monitoring a Running Strategy](monitoring-a-running-strategy)
 * [Trade Server Manager](#trade-server-manager)
 * [Subscriptions Caching](#subscriptions-caching)
 
@@ -160,6 +161,9 @@ The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a li
 ```
 
 ## Running a Strategy
+The [RunStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/RunStrategyMiddleware.cs) receives the request to run a strategy from the client. 
+
+## Monitoring a Running Strategy
 
 ## Trade Server Manager
 
