@@ -161,7 +161,7 @@ The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a li
 ```
 
 ## Running a Strategy
-The [RunStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/RunStrategyMiddleware.cs) receives the request to run a strategy from the client. 
+The [RunStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/RunStrategyMiddleware.cs) processes a HttpClient request to run a strategy. The strategy json is reterieved from xx and deserialised into a [Strategy](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/Strategy.cs). The assemblies that make up the strategy that will be run are downloaded to a sub directory under the working directory of the application.
 
 ## Monitoring a Running Strategy
 
