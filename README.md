@@ -1,5 +1,5 @@
 # tradeserver
-A .Net Core web host for running crypto currency strategies.
+A **.Net Core** web host for running crypto currency strategies.
 
 ##### Technologies
 *	###### Net Core 2.2 and .Net Standard 2.0
@@ -9,27 +9,26 @@ A .Net Core web host for running crypto currency strategies.
 * [The Console](#the-console)
 * [WebHost](#webhost)
 * [Startup](#startup)
+* [Request pipelines and Middleware](#request-pipelines-and-middleware)
 * [StrategyRunnerBackgroundService](#strategyrunnerbackgroundservice)
 * [NotificationHub](#notificationhub)
-* [Middleware](#middleware)
 * [Running a Strategy](#running-a-strategy)
+* [Monitoring a Running Strategy](monitoring-a-running-strategy)
 * [Trade Server Manager](#trade-server-manager)
 * [Subscriptions Caching](#subscriptions-caching)
 
 ## The Console
-The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes 3 parameters:
-- s = server name
-- u = url of the webhost
-- p = MaxDegreeOfParallelism for the StrategyRunnerActionBlock execution options
+The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes three parameters:
+- **s** = server name
+- **u** = url of the webhost
+- **p** = MaxDegreeOfParallelism for the dataflow StrategyRunnerActionBlock execution options
 
 It creates and runs an instance of a WebHost, passing the parameters into it.
 
-```C#
-          dotnet DevelopmentInProgress.TradeServer.Console.dll --s=ServerName --u=http://+:5500 --p=5
-```
+`dotnet DevelopmentInProgress.TradeServer.Console.dll --s=ServerName --u=http://+:5500 --p=5`
 
 ## WebHost
-The WebHost has HTTP server features and is responsible for trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
+The WebHost has HTTP server features and is responsible for the trade server startup and lifetime management including configuring the server and request processing pipeline, logging, dependency injection, and configuration.
 
 ```C#
           var webHost = WebHost.CreateDefaultBuilder()
@@ -55,9 +54,9 @@ The WebHost's [UseStrategyRunnerStartup](https://github.com/grantcolley/tradeser
 ```
 
 ## Startup
-ASP.NET Core uses a [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class (named Startup by convention) to configure services and the request pipeline.
+ASP.NET Core uses a [Startup](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Startup.cs) class (named Startup by convention) to configure services and the applications request pipeline.
 
-The Startup class includes a Configure method, which is used to create the request processing pipeline. 
+The Startup class includes a `Configure` method, which is used to create the request processing pipeline by branching the request path to the appropriate middleware. 
 
 ```C#
         public void Configure(IApplicationBuilder app)
@@ -72,7 +71,7 @@ The Startup class includes a Configure method, which is used to create the reque
         }
 ```
 
-The Startup class also includes a ConfigureServices method, which is used to configure services to be consumed via dependency injection.
+The Startup class also includes a `ConfigureServices` method, which is used to configure services to be consumed via dependency injection.
 
 ```C#
         public void ConfigureServices(IServiceCollection services)
@@ -105,6 +104,17 @@ The Startup class also includes a ConfigureServices method, which is used to con
         }
 ```
 
+## Request pipelines and Middleware
+The following table shows the middleware each request path is mapped to. 
+|Request Path|Maps to Middleware|Description|
+|------------|------------------|-----------|
+|`http://localhost:5500/runstrategy`|[RunStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/RunStrategyMiddleware.cs)|Request to run a strategy|
+|`http://localhost:5500/stopstrategy`|[StopStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/StopStrategyMiddleware.cs)|Stop a running strategy|
+|`http://localhost:5500/updatestrategy`|[UpdateStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/UpdateStrategyMiddleware.cs)|Update a running strategy's parameters|
+|`http://localhost:5500/isstrategyrunning`|[IsStrategyRunningMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/IsStrategyRunningMiddleware.cs)|Check if a strategy is running|
+|`http://localhost:5500/ping`|[PingMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/PingMiddleware.cs)|Check if the trade server is running|
+|`http://localhost:5500/notificationhub`|[DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket.NetCore.Extensions/DipSocketMiddleware.cs)|A websocket connection request|
+
 ## StrategyRunnerBackgroundService
 The Startup class adds a long running hosted service [StrategyRunnerBackgroundService](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerBackgroundService.cs) which inherits the BackgroundService. It is a long running background task for running trade strategies that have been posted to the trade servers runstrategy request pipeline.
 
@@ -121,7 +131,7 @@ The StrategyRunnerBackgroundService contains a reference to the singleton [Strat
 ```
 
 ## NotificationHub
-The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a lightweight publisher / subscriber implementation using WebSockets, for sending and receiving notifications to and from clients. The [NotificationHub](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/Publishing/NotificationHub.cs) inherits the abstract class [DipSocketServer](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket/Server/DipSocketServer.cs) to manage client connections and channels. A client e.g. a running instance of [tradeview](https://github.com/grantcolley/tradeview) establishes a connection to the server with the purpose of running or monitoring a strategy on it. The strategy registers a DipSocket channel to which multiple client connections can subscribe. The strategy broadcasts notifications (e.g. live trade feed, buy and sell orders etc.) to the client connections. The [NotificationHub](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/Publishing/NotificationHub.cs) overrides the OnClientConnectAsync and ReceiveAsync methods.
+The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a lightweight publisher / subscriber implementation using WebSockets, for sending and receiving notifications to and from clients. The [NotificationHub](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/Publishing/NotificationHub.cs) inherits the abstract class [DipSocketServer](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket/Server/DipSocketServer.cs) to manage client connections and channels. A client e.g. a running instance of [tradeview](https://github.com/grantcolley/tradeview), establishes a connection to the server with the purpose of running or monitoring a strategy on it. The strategy registers a DipSocket channel to which multiple client connections can subscribe. The strategy broadcasts notifications (e.g. live trade feed, buy and sell orders etc.) to the client connections. The [NotificationHub](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/Publishing/NotificationHub.cs) overrides the OnClientConnectAsync and ReceiveAsync methods.
 
 ```C#
           public async override Task OnClientConnectAsync(WebSocket websocket, string clientId, string strategyName)
@@ -150,9 +160,10 @@ The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a li
           }
 ```
 
-## Middleware
-
 ## Running a Strategy
+The [RunStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/RunStrategyMiddleware.cs) processes a HttpClient request to run a strategy. The strategy json is reterieved from xx and deserialised into a [Strategy](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/Strategy.cs). The assemblies that make up the strategy that will be run are downloaded to a sub directory under the working directory of the application.
+
+## Monitoring a Running Strategy
 
 ## Trade Server Manager
 
