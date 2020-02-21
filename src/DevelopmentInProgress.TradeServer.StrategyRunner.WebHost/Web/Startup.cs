@@ -47,7 +47,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             services.AddSingleton<IServer>(server);
 
             services.AddSingleton<IStrategyRunnerActionBlock, StrategyRunnerActionBlock>();
-            services.AddSingleton<IStrategyRunner, StrategyRunner>();
+            services.AddTransient<IStrategyRunner, StrategyRunner>();
             services.AddSingleton<INotificationPublisherContext, NotificationPublisherContext>();
             services.AddSingleton<INotificationPublisher, NotificationPublisher>();
             services.AddSingleton<IBatchNotificationFactory<StrategyNotification>, StrategyBatchNotificationFactory>();
