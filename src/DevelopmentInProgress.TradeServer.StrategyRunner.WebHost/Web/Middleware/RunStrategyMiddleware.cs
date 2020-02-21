@@ -52,8 +52,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
                 {
                     StrategyRunner = strategyRunner,
                     Strategy = strategy,
-                    DownloadsPath = downloadsPath,
-                    CancellationToken = new CancellationToken()
+                    DownloadsPath = downloadsPath
                 };
 
                 await strategyRunnerActionBlock.RunStrategyAsync(strategyRunnerActionBlockInput).ConfigureAwait(false);
