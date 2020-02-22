@@ -232,6 +232,68 @@ The [StrategyRunnerActionBlock](https://github.com/grantcolley/tradeserver/blob/
 ```
 
 #### The StrategyRunner
+A strategy must implement [ITradeStrategy](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/ITradeStrategy.cs). 
+The [StrategyRunner](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/StrategyRunner.cs) will load the strategy's assembly and all its dependencies into memory and create an instance of the strategy. It will subscribe to strategy events to handle notifications from the strategy to the client connection i.e. the [tradeview](https://github.com/grantcolley/tradeview) UI. The strategy is added to [TradeStrategyCacheManager](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Cache/TradeStrategyCacheManager.cs) and the [SubscriptionsCacheManager](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Cache/SubscriptionsCacheManager.cs) subscribes to the strategy's feeds i.e. trade, orderbook, account updates etc. Finally, the [ITradeStrategy.RunAsync](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/ITradeStrategy.cs) method is called to run the strategy.
+
+```C#
+        internal async Task<Strategy> RunStrategyAsync(Strategy strategy, string localPath)
+        {
+            ITradeStrategy tradeStrategy = null;
+
+            try
+            {
+                var dependencies = GetAssemblies(localPath);
+
+                var assemblyLoader = new AssemblyLoader(localPath, dependencies);
+                var assembly = assemblyLoader.LoadFromMemoryStream(Path.Combine(localPath, strategy.TargetAssembly));
+                var type = assembly.GetType(strategy.TargetType);
+                dynamic obj = Activator.CreateInstance(type);
+
+                tradeStrategy = (ITradeStrategy)obj;
+
+                tradeStrategy.StrategyNotificationEvent += StrategyNotificationEvent;
+                tradeStrategy.StrategyAccountInfoEvent += StrategyAccountInfoEvent;
+                tradeStrategy.StrategyOrderBookEvent += StrategyOrderBookEvent;
+                tradeStrategy.StrategyTradeEvent += StrategyTradeEvent;
+                tradeStrategy.StrategyStatisticsEvent += StrategyStatisticsEvent;
+                tradeStrategy.StrategyCandlesticksEvent += StrategyCandlesticksEvent;
+                tradeStrategy.StrategyCustomNotificationEvent += StrategyCustomNotificationEvent;
+
+                strategy.Status = StrategyStatus.Running;
+
+                if(tradeStrategyCacheManager.TryAddTradeStrategy(strategy.Name, tradeStrategy))
+                {
+                    await subscriptionsCacheManager.Subscribe(strategy, tradeStrategy).ConfigureAwait(false);
+                    
+                    var result = await tradeStrategy.RunAsync(strategy, cancellationToken).ConfigureAwait(false);
+
+                    if(!tradeStrategyCacheManager.TryRemoveTradeStrategy(strategy.Name, out ITradeStrategy ts))
+                    {
+                        Notify(NotificationLevel.Error, $"Failed to remove {strategy.Name} from the cache manager.");
+                    }
+                }
+                else
+                {
+                    Notify(NotificationLevel.Error, $"Failed to add {strategy.Name} to the cache manager.");
+                }
+            }
+            finally
+            {
+                if(tradeStrategy != null)
+                {
+                    subscriptionsCacheManager.Unsubscribe(strategy, tradeStrategy);
+
+                    tradeStrategy.StrategyNotificationEvent -= StrategyNotificationEvent;
+                    tradeStrategy.StrategyAccountInfoEvent -= StrategyAccountInfoEvent;
+                    tradeStrategy.StrategyOrderBookEvent -= StrategyOrderBookEvent;
+                    tradeStrategy.StrategyTradeEvent -= StrategyTradeEvent;
+                    tradeStrategy.StrategyCustomNotificationEvent -= StrategyCustomNotificationEvent;
+                }
+            }
+
+            return strategy;
+        }
+```
 
 ## Monitoring a Running Strategy
 
