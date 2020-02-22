@@ -161,7 +161,59 @@ The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a li
 ```
 
 ## Running a Strategy
-The [RunStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/RunStrategyMiddleware.cs) processes a HttpClient request to run a strategy. The strategy json is reterieved from `context.Request.Form["strategy"]` and deserialised into a [Strategy](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/Strategy.cs). The assemblies that make up the strategy that will be run are extracted from `context.Request.Form.Files` and downloaded to a sub directory under the working directory of the application.
+The clients loads the serialised [Strategy](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/Strategy.cs) and strategy assemblies into a MultipartFormDataContent and post a request to the server.
+
+```C#
+            var client = new HttpClient();
+            var multipartFormDataContent = new MultipartFormDataContent();
+
+            var jsonContent = JsonConvert.SerializeObject(strategy);
+
+            multipartFormDataContent.Add(new StringContent(jsonContent, Encoding.UTF8, "application/json"), "strategy");
+
+            foreach (var file in files)
+            {
+                var fileInfo = new FileInfo(file);
+                var fileStream = File.OpenRead(file);
+                using (var br = new BinaryReader(fileStream))
+                {
+                    var byteArrayContent = new ByteArrayContent(br.ReadBytes((int)fileStream.Length));
+                    multipartFormDataContent.Add(byteArrayContent, fileInfo.Name, fileInfo.FullName);
+                }
+            }
+
+            Task<HttpResponseMessage> response = await client.PostAsync("http://localhost:5500/runstrategy", multipartFormDataContent);
+```
+
+The [RunStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/RunStrategyMiddleware.cs) processes the request. It deserialises the strategy and downloads the strategy assemblies into a sub directory under the working directory of the application. The running of the strategy is passed to the [StrategyRunnerActionBlock](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerActionBlock.cs).
+
+```C#
+                var json = context.Request.Form["strategy"];
+
+                var strategy = JsonConvert.DeserializeObject<Strategy>(json);
+
+                var downloadsPath = Path.Combine(Directory.GetCurrentDirectory(), "downloads", Guid.NewGuid().ToString());
+
+                if (context.Request.HasFormContentType)
+                {
+                    var form = context.Request.Form;
+
+                    var downloads = from f
+                                    in form.Files
+                                    select Download(f, downloadsPath);
+
+                    await Task.WhenAll(downloads.ToArray());
+                }
+
+                var strategyRunnerActionBlockInput = new StrategyRunnerActionBlockInput
+                {
+                    StrategyRunner = strategyRunner,
+                    Strategy = strategy,
+                    DownloadsPath = downloadsPath
+                };
+
+                await strategyRunnerActionBlock.RunStrategyAsync(strategyRunnerActionBlockInput).ConfigureAwait(false);
+```
 
 ## Monitoring a Running Strategy
 
