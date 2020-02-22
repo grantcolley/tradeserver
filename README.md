@@ -14,7 +14,9 @@ A **.Net Core** web host for running crypto currency strategies.
 * [NotificationHub](#notificationhub)
 * [Running a Strategy](#running-a-strategy)
    - [The Client Request](#the-client-request)
-   - [RunStrategyMiddleware](#runstrategymiddleware)
+   - [The RunStrategyMiddleware](#the-runstrategymiddleware)
+   - [The StrategyRunnerActionBlock](#the-strategyrunneractionblock)
+   - [The StrategyRunner](#the-strategyrunner)
 * [Monitoring a Running Strategy](monitoring-a-running-strategy)
 * [Trade Server Manager](#trade-server-manager)
 * [Subscriptions Caching](#subscriptions-caching)
@@ -163,7 +165,7 @@ The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a li
 ```
 
 ## Running a Strategy
-### The Client Request
+#### The Client Request
 The clients loads the serialised [Strategy](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/Strategy.cs) and strategy assemblies into a MultipartFormDataContent and post a request to the server.
 
 ```C#
@@ -187,7 +189,7 @@ The clients loads the serialised [Strategy](https://github.com/grantcolley/trade
 
             Task<HttpResponseMessage> response = await client.PostAsync("http://localhost:5500/runstrategy", multipartFormDataContent);
 ```
-#### RunStrategyMiddleware
+#### The RunStrategyMiddleware
 The [RunStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/RunStrategyMiddleware.cs) processes the request on the server. It deserialises the strategy and downloads the strategy assemblies into a sub directory under the working directory of the application. The running of the strategy is then passed to the [StrategyRunnerActionBlock](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerActionBlock.cs).
 
 ```C#
@@ -217,6 +219,21 @@ The [RunStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/mast
 
                 await strategyRunnerActionBlock.RunStrategyAsync(strategyRunnerActionBlockInput).ConfigureAwait(false);
 ```
+
+#### The StrategyRunnerActionBlock
+The [StrategyRunnerActionBlock](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerActionBlock.cs), hosted in the [StrategyRunnerBackgroundService](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerBackgroundService.cs), has an ActionBlock dataflow that invokes an ActionBlock<StrategyRunnerActionBlockInput> delegate for each request to run a trade strategy by calling the [StrategyRunner.RunAsync](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/StrategyRunner.cs) method, passing in the strategy and location of the strategy assemblies to run.
+
+```C#
+          strategyRunnerActionBlock.ActionBlock = new ActionBlock<StrategyRunnerActionBlockInput>(async actionBlockInput =>
+          {
+               await actionBlockInput.StrategyRunner.RunAsync(actionBlockInput.Strategy,
+                                                              actionBlockInput.DownloadsPath,
+                                                              actionBlockInput.CancellationToken)
+                                                              .ConfigureAwait(false);
+          }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = server.MaxDegreeOfParallelism });
+```
+
+#### The StrategyRunner
 
 ## Monitoring a Running Strategy
 
