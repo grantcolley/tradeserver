@@ -13,6 +13,8 @@ A **.Net Core** web host for running crypto currency strategies.
 * [StrategyRunnerBackgroundService](#strategyrunnerbackgroundservice)
 * [NotificationHub](#notificationhub)
 * [Running a Strategy](#running-a-strategy)
+   - [The Client Request](#the-client-request)
+   - [RunStrategyMiddleware](#runstrategymiddleware)
 * [Monitoring a Running Strategy](monitoring-a-running-strategy)
 * [Trade Server Manager](#trade-server-manager)
 * [Subscriptions Caching](#subscriptions-caching)
@@ -161,6 +163,7 @@ The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a li
 ```
 
 ## Running a Strategy
+### The Client Request
 The clients loads the serialised [Strategy](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/Strategy.cs) and strategy assemblies into a MultipartFormDataContent and post a request to the server.
 
 ```C#
@@ -184,7 +187,7 @@ The clients loads the serialised [Strategy](https://github.com/grantcolley/trade
 
             Task<HttpResponseMessage> response = await client.PostAsync("http://localhost:5500/runstrategy", multipartFormDataContent);
 ```
-
+#### RunStrategyMiddleware
 The [RunStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/RunStrategyMiddleware.cs) processes the request on the server. It deserialises the strategy and downloads the strategy assemblies into a sub directory under the working directory of the application. The running of the strategy is then passed to the [StrategyRunnerActionBlock](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerActionBlock.cs).
 
 ```C#
