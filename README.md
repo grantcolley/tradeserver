@@ -17,9 +17,9 @@ A **.Net Core** web host for running crypto currency strategies.
    - [The RunStrategyMiddleware](#the-runstrategymiddleware)
    - [The StrategyRunnerActionBlock](#the-strategyrunneractionblock)
    - [The StrategyRunner](#the-strategyrunner)
+* [TradeStrategyCacheManager](#tradestrategycachemanager)
+* [SubscriptionsCacheManager](#subscriptionscachemanager)
 * [Monitoring a Running Strategy](monitoring-a-running-strategy)
-* [Trade Server Manager](#trade-server-manager)
-* [Subscriptions Caching](#subscriptions-caching)
 
 ## The Console
 The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes three parameters:
@@ -295,9 +295,8 @@ The [StrategyRunner](https://github.com/grantcolley/tradeserver/blob/master/src/
         }
 ```
 
+## TradeStrategyCacheManager
+
+## SubscriptionsCacheManager
+
 ## Monitoring a Running Strategy
-
-## Trade Server Manager
-
-## Subscriptions Caching
-
