@@ -20,6 +20,8 @@ A **.Net Core** web host for running crypto currency strategies.
 * [Caching Running Strategies](#caching-running-strategies)
 * [Caching Running Strategies Subscriptions](#caching-running-strategies-subscriptions)
 * [Monitoring a Running Strategy](#monitoring-a-running-strategy)
+   - [The Client Request to Monitor a Strategy](the-client-request-to-monitor-a-strategy)
+
 
 ## The Console
 The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes three parameters:
@@ -328,3 +330,78 @@ The [IExchangeSubscriptionsCache](https://github.com/grantcolley/tradeserver/blo
 ``` 
 
 ## Monitoring a Running Strategy
+#### The Client Request to Monitor a s Strategy
+
+```C#
+            socketClient = new DipSocketClient($"{Strategy.StrategyServerUrl}/notificationhub", strategyAssemblyManager.Id);
+
+            socketClient.On("Connected", message =>
+            {
+                ViewModelContext.UiDispatcher.Invoke(() =>
+                {
+                    NotificationsAdd(message);
+                });
+            });
+
+            socketClient.On("Notification", async (message) =>
+            {
+                await ViewModelContext.UiDispatcher.Invoke(async () =>
+                {
+                    await OnStrategyNotificationAsync(message);
+                });
+            });
+
+            socketClient.On("Trade", (message) =>
+            {
+                ViewModelContext.UiDispatcher.Invoke(async () =>
+                {
+                    await OnTradeNotificationAsync(message);
+                });
+            });
+
+            socketClient.On("OrderBook", (message) =>
+            {
+                ViewModelContext.UiDispatcher.Invoke(async () =>
+                {
+                    await OnOrderBookNotificationAsync(message);
+                });
+            });
+
+            socketClient.On("AccountInfo", (message) =>
+            {
+                ViewModelContext.UiDispatcher.Invoke(() =>
+                {
+                    OnAccountNotification(message);
+                });
+            });
+
+            socketClient.On("Candlesticks", (message) =>
+            {
+                ViewModelContext.UiDispatcher.Invoke(async () =>
+                {
+                    await OnCandlesticksNotificationAsync(message);
+                });
+            });
+
+            socketClient.Closed += async (sender, args) =>
+            {
+                await ViewModelContext.UiDispatcher.Invoke(async () =>
+                {
+                    NotificationsAdd(message);
+
+                    await socketClient.DisposeAsync();
+                });
+            };
+
+            socketClient.Error += async (sender, args) => 
+            {
+                await ViewModelContext.UiDispatcher.Invoke(async () =>
+                {
+                    NotificationsAdd(message);
+                    
+                    await socketClient.DisposeAsync()
+                });
+            };
+            
+            await socketClient.StartAsync(strategy.Name);
+```
