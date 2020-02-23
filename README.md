@@ -20,8 +20,8 @@ A **.Net Core** web host for running crypto currency strategies.
 * [Caching Running Strategies](#caching-running-strategies)
 * [Caching Running Strategies Subscriptions](#caching-running-strategies-subscriptions)
 * [Monitoring a Running Strategy](#monitoring-a-running-strategy)
-   - [The Client Request to Monitor a Strategy](the-client-request-to-monitor-a-strategy)
-
+   - [The Client Request to Monitor a Strategy](#the-client-request-to-monitor-a-strategy)
+   - [The DipSocketMiddleware](#the-dipsocketmiddleware)
 
 ## The Console
 The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes three parameters:
@@ -332,7 +332,7 @@ The [IExchangeSubscriptionsCache](https://github.com/grantcolley/tradeserver/blo
 ## Monitoring a Running Strategy
 The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a lightweight publisher / subscriber implementation using WebSockets, for sending and receiving notifications to and from clients and servers.
 
-#### The Client Request to Monitor a s Strategy
+#### The Client Request to Monitor a Strategy
 The [DipSocketClient's](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket/Client/DipSocketClient.cs) `StartAsync` method opens WebSocket connection with the [DipSocketServer](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket/Server/DipSocketServer.cs). The `On` method registers an Action to be invoked when receiving a message from the server.
 
 ```C#
@@ -410,4 +410,57 @@ The [DipSocketClient's](https://github.com/grantcolley/dipsocket/blob/master/src
 ```
 
 #### The DipSocketMiddleware
-The [DipSocketMiddleware]() processes the request on the server.
+The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket.NetCore.Extensions/DipSocketMiddleware.cs) processes the request on the server.
+
+```C#
+            var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+
+            var clientId = context.Request.Query["clientId"];
+            var data = context.Request.Query["data"];
+
+            await dipSocketServer.OnClientConnectAsync(webSocket, clientId, data);
+
+            try
+            {
+                var buffer = new byte[1024 * 4];
+                var messageBuilder = new StringBuilder();
+
+                while (webSocket.State.Equals(WebSocketState.Open))
+                {
+                    WebSocketReceiveResult webSocketReceiveResult;
+
+                    messageBuilder.Clear();
+
+                    do
+                    {
+                        webSocketReceiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+                        if (webSocketReceiveResult.MessageType.Equals(WebSocketMessageType.Close))
+                        {
+                            await dipSocketServer.OnClientDisonnectAsync(webSocket);
+                            continue;
+                        }
+
+                        if (webSocketReceiveResult.MessageType.Equals(WebSocketMessageType.Text))
+                        {
+                            messageBuilder.Append(Encoding.UTF8.GetString(buffer, 0, webSocketReceiveResult.Count));
+                            continue;
+                        }
+                    }
+                    while (!webSocketReceiveResult.EndOfMessage);
+
+                    if (messageBuilder.Length > 0)
+                    {
+                        var json = messageBuilder.ToString();
+
+                        var message = JsonConvert.DeserializeObject<Message>(json);
+
+                        await dipSocketServer.ReceiveAsync(webSocket, message);
+                    }
+                }
+            }
+            finally
+            {
+                webSocket?.Dispose();
+            }
+```
