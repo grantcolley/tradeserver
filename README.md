@@ -9,16 +9,16 @@ A **.Net Core** web host for running crypto currency strategies.
 * [The Console](#the-console)
 * [WebHost](#webhost)
 * [Startup](#startup)
-* [Request pipelines and Middleware](#request-pipelines-and-middleware)
-* [StrategyRunnerBackgroundService](#strategyrunnerbackgroundservice)
-* [NotificationHub](#notificationhub)
+   - [Request pipelines and Middleware](#request-pipelines-and-middleware)
+   - [StrategyRunnerBackgroundService](#strategyrunnerbackgroundservice)
+   - [NotificationHub](#notificationhub)
 * [Running a Strategy](#running-a-strategy)
    - [The Client Request](#the-client-request)
    - [The RunStrategyMiddleware](#the-runstrategymiddleware)
    - [The StrategyRunnerActionBlock](#the-strategyrunneractionblock)
    - [The StrategyRunner](#the-strategyrunner)
-* [TradeStrategyCacheManager](#tradestrategycachemanager)
-* [SubscriptionsCacheManager](#subscriptionscachemanager)
+* [Caching Running Strategies](#caching-running-strategies)
+* [Caching Running Strategies Subscriptions](#caching-running-strategies-subscriptions)
 * [Monitoring a Running Strategy](#monitoring-a-running-strategy)
 
 ## The Console
@@ -108,7 +108,7 @@ The Startup class also includes a `ConfigureServices` method, which is used to c
         }
 ```
 
-## Request pipelines and Middleware
+#### Request pipelines and Middleware
 The following table shows the middleware each request path is mapped to. 
 |Request Path|Maps to Middleware|Description|
 |------------|------------------|-----------|
@@ -119,7 +119,7 @@ The following table shows the middleware each request path is mapped to.
 |`http://localhost:5500/ping`|[PingMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/PingMiddleware.cs)|Check if the trade server is running|
 |`http://localhost:5500/notificationhub`|[DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket.NetCore.Extensions/DipSocketMiddleware.cs)|A websocket connection request|
 
-## StrategyRunnerBackgroundService
+#### StrategyRunnerBackgroundService
 The Startup class adds a long running hosted service [StrategyRunnerBackgroundService](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerBackgroundService.cs) which inherits the BackgroundService. It is a long running background task for running trade strategies that have been posted to the trade servers runstrategy request pipeline. It contains a reference to the singleton [StrategyRunnerActionBlock](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/HostedService/StrategyRunnerActionBlock.cs) which has an ActionBlock dataflow that invokes an ActionBlock<StrategyRunnerActionBlockInput> delegate for each request to run a trade strategy.
 
 ```C#
@@ -132,7 +132,7 @@ The Startup class adds a long running hosted service [StrategyRunnerBackgroundSe
           }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = server.MaxDegreeOfParallelism });
 ```
 
-## NotificationHub
+#### NotificationHub
 The application uses [DipSocket](https://github.com/grantcolley/dipsocket), a lightweight publisher / subscriber implementation using WebSockets, for sending and receiving notifications to and from clients. The [NotificationHub](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/Publishing/NotificationHub.cs) inherits the abstract class [DipSocketServer](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket/Server/DipSocketServer.cs) to manage client connections and channels. A client e.g. a running instance of [tradeview](https://github.com/grantcolley/tradeview), establishes a connection to the server with the purpose of running or monitoring a strategy on it. The strategy registers a DipSocket channel to which multiple client connections can subscribe. The strategy broadcasts notifications (e.g. live trade feed, buy and sell orders etc.) to the client connections. The [NotificationHub](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/Publishing/NotificationHub.cs) overrides the OnClientConnectAsync and ReceiveAsync methods.
 
 ```C#
@@ -295,10 +295,10 @@ The [StrategyRunner](https://github.com/grantcolley/tradeserver/blob/master/src/
         }
 ```
 
-## TradeStrategyCacheManager
+## Caching Running Strategies
 The [TradeStrategyCacheManager](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Cache/TradeStrategyCacheManager.cs) caches running instances of strategies in order to [check if a strategy is running](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/IsStrategyRunningMiddleware.cs), [update a running strategy's parameters](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/UpdateStrategyMiddleware.cs), and [stopping a strategy](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/StopStrategyMiddleware.cs).
 
-## SubscriptionsCacheManager
+## Caching Running Strategies Subscriptions
 Strategies can subscribe to feeds (trade, order book etc) for one or more symbols across multiple exhanges. The [SubscriptionsCacheManager](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Cache/SubscriptionsCacheManager.cs) manages symbols subscriptions across all exchanges using the [ExchangeSubscriptionsCacheFactory](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Cache/ExchangeSubscriptionsCacheFactory.cs) which provides an instance of the [ExchangeSubscriptionsCache](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Cache/ExchangeSubscriptionsCache.cs) for each exchange.
 
 The [IExchangeSubscriptionsCache](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Cache/IExchangeSubscriptionsCache.cs) uses a dictionary for caching symbol subscriptions for the exchange it was created.
