@@ -495,14 +495,14 @@ The [StrategyRunnerClient](https://github.com/grantcolley/tradeview/blob/master/
 The [UpdateStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/UpdateStrategyMiddleware.cs) processes the request on the server.
 
 ```C#
-                var json = context.Request.Form["strategyparameters"];
+           var json = context.Request.Form["strategyparameters"];
 
-                var strategyParameters = JsonConvert.DeserializeObject<StrategyParameters>(json);
+           var strategyParameters = JsonConvert.DeserializeObject<StrategyParameters>(json);
 
-                if(tradeStrategyCacheManager.TryGetTradeStrategy(strategyParameters.StrategyName, out ITradeStrategy tradeStrategy))
-                {
-                    await tradeStrategy.TryUpdateStrategyAsync(json);
-                }
+           if(tradeStrategyCacheManager.TryGetTradeStrategy(strategyParameters.StrategyName, out ITradeStrategy tradeStrategy))
+           {
+               await tradeStrategy.TryUpdateStrategyAsync(json);
+           }
 ```
 
 ## Stopping a Running Strategy
@@ -521,12 +521,12 @@ The [StrategyRunnerClient](https://github.com/grantcolley/tradeview/blob/master/
 The [StopStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/StopStrategyMiddleware.cs) processes the request on the server.
 
 ```C#
-                var json = context.Request.Form["strategyparameters"];
+           var json = context.Request.Form["strategyparameters"];
 
-                var strategyParameters = JsonConvert.DeserializeObject<StrategyParameters>(json);
+           var strategyParameters = JsonConvert.DeserializeObject<StrategyParameters>(json);
 
-                if (tradeStrategyCacheManager.TryGetTradeStrategy(strategyParameters.StrategyName, out ITradeStrategy tradeStrategy))
-                {
-                    await tradeStrategy.TryStopStrategy(json);
-                }
+           if (tradeStrategyCacheManager.TryGetTradeStrategy(strategyParameters.StrategyName, out ITradeStrategy tradeStrategy))
+           {
+               await tradeStrategy.TryStopStrategy(json);
+           }
 ```
