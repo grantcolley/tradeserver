@@ -28,7 +28,9 @@ A **.Net Core** web host for running crypto currency strategies.
 * [Stopping a Running Strategy](#stopping-a-running-strategy)
    - [The Client Request to Stop a Strategy](#the-client-request-to-stop-a-strategy)
    - [The StopStrategyMiddleware](#the-stopstrategymiddleware)
-   
+* [Batch Notifications](#batch-notifications)
+   - [Batch Notification Types](#batch-notification-types)
+
 ## The Console
 The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes three parameters:
 - **s** = server name
@@ -530,3 +532,23 @@ The [StopStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/mas
                await tradeStrategy.TryStopStrategy(json);
            }
 ```
+
+## Batch Notifications
+Batch notifications inherit abstract class [BatchNotification<T>](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/BatchNotification.cs) which uses a BlockingCollection<T> for adding notifications to a current queue and then sending them on on a background thread.
+
+#### Batch Notification Types
+```C#
+    public enum BatchNotificationType
+    {
+        StrategyRunnerLogger,
+        StrategyAccountInfoPublisher,
+        StrategyCustomNotificationPublisher,
+        StrategyNotificationPublisher,
+        StrategyOrderBookPublisher,
+        StrategyTradePublisher,
+        StrategyStatisticsPublisher,
+        StrategyCandlesticksPublisher
+    }
+```
+
+The [StrategyBatchNotificationFactory](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/StrategyBatchNotificationFactory.cs) creates instances of batch notifiers. Batch notifiers use the [NotificationPublisher](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/Publishing/NotificationPublisher.cs) to publish notifications (trade, order book, account notifications etc) to client connections.
