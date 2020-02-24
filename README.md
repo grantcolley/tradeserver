@@ -481,6 +481,8 @@ The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/s
 
 ## Updating Strategy Parameters
 #### The Client Request to Update a Strategy
+The [StrategyRunnerClient](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/StrategyRunnerClient.cs) posts a message to the strategy server to update a running strategy's parameters.
+
 ```C#
            var strategyParametersJson = JsonConvert.SerializeObject(strategyParameters, Formatting.Indented);
            
@@ -490,6 +492,8 @@ The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/s
 ```
 
 #### The UpdateStrategyMiddleware
+The [UpdateStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/UpdateStrategyMiddleware.cs) processes the request on the server.
+
 ```C#
                 var json = context.Request.Form["strategyparameters"];
 
@@ -503,6 +507,8 @@ The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/s
 
 ## Stopping a Running Strategy
 #### The Client Request to Stop a Strategy
+The [StrategyRunnerClient](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/StrategyRunnerClient.cs) posts a message to the strategy server to stop a running strategy.
+
 ```C#
            var strategyParametersJson = JsonConvert.SerializeObject(strategyParameters, Formatting.Indented);
            
@@ -512,6 +518,8 @@ The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/s
 ```
 
 #### The StopStrategyMiddleware
+The [StopStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/StopStrategyMiddleware.cs) processes the request on the server.
+
 ```C#
                 var json = context.Request.Form["strategyparameters"];
 
