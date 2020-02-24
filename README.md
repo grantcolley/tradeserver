@@ -534,7 +534,7 @@ The [StopStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/mas
 ```
 
 ## Batch Notifications
-Batch notifications inherit abstract class [BatchNotification<T>](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/BatchNotification.cs) which uses a BlockingCollection<T> for adding notifications to a current queue and then sending them on on a background thread.
+Batch notifiers inherit abstract class [BatchNotification<T>](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Notification/BatchNotification.cs) which uses a BlockingCollection<T> for adding notifications to a queue while sending them on on a background thread.
 
 #### Batch Notification Types
 ```C#
