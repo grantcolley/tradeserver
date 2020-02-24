@@ -41,6 +41,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedSer
                 {
                     await Task.Delay(1000);
                 }
+
+                strategyRunnerActionBlock.ActionBlock.Complete();
             }
             catch (Exception ex)
             {
