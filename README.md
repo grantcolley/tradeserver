@@ -411,7 +411,7 @@ The [DipSocketClient's](https://github.com/grantcolley/dipsocket/blob/master/src
 ```
 
 #### The DipSocketMiddleware
-The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket.NetCore.Extensions/DipSocketMiddleware.cs) processes the request on the server.
+The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/src/DipSocket.NetCore.Extensions/DipSocketMiddleware.cs) processes the request on the server. The [NotificationHub](#notificationhub) manages client connections.
 
 ```C#
             var webSocket = await context.WebSockets.AcceptWebSocketAsync();
