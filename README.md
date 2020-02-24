@@ -23,7 +23,12 @@ A **.Net Core** web host for running crypto currency strategies.
    - [The Client Request to Monitor a Strategy](#the-client-request-to-monitor-a-strategy)
    - [The DipSocketMiddleware](#the-dipsocketmiddleware)
 * [Updating Strategy Parameters](#updating-strategy-parameters)
-
+   - [The Client Request to Update a Strategy](#the-client-request-to-update-a-strategy)
+   - [The UpdateStrategyMiddleware](#the-updatestrategymiddleware)
+* [Stopping a Running Strategy](#stopping-a-running-strategy)
+   - [The Client Request to Stop a Strategy](#the-client-request-to-stop-a-strategy)
+   - [The StopStrategyMiddleware](#the-stopstrategymiddleware)
+   
 ## The Console
 The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes three parameters:
 - **s** = server name
@@ -474,4 +479,54 @@ The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/s
         }
 ```
 
-#### Updating Strategy Parameters
+## Updating Strategy Parameters
+#### The Client Request to Update a Strategy
+The [StrategyRunnerClient](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/StrategyRunnerClient.cs) posts a message to the strategy server to update a running strategy's parameters.
+
+```C#
+           var strategyParametersJson = JsonConvert.SerializeObject(strategyParameters, Formatting.Indented);
+           
+           var strategyRunnerClient = new TradeView.Interface.Strategy.StrategyRunnerClient();
+
+           var response = await strategyRunnerClient.PostAsync($"{Strategy.StrategyServerUrl}/updatestrategy", strategyParametersJson);
+```
+
+#### The UpdateStrategyMiddleware
+The [UpdateStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/UpdateStrategyMiddleware.cs) processes the request on the server.
+
+```C#
+           var json = context.Request.Form["strategyparameters"];
+
+           var strategyParameters = JsonConvert.DeserializeObject<StrategyParameters>(json);
+
+           if(tradeStrategyCacheManager.TryGetTradeStrategy(strategyParameters.StrategyName, out ITradeStrategy tradeStrategy))
+           {
+               await tradeStrategy.TryUpdateStrategyAsync(json);
+           }
+```
+
+## Stopping a Running Strategy
+#### The Client Request to Stop a Strategy
+The [StrategyRunnerClient](https://github.com/grantcolley/tradeview/blob/master/src/DevelopmentInProgress.TradeView.Interface/Strategy/StrategyRunnerClient.cs) posts a message to the strategy server to stop a running strategy.
+
+```C#
+           var strategyParametersJson = JsonConvert.SerializeObject(strategyParameters, Formatting.Indented);
+           
+           var strategyRunnerClient = new TradeView.Interface.Strategy.StrategyRunnerClient();
+
+           var response = await strategyRunnerClient.PostAsync($"{Strategy.StrategyServerUrl}/stopstrategy", strategyParametersJson);
+```
+
+#### The StopStrategyMiddleware
+The [StopStrategyMiddleware](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.StrategyRunner.WebHost/Web/Middleware/StopStrategyMiddleware.cs) processes the request on the server.
+
+```C#
+           var json = context.Request.Form["strategyparameters"];
+
+           var strategyParameters = JsonConvert.DeserializeObject<StrategyParameters>(json);
+
+           if (tradeStrategyCacheManager.TryGetTradeStrategy(strategyParameters.StrategyName, out ITradeStrategy tradeStrategy))
+           {
+               await tradeStrategy.TryStopStrategy(json);
+           }
+```
