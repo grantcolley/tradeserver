@@ -22,8 +22,8 @@ A **.Net Core** web host for running crypto currency strategies.
 * [Monitoring a Running Strategy](#monitoring-a-running-strategy)
    - [The Client Request to Monitor a Strategy](#the-client-request-to-monitor-a-strategy)
    - [The DipSocketMiddleware](#the-dipsocketmiddleware)
-   - [NotificationHub](#notificationhub)
-   
+* [Updating a Strategy's Parameters](#updating-a-strategy's-parameters)
+
 ## The Console
 The [console app](https://github.com/grantcolley/tradeserver/blob/master/src/DevelopmentInProgress.TradeServer.Console/Program.cs) takes three parameters:
 - **s** = server name
@@ -473,3 +473,5 @@ The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/s
             }
         }
 ```
+
+#### Updating a Strategy's Parameters
