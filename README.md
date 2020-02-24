@@ -420,6 +420,13 @@ The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/s
 
             await dipSocketServer.OnClientConnectAsync(webSocket, clientId, data);
 
+            await Receive(webSocket);
+
+```
+
+```C#
+        private async Task Receive(WebSocket webSocket)
+        {
             try
             {
                 var buffer = new byte[1024 * 4];
@@ -463,4 +470,5 @@ The [DipSocketMiddleware](https://github.com/grantcolley/dipsocket/blob/master/s
             {
                 webSocket?.Dispose();
             }
+        }
 ```
