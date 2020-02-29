@@ -7,19 +7,14 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middleware
 {
     public class RunStrategyMiddleware
     {
-        private readonly IBatchNotification<StrategyNotification> strategyRunnerLogger;
-
-        public RunStrategyMiddleware(RequestDelegate next, IBatchNotificationFactory<StrategyNotification> batchNotificationFactory)
+        public RunStrategyMiddleware(RequestDelegate next)
         {
-            strategyRunnerLogger = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyRunnerLogger);
         }
 
         public async Task Invoke(HttpContext context, IStrategyRunner strategyRunner, IStrategyRunnerActionBlock strategyRunnerActionBlock)
