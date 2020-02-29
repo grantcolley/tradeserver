@@ -6,15 +6,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Logging
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy
 {
-    public class StrategyRunnerLogger : BatchNotification<StrategyNotification>, IBatchNotification<StrategyNotification>
+    public class StrategyBatchLogger : BatchNotification<StrategyNotification>, IBatchNotification<StrategyNotification>
     {
         private readonly ILogger logger;
 
-        public StrategyRunnerLogger(ILoggerFactory loggerFactory)
+        public StrategyBatchLogger(ILoggerFactory loggerFactory)
         {
-            logger = loggerFactory.CreateLogger<StrategyRunnerLogger>();
+            logger = loggerFactory.CreateLogger<StrategyBatchLogger>();
 
             Start();
         }
@@ -25,11 +25,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 
             try
             {
-                var strategyNotifications = notifications.OrderBy(n => n.Timestamp).ToList();
-
-                foreach (var strategyNotification in strategyNotifications)
+                if (!cancellationToken.IsCancellationRequested)
                 {
-                    logger.Log<StrategyNotification>(GetStepNotificationLogLevel(strategyNotification), strategyNotification.NotificationEvent, strategyNotification, null, null);
+                    var strategyNotifications = notifications.OrderBy(n => n.Timestamp).ToList();
+
+                    foreach (var strategyNotification in strategyNotifications)
+                    {
+                        logger.Log<StrategyNotification>(GetStepNotificationLogLevel(strategyNotification), strategyNotification.NotificationEvent, strategyNotification, null, null);
+                    }
                 }
 
                 tcs.SetResult(null);

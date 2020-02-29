@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Publishing
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy
 {
-    public class StrategyStatisticsPublisher : BatchNotification<StrategyNotification>, IBatchNotification<StrategyNotification>
+    public class StrategyBatchStatisticsPublisher : BatchNotification<StrategyNotification>, IBatchNotification<StrategyNotification>
     {
         private readonly INotificationPublisher notificationPublisher;
 
-        public StrategyStatisticsPublisher(INotificationPublisher notificationPublisher)
+        public StrategyBatchStatisticsPublisher(INotificationPublisher notificationPublisher)
         {
             this.notificationPublisher = notificationPublisher;
 
@@ -18,6 +18,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 
         public override async Task NotifyAsync(IEnumerable<StrategyNotification> notifications, CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
             await notificationPublisher.PublishStatisticsAsync(notifications);
         }
     }

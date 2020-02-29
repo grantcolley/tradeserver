@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Publishing
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy
 {
     public class NotificationPublisher : INotificationPublisher
     {

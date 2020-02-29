@@ -5,7 +5,7 @@ using System;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Publishing
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy
 {
     public class NotificationHub : DipSocketServer
     {

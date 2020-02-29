@@ -1,5 +1,4 @@
-﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Logging;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Publishing;
+﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Publishing;
 using DevelopmentInProgress.TradeView.Interface.Strategy;
 using Microsoft.Extensions.Logging;
 
@@ -21,28 +20,28 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
             switch (batchNotifierType)
             {
                 case BatchNotificationType.StrategyRunnerLogger:
-                    return new StrategyRunnerLogger(loggerFactory);
+                    return new StrategyBatchLogger(loggerFactory);
 
                 case BatchNotificationType.StrategyAccountInfoPublisher:
-                    return new StrategyAccountInfoPublisher(notificationPublisher);
+                    return new StrategyBatchAccountInfoPublisher(notificationPublisher);
 
                 case BatchNotificationType.StrategyCustomNotificationPublisher:
-                    return new StrategyCustomNotificationPublisher(notificationPublisher);
+                    return new StrategyBatchCustomNotificationPublisher(notificationPublisher);
 
                 case BatchNotificationType.StrategyNotificationPublisher:
-                    return new StrategyNotificationPublisher(notificationPublisher);
+                    return new StrategyBatchNotificationPublisher(notificationPublisher);
 
                 case BatchNotificationType.StrategyOrderBookPublisher:
-                    return new StrategyOrderBookPublisher(notificationPublisher);
+                    return new StrategyBatchOrderBookPublisher(notificationPublisher);
 
                 case BatchNotificationType.StrategyTradePublisher:
-                    return new StrategyTradePublisher(notificationPublisher);
+                    return new StrategyBatchTradePublisher(notificationPublisher);
 
                 case BatchNotificationType.StrategyCandlesticksPublisher:
-                    return new StrategyCandlesticksPublisher(notificationPublisher);
+                    return new StrategyBatchCandlesticksPublisher(notificationPublisher);
 
                 case BatchNotificationType.StrategyStatisticsPublisher:
-                    return new StrategyStatisticsPublisher(notificationPublisher);
+                    return new StrategyBatchStatisticsPublisher(notificationPublisher);
             }
 
             return null;
