@@ -18,16 +18,18 @@ namespace DevelopmentInProgress.TradeServer.Console
                     .WriteTo.Console()
                     .CreateLogger();
 
+                Log.Information($"Running as {Environment.UserName}");
+
                 if (args == null
                     || args.Length.Equals(0))
                 {
-                    Log.Warning($"No args so use defaults...");
+                    Log.Warning($"No args. Use defaults...");
 
                     args = new[]
                     {
                         $"s=TradeServer_{Guid.NewGuid().ToString()}",
                         "u=http://+:5500",
-                        //"p=5"
+                        "p=5"
                     };
                 }
                 else if (InvalidArgs(args))
@@ -47,7 +49,6 @@ namespace DevelopmentInProgress.TradeServer.Console
                     return;
                 }
 
-                Log.Information($"Running as {Environment.UserName}");
                 Log.Information($"args");
                 foreach (var arg in args)
                 {
