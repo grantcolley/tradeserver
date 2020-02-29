@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy
 {
-    public class NotificationPublisher : INotificationPublisher
+    public class StrategyNotificationPublisher : IStrategyNotificationPublisher
     {
-        private readonly INotificationPublisherContext notificationPublisherContext;
+        private readonly IStrategyNotificationPublisherContext notificationPublisherContext;
 
-        public NotificationPublisher(INotificationPublisherContext notificationPublisherContext)
+        public StrategyNotificationPublisher(IStrategyNotificationPublisherContext notificationPublisherContext)
         {
             this.notificationPublisherContext = notificationPublisherContext;
         }

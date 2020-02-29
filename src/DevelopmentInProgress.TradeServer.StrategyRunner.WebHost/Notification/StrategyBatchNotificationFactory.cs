@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Publishing;
+﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy;
 using DevelopmentInProgress.TradeView.Interface.Strategy;
 using Microsoft.Extensions.Logging;
 
@@ -6,10 +6,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
 {
     public class StrategyBatchNotificationFactory : BatchNotificationFactory<StrategyNotification>
     {
-        private readonly INotificationPublisher notificationPublisher;
+        private readonly IStrategyNotificationPublisher notificationPublisher;
         private readonly ILoggerFactory loggerFactory;
 
-        public StrategyBatchNotificationFactory(INotificationPublisher notificationPublisher, ILoggerFactory loggerFactory)
+        public StrategyBatchNotificationFactory(IStrategyNotificationPublisher notificationPublisher, ILoggerFactory loggerFactory)
         {
             this.notificationPublisher = notificationPublisher;
             this.loggerFactory = loggerFactory;

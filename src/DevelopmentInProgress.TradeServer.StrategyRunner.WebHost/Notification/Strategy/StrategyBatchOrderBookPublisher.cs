@@ -7,9 +7,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 {
     public class StrategyBatchOrderBookPublisher : BatchNotification<StrategyNotification>, IBatchNotification<StrategyNotification>
     {
-        private readonly INotificationPublisher notificationPublisher;
+        private readonly IStrategyNotificationPublisher notificationPublisher;
 
-        public StrategyBatchOrderBookPublisher(INotificationPublisher notificationPublisher)
+        public StrategyBatchOrderBookPublisher(IStrategyNotificationPublisher notificationPublisher)
         {
             this.notificationPublisher = notificationPublisher;
 

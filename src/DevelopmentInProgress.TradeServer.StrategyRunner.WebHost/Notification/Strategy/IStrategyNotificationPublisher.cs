@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy
 {
-    public interface INotificationPublisher
+    public interface IStrategyNotificationPublisher
     {
         Task PublishCustomNotificationsAsync(string methodName, IEnumerable<StrategyNotification> notifications);
         Task PublishNotificationsAsync(IEnumerable<StrategyNotification> notifications);

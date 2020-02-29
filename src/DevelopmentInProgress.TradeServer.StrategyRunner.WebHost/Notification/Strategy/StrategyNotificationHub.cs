@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy
 {
-    public class NotificationHub : DipSocketServer
+    public class StrategyNotificationHub : DipSocketServer
     {
-        public NotificationHub(ConnectionManager connectionManager, ChannelManager channelManager)
+        public StrategyNotificationHub(ConnectionManager connectionManager, ChannelManager channelManager)
             : base(connectionManager, channelManager)
         {
         }

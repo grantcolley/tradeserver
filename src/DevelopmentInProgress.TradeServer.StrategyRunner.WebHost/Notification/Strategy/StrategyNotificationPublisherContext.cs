@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy
 {
-    public class NotificationPublisherContext : INotificationPublisherContext
+    public class StrategyNotificationPublisherContext : IStrategyNotificationPublisherContext
     {
-        private readonly NotificationHub notificationHub;
+        private readonly StrategyNotificationHub notificationHub;
 
-        public NotificationPublisherContext(NotificationHub notificationHub)
+        public StrategyNotificationPublisherContext(StrategyNotificationHub notificationHub)
         {
             this.notificationHub = notificationHub;
         }
