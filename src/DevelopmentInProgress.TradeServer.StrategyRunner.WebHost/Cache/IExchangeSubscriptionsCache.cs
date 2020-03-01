@@ -1,5 +1,4 @@
-﻿using DevelopmentInProgress.TradeView.Interface.Interfaces;
-using DevelopmentInProgress.TradeView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
