@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DevelopmentInProgress.TradeView.Interface.Interfaces;
 using DevelopmentInProgress.TradeView.Interface.Strategy;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions;
 
 namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 {
