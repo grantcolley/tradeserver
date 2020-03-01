@@ -20,12 +20,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
             {
                 var json = context.Request.Form["strategyparameters"];
 
+                // check the json can convert to type StrategyParameters
                 var strategyParameters = JsonConvert.DeserializeObject<StrategyParameters>(json);
 
-                if (tradeStrategyCacheManager.TryGetTradeStrategy(strategyParameters.StrategyName, out ITradeStrategy tradeStrategy))
-                {
-                    await tradeStrategy.TryStopStrategy(json);
-                }
+                await tradeStrategyCacheManager.StopStrategy(strategyParameters.StrategyName, json);
             }
             catch (Exception ex)
             {

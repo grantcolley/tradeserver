@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using DevelopmentInProgress.TradeView.Interface.Strategy;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeStrategy
@@ -25,6 +26,22 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeSt
         public bool TryRemoveTradeStrategy(string strategyName, out ITradeStrategy tradeStrategy)
         {
             return tradeStrategies.TryRemove(strategyName, out tradeStrategy);
+        }
+
+        public async Task StopStrategy(string strategyName, string parameters)
+        {
+            if (tradeStrategies.TryGetValue(strategyName, out ITradeStrategy tradeStrategy))
+            {
+                await tradeStrategy.TryStopStrategy(parameters);
+            }
+        }
+
+        public async Task UpdateStrategy(string strategyName, string parameters)
+        {
+            if (tradeStrategies.TryGetValue(strategyName, out ITradeStrategy tradeStrategy))
+            {
+                await tradeStrategy.TryUpdateStrategyAsync(parameters);
+            }
         }
     }
 }
