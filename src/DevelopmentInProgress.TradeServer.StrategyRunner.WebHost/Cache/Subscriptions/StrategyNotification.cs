@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions
 {
     public class StrategyNotification<T>
     {

@@ -4,7 +4,7 @@ using DevelopmentInProgress.TradeView.Interface.Events;
 using DevelopmentInProgress.TradeView.Interface.Interfaces;
 using DevelopmentInProgress.TradeView.Interface.Model;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions
 {
     public class SubscribeAccountInfo : SubscriptionBase<AccountInfoEventArgs>
     {

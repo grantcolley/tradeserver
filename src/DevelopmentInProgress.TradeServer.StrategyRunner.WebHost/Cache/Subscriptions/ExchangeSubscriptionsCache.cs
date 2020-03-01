@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System;
 using System.Threading;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions
 {
     public class ExchangeSubscriptionsCache : IExchangeSubscriptionsCache
     {

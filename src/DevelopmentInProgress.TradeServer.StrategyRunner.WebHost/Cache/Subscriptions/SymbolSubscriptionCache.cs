@@ -3,7 +3,7 @@ using DevelopmentInProgress.TradeView.Interface.Interfaces;
 using DevelopmentInProgress.TradeView.Interface.Strategy;
 using System;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions
 {
     public class SymbolSubscriptionCache : ISubscriptionCache
     {

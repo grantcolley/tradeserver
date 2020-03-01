@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using DevelopmentInProgress.TradeView.Interface.Strategy;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeStrategy
 {
     public class TradeStrategyCacheManager : ITradeStrategyCacheManager
     {

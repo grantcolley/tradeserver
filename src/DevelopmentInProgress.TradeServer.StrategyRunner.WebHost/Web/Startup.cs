@@ -3,18 +3,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middleware;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeStrategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
-using DevelopmentInProgress.TradeView.Interface.Interfaces;
-using DevelopmentInProgress.TradeView.Interface.Strategy;
-using DipSocket.NetCore.Extensions;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService;
-using DevelopmentInProgress.TradeView.Service;
-using DevelopmentInProgress.TradeView.Interface.Server;
-using System;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Server;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middleware;
+using DevelopmentInProgress.TradeView.Interface.Interfaces;
+using DevelopmentInProgress.TradeView.Interface.Server;
+using DevelopmentInProgress.TradeView.Interface.Strategy;
+using DevelopmentInProgress.TradeView.Service;
+using DipSocket.NetCore.Extensions;
+using System;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
 {

@@ -1,6 +1,6 @@
 ﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeStrategy
 {
     public interface ITradeStrategyCacheManager
     {

@@ -1,6 +1,6 @@
 ﻿using DevelopmentInProgress.TradeView.Interface.Interfaces;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions
 {
     public abstract class SymbolSubscriptionBase<T> : SubscriptionBase<T>
     {

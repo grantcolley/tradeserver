@@ -4,7 +4,7 @@ using DevelopmentInProgress.TradeView.Interface.Model;
 using DevelopmentInProgress.TradeView.Interface.Events;
 using DevelopmentInProgress.TradeView.Interface.Interfaces;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions
 {
     public class SubscribeCandlesticks : SymbolSubscriptionBase<CandlestickEventArgs>
     {

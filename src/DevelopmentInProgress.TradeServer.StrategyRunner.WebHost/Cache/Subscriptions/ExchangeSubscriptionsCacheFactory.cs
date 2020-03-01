@@ -3,7 +3,7 @@ using DevelopmentInProgress.TradeView.Interface.Enums;
 using System;
 using System.Collections.Concurrent;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions
 {
     public class ExchangeSubscriptionsCacheFactory : IExchangeSubscriptionsCacheFactory
     {
