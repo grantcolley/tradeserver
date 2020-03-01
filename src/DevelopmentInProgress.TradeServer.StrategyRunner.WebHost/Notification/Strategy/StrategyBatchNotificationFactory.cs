@@ -1,8 +1,7 @@
-﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy;
-using DevelopmentInProgress.TradeView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
 using Microsoft.Extensions.Logging;
 
-namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
+namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy
 {
     public class StrategyBatchNotificationFactory : BatchNotificationFactory<StrategyNotification>
     {
