@@ -41,15 +41,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             server.StartedBy = Environment.UserName;
             server.Name = Configuration["s"].ToString();
             server.Url = Configuration["u"].ToString();
-            if(Convert.ToInt32(Configuration["p"]) > 0)
+            if (Convert.ToInt32(Configuration["p"]) > 0)
             {
                 server.MaxDegreeOfParallelism = Convert.ToInt32(Configuration["p"]);
             }
 
             services.AddSingleton<IServer>(server);
-
             services.AddSingleton<IStrategyRunnerActionBlock, StrategyRunnerActionBlock>();
             services.AddTransient<IStrategyRunner, StrategyRunner>();
+            services.AddSingleton<IServerNotificationPublisherContext, ServerNotificationPublisherContext>();
+            services.AddSingleton<IServerNotificationPublisher, ServerNotificationPublisher>();
+            services.AddSingleton<IBatchNotification<ServerNotification>, ServerBatchNotificationPublisher>();
             services.AddSingleton<IStrategyNotificationPublisherContext, StrategyNotificationPublisherContext>();
             services.AddSingleton<IStrategyNotificationPublisher, StrategyNotificationPublisher>();
             services.AddSingleton<IBatchNotificationFactory<StrategyNotification>, StrategyBatchNotificationFactory>();
@@ -57,19 +59,19 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             services.AddSingleton<IExchangeService, ExchangeService>();
             services.AddSingleton<IExchangeSubscriptionsCacheFactory, ExchangeSubscriptionsCacheFactory>();
             services.AddSingleton<ISubscriptionsCacheManager, SubscriptionsCacheManager>();
-            services.AddSingleton<ITradeStrategyCacheManager, TradeStrategyCacheManager>();
-
             services.AddHostedService<StrategyRunnerBackgroundService>();
 
             services.AddDipSocket<StrategyNotificationHub>();
-            services.AddDipSocket<ServerHub>();
+            services.AddDipSocket<ServerNotificationHub>();
+
+            services.AddSingleton<ITradeStrategyCacheManager, TradeStrategyCacheManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
             app.UseDipSocket<StrategyNotificationHub>("/notificationhub");
-            app.UseDipSocket<ServerHub>("/serverhub");
+            app.UseDipSocket<ServerNotificationHub>("/serverhub");
 
             app.Map("/runstrategy", HandleRun);
             app.Map("/updatestrategy", HandleUpdate);

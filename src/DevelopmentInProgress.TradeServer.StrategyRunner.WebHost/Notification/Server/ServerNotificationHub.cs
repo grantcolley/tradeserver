@@ -7,30 +7,47 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Server
 {
-    public class ServerHub : DipSocketServer
+    public class ServerNotificationHub : DipSocketServer
     {
-        public ServerHub(ConnectionManager connectionManager, ChannelManager channelManager)
+        private string serverChannelName;
+
+        public ServerNotificationHub(ConnectionManager connectionManager, ChannelManager channelManager)
             : base(connectionManager, channelManager)
         {
         }
 
-        public async override Task OnClientConnectAsync(WebSocket websocket, string clientId, string serverName)
+        public void SetServerChannelName(string serverName)
         {
+            serverChannelName = serverName;
+        }
+
+        public async override Task OnClientConnectAsync(WebSocket websocket, string clientId, string data)
+        {
+            if (string.IsNullOrWhiteSpace(serverChannelName))
+            {
+                throw new ArgumentNullException("The server channel has not been set.");
+            }
+
             if (string.IsNullOrWhiteSpace(clientId))
             {
                 throw new ArgumentNullException("clientId cannot be null or empty.");
             }
 
-            if (string.IsNullOrWhiteSpace(serverName))
+            if (string.IsNullOrWhiteSpace(data))
             {
                 throw new ArgumentNullException("The server name to subscribe to must be specified in the data parameter.");
+            }
+
+            if (!serverChannelName.Equals(data))
+            {
+                throw new ArgumentNullException($"The server name {data} in the client request does not match the server channel {serverChannelName}");
             }
 
             var connection = await base.AddWebSocketAsync(websocket).ConfigureAwait(false);
 
             connection.Name = clientId;
 
-            SubscribeToChannel(serverName, websocket);
+            SubscribeToChannel(serverChannelName, websocket);
 
             var connectionInfo = connection.GetConnectionInfo();
 
@@ -48,7 +65,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                 switch (message.MessageType)
                 {
                     case MessageType.UnsubscribeFromChannel:
-                        UnsubscribeFromChannel(message.Data, webSocket);
+                        UnsubscribeFromChannel(serverChannelName, webSocket);
                         break;
                 }
             }

@@ -1,15 +1,19 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
+using DevelopmentInProgress.TradeView.Interface.Server;
 using DevelopmentInProgress.TradeView.Interface.Strategy;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeStrategy
 {
     public class TradeStrategyCacheManager : ITradeStrategyCacheManager
     {
+        private IBatchNotification<ServerNotification> serverBatchNotificationPublisher;
         private ConcurrentDictionary<string, ITradeStrategy> tradeStrategies;
 
-        public TradeStrategyCacheManager()
+        public TradeStrategyCacheManager(IBatchNotification<ServerNotification> serverBatchNotificationPublisher)
         {
+            this.serverBatchNotificationPublisher = serverBatchNotificationPublisher;
             tradeStrategies = new ConcurrentDictionary<string, ITradeStrategy>();
         }
 

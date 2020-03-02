@@ -1,5 +1,4 @@
 ﻿using DevelopmentInProgress.TradeView.Interface.Server;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,9 +6,16 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 {
     public class ServerNotificationPublisher : IServerNotificationPublisher
     {
-        public Task PublishNotificationsAsync(IEnumerable<ServerNotification> notifications)
+        private readonly IServerNotificationPublisherContext notificationPublisherContext;
+
+        public ServerNotificationPublisher(IServerNotificationPublisherContext notificationPublisherContext)
         {
-            throw new NotImplementedException();
+            this.notificationPublisherContext = notificationPublisherContext;
+        }
+
+        public async Task PublishNotificationsAsync(IEnumerable<ServerNotification> notifications)
+        {
+            await notificationPublisherContext.PublishNotificationsAsync(notifications);
         }
     }
 }
