@@ -33,6 +33,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         public bool OrderBookException { get; set; }
         public bool StatisticsException { get; set; }
         public bool AccountInfoException { get; set; }
+        public Strategy Strategy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private object tradeLock = new object();
         private object orderBookLock = new object();
