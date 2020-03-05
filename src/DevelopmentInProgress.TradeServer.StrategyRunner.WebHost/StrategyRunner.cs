@@ -6,6 +6,7 @@ using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptio
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeStrategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Utilities;
+using DevelopmentInProgress.TradeView.Interface.Extensions;
 using DevelopmentInProgress.TradeView.Interface.Strategy;
 using System.Threading;
 
