@@ -8,16 +8,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 {
     public class ServerNotificationPublisherContext : IServerNotificationPublisherContext
     {
-        private readonly IServer server;
         private readonly ServerNotificationHub notificationHub;
         private readonly string serverName;
 
-        public ServerNotificationPublisherContext(IServer server, ServerNotificationHub notificationHub)
+        public ServerNotificationPublisherContext(IServerMonitor serverMonitor, ServerNotificationHub notificationHub)
         {
-            this.server = server;
             this.notificationHub = notificationHub;
 
-            serverName = this.server.Name;
+            serverName = serverMonitor.Name;
             this.notificationHub.SetServerChannelName(serverName);
         }
 

@@ -12,18 +12,18 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeSt
 {
     public class TradeStrategyCacheManager : ITradeStrategyCacheManager
     {
-        private IServer server;
+        private IServerMonitor serverMonitor;
         private IBatchNotification<ServerNotification> serverBatchNotificationPublisher;
         private StrategyNotificationHub strategyNotificationHub;
         private ConcurrentDictionary<string, ITradeStrategy> tradeStrategies;
         private SemaphoreSlim notificationSemaphoreSlim = new SemaphoreSlim(1, 1);
 
         public TradeStrategyCacheManager(
-            IServer server, 
+            IServerMonitor serverMonitor, 
             IBatchNotification<ServerNotification> serverBatchNotificationPublisher,
             StrategyNotificationHub strategyNotificationHub)
         {
-            this.server = server;
+            this.serverMonitor = serverMonitor;
             this.strategyNotificationHub = strategyNotificationHub;
             this.serverBatchNotificationPublisher = serverBatchNotificationPublisher;
             tradeStrategies = new ConcurrentDictionary<string, ITradeStrategy>();
@@ -82,7 +82,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeSt
 
             try
             {
-                List<StrategyServer> strategyServers = new List<StrategyServer>();
+                List<ServerStrategy> strategyServers = new List<ServerStrategy>();
 
                 var strategies = tradeStrategies.Values.Select(s => s.Strategy).ToList();
                 var serverInfo = strategyNotificationHub.GetServerInfo();
@@ -92,14 +92,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeSt
                                                  select new ServerStrategy
                                                  {
                                                      Strategy = s,
-                                                     Connections = new List<StrategyConnection>(
-                                                         c.Connections.Select(conn => new StrategyConnection 
+                                                     Connections = new List<ServerStrategyConnection>(
+                                                         c.Connections.Select(conn => new ServerStrategyConnection 
                                                          {
                                                              Connection = conn.Name 
                                                          }))
                                                  }).ToList();
 
-                var serverNotification = server.GetServerNotification(serverStrategies);
+                var serverNotification = serverMonitor.GetServerNotification(serverStrategies);
 
                 serverBatchNotificationPublisher.AddNotification(serverNotification);
             }

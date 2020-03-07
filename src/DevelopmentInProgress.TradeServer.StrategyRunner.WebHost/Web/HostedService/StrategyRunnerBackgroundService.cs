@@ -10,14 +10,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedSer
 {
     public class StrategyRunnerBackgroundService : BackgroundService
     {
-        private readonly IServer server;
+        private readonly IServerMonitor serverMonitor;
         private readonly ILogger logger;
         private readonly IStrategyRunnerActionBlock strategyRunnerActionBlock;
         private CancellationToken cancellationToken;
 
-        public StrategyRunnerBackgroundService(IServer server, IStrategyRunnerActionBlock strategyRunnerActionBlock, ILoggerFactory loggerFactory)
+        public StrategyRunnerBackgroundService(IServerMonitor serverMonitor, IStrategyRunnerActionBlock strategyRunnerActionBlock, ILoggerFactory loggerFactory)
         {
-            this.server = server;
+            this.serverMonitor = serverMonitor;
             this.strategyRunnerActionBlock = strategyRunnerActionBlock;
 
             logger = loggerFactory.CreateLogger<StrategyRunnerBackgroundService>();
@@ -35,7 +35,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedSer
                 {
                     await actionBlockInput.StrategyRunner.RunAsync(actionBlockInput.Strategy, actionBlockInput.DownloadsPath, this.cancellationToken).ConfigureAwait(false);
                 },
-                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = server.MaxDegreeOfParallelism });
+                new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = serverMonitor.MaxDegreeOfParallelism });
 
                 while (!this.cancellationToken.IsCancellationRequested)
                 {

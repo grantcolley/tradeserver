@@ -36,17 +36,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var server = new Server();
-            server.Started = DateTime.Now;
-            server.StartedBy = Environment.UserName;
-            server.Name = Configuration["s"].ToString();
-            server.Url = Configuration["u"].ToString();
+            var serverMonitor = new ServerMonitor();
+            serverMonitor.Started = DateTime.Now;
+            serverMonitor.StartedBy = Environment.UserName;
+            serverMonitor.Name = Configuration["s"].ToString();
+            serverMonitor.Url = Configuration["u"].ToString();
             if (Convert.ToInt32(Configuration["p"]) > 0)
             {
-                server.MaxDegreeOfParallelism = Convert.ToInt32(Configuration["p"]);
+                serverMonitor.MaxDegreeOfParallelism = Convert.ToInt32(Configuration["p"]);
             }
 
-            services.AddSingleton<IServer>(server);
+            services.AddSingleton<IServerMonitor>(serverMonitor);
             services.AddSingleton<IStrategyRunnerActionBlock, StrategyRunnerActionBlock>();
             services.AddTransient<IStrategyRunner, StrategyRunner>();
             services.AddSingleton<IServerNotificationPublisherContext, ServerNotificationPublisherContext>();
