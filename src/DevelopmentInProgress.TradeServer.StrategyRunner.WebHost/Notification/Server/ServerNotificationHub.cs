@@ -1,4 +1,5 @@
-﻿using DipSocket.Messages;
+﻿using DevelopmentInProgress.TradeView.Interface.Server;
+using DipSocket.Messages;
 using DipSocket.Server;
 using Newtonsoft.Json;
 using System;
@@ -9,21 +10,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 {
     public class ServerNotificationHub : DipSocketServer
     {
-        private string serverChannelName;
+        private IServerMonitor serverMonitor;
 
-        public ServerNotificationHub(ConnectionManager connectionManager, ChannelManager channelManager)
+        public ServerNotificationHub(ConnectionManager connectionManager, ChannelManager channelManager, IServerMonitor serverMonitor)
             : base(connectionManager, channelManager)
         {
-        }
-
-        public void SetServerChannelName(string serverName)
-        {
-            serverChannelName = serverName;
+            this.serverMonitor = serverMonitor;
         }
 
         public async override Task OnClientConnectAsync(WebSocket websocket, string clientId, string data)
         {
-            if (string.IsNullOrWhiteSpace(serverChannelName))
+            if (string.IsNullOrWhiteSpace(serverMonitor.Name))
             {
                 throw new ArgumentNullException("The server channel has not been set.");
             }
@@ -38,16 +35,16 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                 throw new ArgumentNullException("The server name to subscribe to must be specified in the data parameter.");
             }
 
-            if (!serverChannelName.Equals(data))
+            if (!serverMonitor.Name.Equals(data))
             {
-                throw new ArgumentNullException($"The server name {data} in the client request does not match the server channel {serverChannelName}");
+                throw new ArgumentNullException($"The server name {data} in the client request does not match the server channel {serverMonitor.Name}");
             }
 
             var connection = await base.AddWebSocketAsync(websocket).ConfigureAwait(false);
 
             connection.Name = clientId;
 
-            SubscribeToChannel(serverChannelName, websocket);
+            SubscribeToChannel(serverMonitor.Name, websocket);
 
             var connectionInfo = connection.GetConnectionInfo();
 
@@ -65,7 +62,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                 switch (message.MessageType)
                 {
                     case MessageType.UnsubscribeFromChannel:
-                        UnsubscribeFromChannel(serverChannelName, webSocket);
+                        UnsubscribeFromChannel(serverMonitor.Name, webSocket);
                         break;
                 }
             }
