@@ -9,21 +9,20 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
     public class ServerNotificationPublisherContext : IServerNotificationPublisherContext
     {
         private readonly ServerNotificationHub notificationHub;
-        private readonly string serverName;
+        private readonly IServerMonitor serverMonitor;
 
         public ServerNotificationPublisherContext(IServerMonitor serverMonitor, ServerNotificationHub notificationHub)
         {
             this.notificationHub = notificationHub;
 
-            serverName = serverMonitor.Name;
-            this.notificationHub.SetServerChannelName(serverName);
+            this.serverMonitor = serverMonitor;
         }
 
         public async Task PublishNotificationsAsync(IEnumerable<ServerNotification> notification)
         {
             var json = JsonConvert.SerializeObject(notification);
-            var msg = new Message { SenderConnectionId = serverName, MessageType = MessageType.SendToChannel, MethodName = "Dashbord", Data = json };
-            await notificationHub.SendMessageToChannelAsync(serverName, msg);
+            var msg = new Message { SenderConnectionId = serverMonitor.Name, MessageType = MessageType.SendToChannel, MethodName = "Dashbord", Data = json };
+            await notificationHub.SendMessageToChannelAsync(serverMonitor.Name, msg);
         }
     }
 }
