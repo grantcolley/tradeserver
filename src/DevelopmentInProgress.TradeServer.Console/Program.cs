@@ -27,7 +27,7 @@ namespace DevelopmentInProgress.TradeServer.Console
 
                     args = new[]
                     {
-                        $"s={Environment.MachineName}_{Guid.NewGuid().ToString()}",
+                        $"s=TradeServer",
                         "u=http://+:5500",
                         "p=5"
                     };
