@@ -76,7 +76,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeSt
             }
         }
 
-        private void ServerNotification()
+        public void ServerNotification()
         {
             notificationSemaphoreSlim.Wait();
 

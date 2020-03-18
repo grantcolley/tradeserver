@@ -10,5 +10,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeSt
         bool TryGetTradeStrategy(string strategyName, out ITradeStrategy tradeStrategy);
         Task StopStrategy(string strategyName, string parameters);
         Task UpdateStrategy(string strategyName, string parameters);
+        void ServerNotification();
     }
 }
