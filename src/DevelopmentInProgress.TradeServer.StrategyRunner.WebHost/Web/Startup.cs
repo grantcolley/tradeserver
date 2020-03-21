@@ -60,11 +60,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             services.AddSingleton<IExchangeSubscriptionsCacheFactory, ExchangeSubscriptionsCacheFactory>();
             services.AddSingleton<ISubscriptionsCacheManager, SubscriptionsCacheManager>();
             services.AddHostedService<StrategyRunnerBackgroundService>();
+            services.AddSingleton<ITradeStrategyCacheManager, TradeStrategyCacheManager>();
 
             services.AddDipSocket<StrategyNotificationHub>();
             services.AddDipSocket<ServerNotificationHub>();
 
-            services.AddSingleton<ITradeStrategyCacheManager, TradeStrategyCacheManager>();
+            services.AddSingleton<IServerManager, ServerManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
