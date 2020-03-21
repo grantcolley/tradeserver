@@ -36,17 +36,24 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var serverMonitor = new ServerMonitor();
-            serverMonitor.Started = DateTime.Now;
-            serverMonitor.StartedBy = Environment.UserName;
-            serverMonitor.Name = Configuration["s"].ToString();
-            serverMonitor.Url = Configuration["u"].ToString();
+            int maxDegreeOfParallelism = 5;
+
             if (Convert.ToInt32(Configuration["p"]) > 0)
             {
-                serverMonitor.MaxDegreeOfParallelism = Convert.ToInt32(Configuration["p"]);
+                maxDegreeOfParallelism = Convert.ToInt32(Configuration["p"]);
             }
 
-            services.AddSingleton<IServerMonitor>(serverMonitor);
+            // Get the container to create the ServerMonitor instance  
+            // so the container automatically handles disposing it.
+            services.AddSingleton<IServerMonitor>(sm => new ServerMonitor
+            {
+                Started = DateTime.Now,
+                StartedBy = Environment.UserName,
+                Name = Configuration["s"].ToString(),
+                Url = Configuration["u"].ToString(),
+                MaxDegreeOfParallelism = maxDegreeOfParallelism
+            });
+
             services.AddSingleton<IStrategyRunnerActionBlock, StrategyRunnerActionBlock>();
             services.AddTransient<IStrategyRunner, StrategyRunner>();
             services.AddSingleton<IServerNotificationPublisherContext, ServerNotificationPublisherContext>();
@@ -79,6 +86,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             app.Map("/stopstrategy", HandleStop);
             app.Map("/isstrategyrunning", HandleIsStrategyRunning);
             app.Map("/ping", HandlePing);
+
+            // Create instance of the Server Manager.
+            app.ApplicationServices.GetRequiredService<IServerManager>();
         }
 
         private static void HandleRun(IApplicationBuilder app)
