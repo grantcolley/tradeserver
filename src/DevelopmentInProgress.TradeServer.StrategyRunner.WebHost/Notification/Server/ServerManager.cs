@@ -15,23 +15,27 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         private IBatchNotification<ServerNotification> serverBatchNotificationPublisher;
         private ITradeStrategyCacheManager tradeStrategyCacheManager;
         private StrategyNotificationHub strategyNotificationHub;
+        private ServerNotificationHub serverNotificationHub;
         private SemaphoreSlim notificationSemaphoreSlim = new SemaphoreSlim(1, 1);
         private List<IDisposable> disposables; 
 
         public ServerManager(IServerMonitor serverMonitor,
             IBatchNotification<ServerNotification> serverBatchNotificationPublisher,
             ITradeStrategyCacheManager tradeStrategyCacheManager,
-            StrategyNotificationHub strategyNotificationHub)
+            StrategyNotificationHub strategyNotificationHub,
+            ServerNotificationHub serverNotificationHub)
         {
             this.serverMonitor = serverMonitor;
             this.serverBatchNotificationPublisher = serverBatchNotificationPublisher;
             this.tradeStrategyCacheManager = tradeStrategyCacheManager;
             this.strategyNotificationHub = strategyNotificationHub;
+            this.serverNotificationHub = serverNotificationHub;
 
             disposables = new List<IDisposable>();
 
             ObserverTradeStrategyCacheManager();
             ObserverStrategyNotificationHub();
+            ObserverServerNotificationHub();
         }
 
         private void ObserverTradeStrategyCacheManager()
@@ -62,6 +66,21 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             });
 
             disposables.Add(strategyNotificationHubObservableSubscription);
+        }
+
+        private void ObserverServerNotificationHub()
+        {
+            var serverNotificationHubObservable = Observable.FromEventPattern<ServerNotificationEventArgs>(
+                eventHandler => serverNotificationHub.ServerNotification += eventHandler,
+                eventHandler => serverNotificationHub.ServerNotification -= eventHandler)
+                .Select(eventPattern => eventPattern.EventArgs);
+
+            var serverNotificationHubObservableSubscription = serverNotificationHubObservable.Subscribe(args =>
+            {
+                OnNotification();
+            });
+
+            disposables.Add(serverNotificationHubObservableSubscription);
         }
 
         private void OnNotification()

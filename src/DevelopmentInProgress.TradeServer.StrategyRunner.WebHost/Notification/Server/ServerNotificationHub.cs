@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Server
 {
-    public class ServerNotificationHub : DipSocketServer
+    public class ServerNotificationHub : DipSocketServer, IServerNotification
     {
         private IServerMonitor serverMonitor;
 
@@ -17,6 +17,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         {
             this.serverMonitor = serverMonitor;
         }
+
+        public event EventHandler<ServerNotificationEventArgs> ServerNotification;
 
         public async override Task OnClientConnectAsync(WebSocket websocket, string clientId, string data)
         {
@@ -53,6 +55,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             var message = new Message { MethodName = "OnConnected", SenderConnectionId = "Server", Data = json };
 
             await SendMessageAsync(websocket, message).ConfigureAwait(false);
+
+            OnServerNotification();
         }
 
         public async override Task ReceiveAsync(WebSocket webSocket, Message message)
@@ -65,12 +69,20 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                         UnsubscribeFromChannel(serverMonitor.Name, webSocket);
                         break;
                 }
+
+                OnServerNotification();
             }
             catch (Exception ex)
             {
                 var errorMessage = new Message { MethodName = message.MethodName, SenderConnectionId = message.SenderConnectionId, Data = $"{MessageType.UnsubscribeFromChannel} Error : {ex.Message}" };
                 await SendMessageAsync(webSocket, errorMessage).ConfigureAwait(false);
             }
+        }
+
+        private void OnServerNotification()
+        {
+            var serverNotification = ServerNotification;
+            serverNotification?.Invoke(this, new ServerNotificationEventArgs());
         }
     }
 }
