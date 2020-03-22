@@ -21,7 +21,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         public async Task PublishNotificationsAsync(IEnumerable<ServerNotification> notification)
         {
             var json = JsonConvert.SerializeObject(notification);
-            var msg = new Message { SenderConnectionId = serverMonitor.Name, MessageType = MessageType.SendToChannel, MethodName = "Dashbord", Data = json };
+            var msg = new Message { SenderConnectionId = serverMonitor.Name, MessageType = MessageType.SendToChannel, MethodName = "OnNotification", Data = json };
             await notificationHub.SendMessageToChannelAsync(serverMonitor.Name, msg);
         }
     }
