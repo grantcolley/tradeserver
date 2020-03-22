@@ -101,6 +101,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
                 tradeStrategy.StrategyCandlesticksEvent += StrategyCandlesticksEvent;
                 tradeStrategy.StrategyCustomNotificationEvent += StrategyCustomNotificationEvent;
 
+                tradeStrategy.SetStrategy(strategy);
+
                 strategy.Status = StrategyStatus.Running;
 
                 if(tradeStrategyCacheManager.TryAddTradeStrategy(strategy.Name, tradeStrategy))
@@ -111,7 +113,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
                     Notify(NotificationLevel.Information, NotificationEventId.RunStrategyAsync, strategy, $"Running {strategy.Name}");
 
-                    var result = await tradeStrategy.RunAsync(strategy, cancellationToken).ConfigureAwait(false);
+                    var result = await tradeStrategy.RunAsync(cancellationToken).ConfigureAwait(false);
 
                     if(!tradeStrategyCacheManager.TryRemoveTradeStrategy(strategy.Name, out ITradeStrategy ts))
                     {
