@@ -23,7 +23,12 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         public bool OrderBookException { get; set; }
         public Strategy Strategy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Task<Strategy> RunAsync(Strategy strategy, CancellationToken cancellationToken)
+        public void SetStrategy(Strategy strategy)
+        {
+
+        }
+
+        public Task<Strategy> RunAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
