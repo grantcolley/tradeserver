@@ -38,7 +38,12 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         private object tradeLock = new object();
         private object orderBookLock = new object();
 
-        public Task<Strategy> RunAsync(Strategy strategy, CancellationToken cancellationToken)
+        public void SetStrategy(Strategy strategy)
+        {
+
+        }
+
+        public Task<Strategy> RunAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
