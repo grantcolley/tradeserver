@@ -25,7 +25,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 
         public void SetStrategy(Strategy strategy)
         {
-
+            throw new NotImplementedException();
         }
 
         public Task<Strategy> RunAsync(CancellationToken cancellationToken)
