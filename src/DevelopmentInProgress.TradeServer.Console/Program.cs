@@ -14,7 +14,7 @@ namespace DevelopmentInProgress.TradeServer.Console
             try
             {
                 Log.Logger = new LoggerConfiguration()
-                    .WriteTo.File("DevelopmentInProgress.TradeServer.Console-.log", rollingInterval: RollingInterval.Day)
+                    .WriteTo.File("Logs\\DevelopmentInProgress.TradeServer.Console-.log", rollingInterval: RollingInterval.Day)
                     .WriteTo.Console()
                     .CreateLogger();
 
