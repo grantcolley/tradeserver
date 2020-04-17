@@ -7,10 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{85AD2FD5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.MarketView.StrategyRunner.Test", "test\DevelopmentInProgress.MarketView.StrategyRunner.Test\DevelopmentInProgress.MarketView.StrategyRunner.Test.csproj", "{7237EBCE-A414-44F7-84AB-BE8C39340E51}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DipSocket", "..\dipsocket\src\DipSocket\DipSocket.csproj", "{AEA3E539-D8B0-47C7-92C1-1972F30F9658}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DipSocket.NetCore.Extensions", "..\dipsocket\src\DipSocket.NetCore.Extensions\DipSocket.NetCore.Extensions.csproj", "{F8B089AC-E659-4181-BAC9-FA6256EF0039}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeServer.Console", "src\DevelopmentInProgress.TradeServer.Console\DevelopmentInProgress.TradeServer.Console.csproj", "{E9171234-5CD8-4829-9D14-DF15BCC7E618}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeServer.StrategyRunner.WebHost", "src\DevelopmentInProgress.TradeServer.StrategyRunner.WebHost\DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.csproj", "{DE89A184-3C66-4CFC-9658-FE33C486ED8F}"
@@ -25,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.Trade
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeView.Api.Kucoin", "..\tradeview\src\DevelopmentInProgress.TradeView.Api.Kucoin\DevelopmentInProgress.TradeView.Api.Kucoin.csproj", "{57E1B229-D027-486C-AAA8-93992F93E274}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.Socket", "..\tradeview\src\DevelopmentInProgress.Socket\DevelopmentInProgress.Socket.csproj", "{F042778D-FB48-47CE-B89F-62BB24F812B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.Socket.Extensions", "src\DevelopmentInProgress.Socket.Extensions\DevelopmentInProgress.Socket.Extensions.csproj", "{0BC9623E-AFEE-4799-B8C9-8DC4262347FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,14 +35,6 @@ Global
 		{7237EBCE-A414-44F7-84AB-BE8C39340E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7237EBCE-A414-44F7-84AB-BE8C39340E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7237EBCE-A414-44F7-84AB-BE8C39340E51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AEA3E539-D8B0-47C7-92C1-1972F30F9658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AEA3E539-D8B0-47C7-92C1-1972F30F9658}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AEA3E539-D8B0-47C7-92C1-1972F30F9658}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AEA3E539-D8B0-47C7-92C1-1972F30F9658}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8B089AC-E659-4181-BAC9-FA6256EF0039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8B089AC-E659-4181-BAC9-FA6256EF0039}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8B089AC-E659-4181-BAC9-FA6256EF0039}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8B089AC-E659-4181-BAC9-FA6256EF0039}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9171234-5CD8-4829-9D14-DF15BCC7E618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E9171234-5CD8-4829-9D14-DF15BCC7E618}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9171234-5CD8-4829-9D14-DF15BCC7E618}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,6 +63,14 @@ Global
 		{57E1B229-D027-486C-AAA8-93992F93E274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57E1B229-D027-486C-AAA8-93992F93E274}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57E1B229-D027-486C-AAA8-93992F93E274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F042778D-FB48-47CE-B89F-62BB24F812B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F042778D-FB48-47CE-B89F-62BB24F812B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F042778D-FB48-47CE-B89F-62BB24F812B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F042778D-FB48-47CE-B89F-62BB24F812B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BC9623E-AFEE-4799-B8C9-8DC4262347FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BC9623E-AFEE-4799-B8C9-8DC4262347FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BC9623E-AFEE-4799-B8C9-8DC4262347FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BC9623E-AFEE-4799-B8C9-8DC4262347FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
