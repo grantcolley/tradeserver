@@ -1,5 +1,5 @@
-﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
-using DipSocket.Messages;
+﻿using DevelopmentInProgress.Socket.Messages;
+using DevelopmentInProgress.TradeView.Interface.Strategy;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;

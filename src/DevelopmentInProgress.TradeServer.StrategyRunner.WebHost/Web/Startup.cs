@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using DevelopmentInProgress.Socket.Extensions;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeStrategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
@@ -14,7 +15,6 @@ using DevelopmentInProgress.TradeView.Interface.Interfaces;
 using DevelopmentInProgress.TradeView.Interface.Server;
 using DevelopmentInProgress.TradeView.Interface.Strategy;
 using DevelopmentInProgress.TradeView.Service;
-using DipSocket.NetCore.Extensions;
 using System;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
@@ -69,8 +69,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
             services.AddHostedService<StrategyRunnerBackgroundService>();
             services.AddSingleton<ITradeStrategyCacheManager, TradeStrategyCacheManager>();
 
-            services.AddDipSocket<StrategyNotificationHub>();
-            services.AddDipSocket<ServerNotificationHub>();
+            services.AddSocket<StrategyNotificationHub>();
+            services.AddSocket<ServerNotificationHub>();
 
             services.AddSingleton<IServerManager, ServerManager>();
         }
@@ -78,8 +78,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-            app.UseDipSocket<StrategyNotificationHub>("/notificationhub");
-            app.UseDipSocket<ServerNotificationHub>("/serverhub");
+            app.UseSocket<StrategyNotificationHub>("/notificationhub");
+            app.UseSocket<ServerNotificationHub>("/serverhub");
 
             app.Map("/runstrategy", HandleRun);
             app.Map("/updatestrategy", HandleUpdate);

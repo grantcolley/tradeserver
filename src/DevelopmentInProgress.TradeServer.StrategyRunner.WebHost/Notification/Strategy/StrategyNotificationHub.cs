@@ -1,6 +1,6 @@
-﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Server;
-using DipSocket.Messages;
-using DipSocket.Server;
+﻿using DevelopmentInProgress.Socket.Messages;
+using DevelopmentInProgress.Socket.Server;
+using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Server;
 using Newtonsoft.Json;
 using System;
 using System.Net.WebSockets;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy
 {
-    public class StrategyNotificationHub : DipSocketServer, IServerNotification
+    public class StrategyNotificationHub : SocketServer, IServerNotification
     {
         public StrategyNotificationHub(ConnectionManager connectionManager, ChannelManager channelManager)
             : base(connectionManager, channelManager)
