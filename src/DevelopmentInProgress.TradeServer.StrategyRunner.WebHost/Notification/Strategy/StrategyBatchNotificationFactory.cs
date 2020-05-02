@@ -41,6 +41,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 
                 case BatchNotificationType.StrategyStatisticsPublisher:
                     return new StrategyBatchStatisticsPublisher(notificationPublisher);
+
+                case BatchNotificationType.StrategyParameterUpdatePublisher:
+                    return new StrategyBatchParameterUpdatePublisher(notificationPublisher);
             }
 
             return null;

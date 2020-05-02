@@ -22,6 +22,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
         private IBatchNotification<StrategyNotification> strategyTradePublisher;
         private IBatchNotification<StrategyNotification> strategyStatisticsPublisher;
         private IBatchNotification<StrategyNotification> strategyCandlesticksPublisher;
+        private IBatchNotification<StrategyNotification> strategyParameterUpdatePublisher;
         private ISubscriptionsCacheManager subscriptionsCacheManager;
         private ITradeStrategyCacheManager tradeStrategyCacheManager;
 
@@ -43,6 +44,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
             strategyTradePublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyTradePublisher);
             strategyStatisticsPublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyStatisticsPublisher);
             strategyCandlesticksPublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyCandlesticksPublisher);
+            strategyParameterUpdatePublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyParameterUpdatePublisher);
         }
 
         public async Task<Strategy> RunAsync(Strategy strategy, string localPath, CancellationToken cancellationToken)
@@ -99,6 +101,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
                 tradeStrategy.StrategyTradeEvent += StrategyTradeEvent;
                 tradeStrategy.StrategyStatisticsEvent += StrategyStatisticsEvent;
                 tradeStrategy.StrategyCandlesticksEvent += StrategyCandlesticksEvent;
+                tradeStrategy.StrategyParameterUpdateEvent += StrategyParameterUpdateEvent;
                 tradeStrategy.StrategyCustomNotificationEvent += StrategyCustomNotificationEvent;
 
                 tradeStrategy.SetStrategy(strategy);
@@ -135,6 +138,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
                     tradeStrategy.StrategyAccountInfoEvent -= StrategyAccountInfoEvent;
                     tradeStrategy.StrategyOrderBookEvent -= StrategyOrderBookEvent;
                     tradeStrategy.StrategyTradeEvent -= StrategyTradeEvent;
+                    tradeStrategy.StrategyParameterUpdateEvent -= StrategyParameterUpdateEvent;
                     tradeStrategy.StrategyCustomNotificationEvent -= StrategyCustomNotificationEvent;
                 }
 
@@ -147,6 +151,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
         private void StrategyNotificationEvent(object sender, StrategyNotificationEventArgs e)
         {
             strategyNotificationPublisher.AddNotification(e.StrategyNotification);
+        }
+
+        private void StrategyParameterUpdateEvent(object sender, StrategyNotificationEventArgs e)
+        {
+            strategyParameterUpdatePublisher.AddNotification(e.StrategyNotification);
         }
 
         private void StrategyAccountInfoEvent(object sender, StrategyNotificationEventArgs e)

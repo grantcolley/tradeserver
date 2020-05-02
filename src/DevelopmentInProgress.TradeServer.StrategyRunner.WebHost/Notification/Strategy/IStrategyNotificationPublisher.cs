@@ -13,5 +13,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         Task PublishCandlesticksAsync(IEnumerable<StrategyNotification> notifications);
         Task PublishStatisticsAsync(IEnumerable<StrategyNotification> notifications);
         Task PublishAccountInfoAsync(IEnumerable<StrategyNotification> notifications);
+        Task PublishParameterUpdateAsync(IEnumerable<StrategyNotification> notifications);
     }
 }

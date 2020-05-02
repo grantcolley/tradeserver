@@ -76,5 +76,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                 await notificationPublisherContext.PublishStatisticsAsync(group.Key, group);
             }
         }
+
+        public async Task PublishParameterUpdateAsync(IEnumerable<StrategyNotification> notifications)
+        {
+            var notifyGroups = notifications.GroupBy(n => n.Name);
+            foreach (var group in notifyGroups)
+            {
+                await notificationPublisherContext.PublishParameterUpdateAsync(group.Key, group);
+            }
+        }
     }
 }

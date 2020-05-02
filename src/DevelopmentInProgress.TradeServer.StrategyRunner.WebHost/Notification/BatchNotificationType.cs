@@ -9,6 +9,7 @@
         StrategyOrderBookPublisher,
         StrategyTradePublisher,
         StrategyStatisticsPublisher,
-        StrategyCandlesticksPublisher
+        StrategyCandlesticksPublisher,
+        StrategyParameterUpdatePublisher
     }
 }

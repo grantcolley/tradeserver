@@ -63,5 +63,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             var msg = new Message { SenderConnectionId = strategyName, MessageType = MessageType.SendToChannel, MethodName = "AccountInfo", Data = json };
             await notificationHub.SendMessageToChannelAsync(strategyName, msg);
         }
+
+        public async Task PublishParameterUpdateAsync(string strategyName, IEnumerable<StrategyNotification> notification)
+        {
+            var json = JsonConvert.SerializeObject(notification);
+            var msg = new Message { SenderConnectionId = strategyName, MessageType = MessageType.SendToChannel, MethodName = "ParameterUpdate", Data = json };
+            await notificationHub.SendMessageToChannelAsync(strategyName, msg);
+        }
     }
 }
