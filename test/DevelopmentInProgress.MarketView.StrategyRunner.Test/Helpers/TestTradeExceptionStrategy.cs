@@ -18,6 +18,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         public event EventHandler<StrategyNotificationEventArgs> StrategyTradeEvent;
         public event EventHandler<StrategyNotificationEventArgs> StrategyCandlesticksEvent;
         public event EventHandler<StrategyNotificationEventArgs> StrategyStatisticsEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyParameterUpdateEvent;
 
         public bool AggregateTradesException { get; set; }
         public bool OrderBookException { get; set; }
