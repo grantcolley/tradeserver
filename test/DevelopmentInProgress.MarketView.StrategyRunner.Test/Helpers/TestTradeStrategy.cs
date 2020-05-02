@@ -20,6 +20,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         public event EventHandler<StrategyNotificationEventArgs> StrategyTradeEvent;
         public event EventHandler<StrategyNotificationEventArgs> StrategyCandlesticksEvent;
         public event EventHandler<StrategyNotificationEventArgs> StrategyStatisticsEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyParameterUpdateEvent;
 
         public IEnumerable<ITrade> AggregateTrades { get; set; }
         public IEnumerable<SymbolStats> Statistics { get; set; }
