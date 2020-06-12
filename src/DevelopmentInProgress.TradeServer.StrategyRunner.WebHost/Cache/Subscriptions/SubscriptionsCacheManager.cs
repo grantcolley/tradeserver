@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.TradeView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Core.Strategy;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DevelopmentInProgress.TradeView.Interface.Interfaces;
-using DevelopmentInProgress.TradeView.Interface.Strategy;
+using DevelopmentInProgress.TradeView.Core.Interfaces;
+using DevelopmentInProgress.TradeView.Core.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions;
 
 namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers

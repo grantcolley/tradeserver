@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
-using DevelopmentInProgress.TradeView.Interface.Model;
-using DevelopmentInProgress.TradeView.Interface.Events;
-using DevelopmentInProgress.TradeView.Interface.Interfaces;
+using DevelopmentInProgress.TradeView.Core.Model;
+using DevelopmentInProgress.TradeView.Core.Events;
+using DevelopmentInProgress.TradeView.Core.Interfaces;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions
 {

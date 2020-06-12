@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.TradeView.Interface.Server;
+﻿using DevelopmentInProgress.TradeView.Core.Server;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;

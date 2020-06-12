@@ -1,5 +1,5 @@
 ﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Server;
-using DevelopmentInProgress.TradeView.Interface.Strategy;
+using DevelopmentInProgress.TradeView.Core.Strategy;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

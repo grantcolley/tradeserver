@@ -1,6 +1,6 @@
 ﻿using DevelopmentInProgress.Socket.Messages;
 using DevelopmentInProgress.Socket.Server;
-using DevelopmentInProgress.TradeView.Interface.Server;
+using DevelopmentInProgress.TradeView.Core.Server;
 using Newtonsoft.Json;
 using System;
 using System.Net.WebSockets;

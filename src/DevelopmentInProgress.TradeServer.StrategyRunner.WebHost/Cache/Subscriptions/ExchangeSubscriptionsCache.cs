@@ -1,8 +1,8 @@
-﻿using DevelopmentInProgress.TradeView.Interface.Enums;
-using DevelopmentInProgress.TradeView.Interface.Events;
-using DevelopmentInProgress.TradeView.Interface.Interfaces;
-using DevelopmentInProgress.TradeView.Interface.Model;
-using DevelopmentInProgress.TradeView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Core.Enums;
+using DevelopmentInProgress.TradeView.Core.Events;
+using DevelopmentInProgress.TradeView.Core.Interfaces;
+using DevelopmentInProgress.TradeView.Core.Model;
+using DevelopmentInProgress.TradeView.Core.Strategy;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,9 +44,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
             foreach (var strategySubscription in strategySubscriptions)
             {
-                if (strategySubscription.Subscribe.HasFlag(TradeView.Interface.Strategy.Subscribe.Trades)
-                    || strategySubscription.Subscribe.HasFlag(TradeView.Interface.Strategy.Subscribe.OrderBook)
-                    || strategySubscription.Subscribe.HasFlag(TradeView.Interface.Strategy.Subscribe.Candlesticks))
+                if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.Trades)
+                    || strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.OrderBook)
+                    || strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.Candlesticks))
                 {
                     ISubscriptionCache symbolCache;
                     if (!Caches.TryGetValue(strategySubscription.Symbol, out symbolCache))
@@ -58,7 +58,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
                     symbolCache.Subscribe(strategyName, strategySubscription, tradeStrategy);
                 }
 
-                if (strategySubscription.Subscribe.HasFlag(TradeView.Interface.Strategy.Subscribe.AccountInfo))
+                if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.AccountInfo))
                 {
                     var user = new User
                     {
@@ -88,14 +88,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
         {
             foreach (var strategySubscription in strategySubscriptions)
             {
-                if (strategySubscription.Subscribe.HasFlag(TradeView.Interface.Strategy.Subscribe.Trades)
-                    || strategySubscription.Subscribe.HasFlag(TradeView.Interface.Strategy.Subscribe.OrderBook)
-                    || strategySubscription.Subscribe.HasFlag(TradeView.Interface.Strategy.Subscribe.Candlesticks))
+                if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.Trades)
+                    || strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.OrderBook)
+                    || strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.Candlesticks))
                 {
                     Unsubscribe(strategyName, strategySubscription, strategySubscription.Symbol, tradeStrategy);
                 }
 
-                if (strategySubscription.Subscribe.HasFlag(TradeView.Interface.Strategy.Subscribe.AccountInfo))
+                if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.AccountInfo))
                 {
                     Unsubscribe(strategyName, strategySubscription, strategySubscription.ApiKey, tradeStrategy);
                 }

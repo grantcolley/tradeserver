@@ -1,5 +1,5 @@
 ﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeStrategy;
-using DevelopmentInProgress.TradeView.Interface.Strategy;
+using DevelopmentInProgress.TradeView.Core.Strategy;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;

@@ -20,7 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.Socket\DevelopmentInProgress.Socket.csproj" />
     <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.TradeView.Common\DevelopmentInProgress.TradeView.Common.csproj" />
-    <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.TradeView.Interface\DevelopmentInProgress.TradeView.Interface.csproj" />
+    <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.TradeView.Core\DevelopmentInProgress.TradeView.Core.csproj" />
     <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.TradeView.Service\DevelopmentInProgress.TradeView.Service.csproj" />
     <ProjectReference Include="..\DevelopmentInProgress.Socket.Extensions\DevelopmentInProgress.Socket.Extensions.csproj" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeStrategy;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy;
-using DevelopmentInProgress.TradeView.Interface.Server;
+using DevelopmentInProgress.TradeView.Core.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;

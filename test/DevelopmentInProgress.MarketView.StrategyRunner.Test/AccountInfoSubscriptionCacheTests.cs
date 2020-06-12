@@ -1,5 +1,5 @@
-﻿using DevelopmentInProgress.TradeView.Interface.Enums;
-using DevelopmentInProgress.TradeView.Interface.Strategy;
+﻿using DevelopmentInProgress.TradeView.Core.Enums;
+using DevelopmentInProgress.TradeView.Core.Strategy;
 using DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.TradeView.Interface.Enums;
+﻿using DevelopmentInProgress.TradeView.Core.Enums;
 using System;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions
