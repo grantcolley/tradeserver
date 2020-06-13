@@ -19,7 +19,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new System.NotImplementedException();
         }
 
-        public int Subscriptions(Subscribe subscribe)
+        public int Subscriptions(Subscribes subscribe)
         {
             throw new System.NotImplementedException();
         }

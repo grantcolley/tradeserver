@@ -28,14 +28,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
             }
         }
 
-        public int Subscriptions(Subscribe subscribe)
+        public int Subscriptions(Subscribes subscribe)
         {
             return subscribeAccountInfo.Subscriptions;
         }
 
         public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.AccountInfo))
+            if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.AccountInfo))
             {
                 var accountInfo = new StrategyNotification<AccountInfoEventArgs>
                 {
@@ -51,7 +51,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
         public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.AccountInfo))
+            if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.AccountInfo))
             {
                 subscribeAccountInfo.Unsubscribe(strategyName, tradeStrategy.SubscribeAccountInfoException);
             }

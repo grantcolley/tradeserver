@@ -16,7 +16,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeApi();
-            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Subscribes = Subscribes.AccountInfo };
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
@@ -28,7 +28,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
 
                 // Assert
                 Assert.IsTrue(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribe.AccountInfo), 1);
+                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 1);
                 Assert.IsNotNull(tradeStrategy.AccountInfo);
                 Assert.IsTrue(tradeStrategy.AccountInfo.Balances.Any());
             }
@@ -39,8 +39,8 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeApi();
-            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
-            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Subscribes = Subscribes.AccountInfo };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Subscribes = Subscribes.AccountInfo };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
@@ -55,7 +55,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
 
                 // Assert
                 Assert.IsTrue(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribe.AccountInfo), 2);
+                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 2);
                 Assert.IsNotNull(tradeStrategy1.AccountInfo);
                 Assert.IsTrue(tradeStrategy1.AccountInfo.Balances.Any());
                 Assert.IsNotNull(tradeStrategy2.AccountInfo);
@@ -68,7 +68,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeApi();
-            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Subscribes = Subscribes.AccountInfo };
             var tradeStrategy = new TestTradeStrategy();
 
             using (var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService))
@@ -84,7 +84,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
 
                 // Assert
                 Assert.IsFalse(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribe.AccountInfo), 0);
+                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 0);
                 Assert.IsNotNull(tradeStrategy.AccountInfo);
                 Assert.IsTrue(tradeStrategy.AccountInfo.Balances.Any());
             }
@@ -95,8 +95,8 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeApi();
-            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
-            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Subscribes = Subscribes.AccountInfo };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Subscribes = Subscribes.AccountInfo };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
@@ -115,7 +115,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
 
                 // Assert
                 Assert.IsTrue(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribe.AccountInfo), 1);
+                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 1);
                 Assert.IsNotNull(tradeStrategy1.AccountInfo);
                 Assert.IsTrue(tradeStrategy1.AccountInfo.Balances.Any());
                 Assert.IsNotNull(tradeStrategy2.AccountInfo);
@@ -128,8 +128,8 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeApi();
-            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
-            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription1 = new StrategySubscription { Exchange = Exchange.Binance, Subscribes = Subscribes.AccountInfo };
+            var strategySubscription2 = new StrategySubscription { Exchange = Exchange.Binance, Subscribes = Subscribes.AccountInfo };
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
@@ -150,7 +150,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
 
                 // Assert
                 Assert.IsFalse(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribe.AccountInfo), 0);
+                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 0);
                 Assert.IsNotNull(tradeStrategy1.AccountInfo);
                 Assert.IsTrue(tradeStrategy1.AccountInfo.Balances.Any());
                 Assert.IsNotNull(tradeStrategy2.AccountInfo);
@@ -163,7 +163,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeApi { AccountInfoException = true };
-            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Subscribe = Subscribe.AccountInfo };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Subscribes = Subscribes.AccountInfo };
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
@@ -175,7 +175,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
 
                 // Assert
                 Assert.IsTrue(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribe.AccountInfo), 1);
+                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 1);
                 Assert.IsNotNull(tradeStrategy.AccountInfo);
                 Assert.IsTrue(tradeStrategy.AccountInfo.Balances.Any());
                 Assert.IsTrue(tradeStrategy.AccountInfoException);

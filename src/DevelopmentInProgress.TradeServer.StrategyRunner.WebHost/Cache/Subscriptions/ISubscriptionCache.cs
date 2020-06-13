@@ -8,7 +8,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
     {
         IExchangeApi ExchangeApi { get; }
         bool HasSubscriptions { get; }
-        int Subscriptions(Subscribe subscribe);
+        int Subscriptions(Subscribes subscribe);
         void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy);
         void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy);
     }

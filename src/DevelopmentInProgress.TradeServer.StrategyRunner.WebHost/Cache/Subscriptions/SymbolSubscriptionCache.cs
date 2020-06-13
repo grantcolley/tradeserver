@@ -40,24 +40,24 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
             }
         }
 
-        public int Subscriptions(Subscribe subscribe)
+        public int Subscriptions(Subscribes subscribes)
         {
-            switch (subscribe)
+            switch (subscribes)
             {
-                case TradeView.Core.Strategy.Subscribe.Trades:
+                case TradeView.Core.Strategy.Subscribes.Trades:
                     return subscribeTrades.Subscriptions;
-                case TradeView.Core.Strategy.Subscribe.OrderBook:
+                case TradeView.Core.Strategy.Subscribes.OrderBook:
                     return subscribeOrderBook.Subscriptions;
-                case TradeView.Core.Strategy.Subscribe.Candlesticks:
+                case TradeView.Core.Strategy.Subscribes.Candlesticks:
                     return subscribeCandlesticks.Subscriptions;
                 default:
-                    throw new NotImplementedException($"{this.GetType().Name}.Subscriptions({subscribe})");
+                    throw new NotImplementedException($"{this.GetType().Name}.Subscriptions({subscribes})");
             }
         }
 
         public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.Trades))
+            if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.Trades))
             {
                 var trades = new StrategyNotification<TradeEventArgs>
                 {
@@ -68,7 +68,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
                 subscribeTrades.Subscribe(strategyName, trades);
             }
 
-            if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.OrderBook))
+            if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.OrderBook))
             {
                 var orderBook = new StrategyNotification<OrderBookEventArgs>
                 {
@@ -79,7 +79,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
                 subscribeOrderBook.Subscribe(strategyName, orderBook);
             }
 
-            if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.Candlesticks))
+            if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.Candlesticks))
             {
                 var candlestick = new StrategyNotification<CandlestickEventArgs>
                 {
@@ -93,17 +93,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
         public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.Trades))
+            if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.Trades))
             {
                 subscribeTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeTradesException);
             }
 
-            if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.OrderBook))
+            if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.OrderBook))
             {
                 subscribeOrderBook.Unsubscribe(strategyName, tradeStrategy.SubscribeOrderBookException);
             }
 
-            if (strategySubscription.Subscribe.HasFlag(TradeView.Core.Strategy.Subscribe.Candlesticks))
+            if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.Candlesticks))
             {
                 subscribeCandlesticks.Unsubscribe(strategyName, tradeStrategy.SubscribeCandlesticksException);
             }

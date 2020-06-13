@@ -16,7 +16,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeApi();
-            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.Trades };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribes = Subscribes.Trades };
             var tradeStrategy = new TestTradeExceptionStrategy();
 
             // Act
@@ -28,7 +28,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
 
                 // Assert
                 Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribe.Trades), 1);
+                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
                 Assert.IsTrue(tradeStrategy.AggregateTradesException);
             }
         }
@@ -38,7 +38,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
         {
             // Arrange
             var binanceExchangeService = new TestBinanceExchangeApi();
-            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribe = Subscribe.OrderBook };
+            var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribes = Subscribes.OrderBook };
             var tradeStrategy = new TestTradeExceptionStrategy();
 
             // Act
@@ -50,7 +50,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
 
                 // Assert
                 Assert.IsFalse(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribe.OrderBook), 0);
+                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 0);
                 Assert.IsTrue(tradeStrategy.OrderBookException);
             }
         }
