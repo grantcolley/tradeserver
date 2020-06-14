@@ -2,7 +2,7 @@
 using DevelopmentInProgress.TradeView.Core.Events;
 using DevelopmentInProgress.TradeView.Core.Interfaces;
 using DevelopmentInProgress.TradeView.Core.Model;
-using DevelopmentInProgress.TradeView.Core.Strategy;
+using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,9 +44,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
             foreach (var strategySubscription in strategySubscriptions)
             {
-                if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.Trades)
-                    || strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.OrderBook)
-                    || strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.Candlesticks))
+                if (strategySubscription.Subscribes.HasFlag(Subscribes.Trades)
+                    || strategySubscription.Subscribes.HasFlag(Subscribes.OrderBook)
+                    || strategySubscription.Subscribes.HasFlag(Subscribes.Candlesticks))
                 {
                     ISubscriptionCache symbolCache;
                     if (!Caches.TryGetValue(strategySubscription.Symbol, out symbolCache))
@@ -58,7 +58,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
                     symbolCache.Subscribe(strategyName, strategySubscription, tradeStrategy);
                 }
 
-                if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.AccountInfo))
+                if (strategySubscription.Subscribes.HasFlag(Subscribes.AccountInfo))
                 {
                     var user = new User
                     {
@@ -88,14 +88,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
         {
             foreach (var strategySubscription in strategySubscriptions)
             {
-                if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.Trades)
-                    || strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.OrderBook)
-                    || strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.Candlesticks))
+                if (strategySubscription.Subscribes.HasFlag(Subscribes.Trades)
+                    || strategySubscription.Subscribes.HasFlag(Subscribes.OrderBook)
+                    || strategySubscription.Subscribes.HasFlag(Subscribes.Candlesticks))
                 {
                     Unsubscribe(strategyName, strategySubscription, strategySubscription.Symbol, tradeStrategy);
                 }
 
-                if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.AccountInfo))
+                if (strategySubscription.Subscribes.HasFlag(Subscribes.AccountInfo))
                 {
                     Unsubscribe(strategyName, strategySubscription, strategySubscription.ApiKey, tradeStrategy);
                 }

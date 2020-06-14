@@ -7,7 +7,7 @@ using DevelopmentInProgress.TradeView.Core.Enums;
 using DevelopmentInProgress.TradeView.Core.Events;
 using DevelopmentInProgress.TradeView.Core.Interfaces;
 using DevelopmentInProgress.TradeView.Core.Model;
-using DevelopmentInProgress.TradeView.Core.Strategy;
+using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 
 namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 {

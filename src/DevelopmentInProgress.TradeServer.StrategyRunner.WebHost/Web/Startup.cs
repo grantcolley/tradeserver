@@ -13,7 +13,7 @@ using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middleware;
 using DevelopmentInProgress.TradeView.Core.Interfaces;
 using DevelopmentInProgress.TradeView.Core.Server;
-using DevelopmentInProgress.TradeView.Core.Strategy;
+using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 using DevelopmentInProgress.TradeView.Service;
 using System;
 

@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.TradeView.Core.Strategy;
+﻿using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 using Microsoft.Extensions.Logging;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.Strategy

@@ -1,6 +1,6 @@
 ﻿using DevelopmentInProgress.TradeView.Core.Events;
 using DevelopmentInProgress.TradeView.Core.Interfaces;
-using DevelopmentInProgress.TradeView.Core.Strategy;
+using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 using System;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions
@@ -35,7 +35,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
         public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.AccountInfo))
+            if (strategySubscription.Subscribes.HasFlag(Subscribes.AccountInfo))
             {
                 var accountInfo = new StrategyNotification<AccountInfoEventArgs>
                 {
@@ -51,7 +51,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
         public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
-            if (strategySubscription.Subscribes.HasFlag(TradeView.Core.Strategy.Subscribes.AccountInfo))
+            if (strategySubscription.Subscribes.HasFlag(Subscribes.AccountInfo))
             {
                 subscribeAccountInfo.Unsubscribe(strategyName, tradeStrategy.SubscribeAccountInfoException);
             }

@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.TradeView.Core.Strategy;
+﻿using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.TradeView.Core.Strategy;
+﻿using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedService
 {

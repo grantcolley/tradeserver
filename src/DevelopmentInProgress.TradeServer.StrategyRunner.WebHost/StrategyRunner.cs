@@ -7,7 +7,7 @@ using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeStrate
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification;
 using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Utilities;
 using DevelopmentInProgress.TradeView.Core.Extensions;
-using DevelopmentInProgress.TradeView.Core.Strategy;
+using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 using System.Threading;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
