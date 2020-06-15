@@ -94,17 +94,24 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                 var strategies = tradeStrategyCacheManager.GetStrategies();
                 var serverInfo = strategyNotificationHub.GetServerInfo();
 
+                Func<TradeView.Core.TradeStrategy.Strategy, Socket.Messages.ChannelInfo, ServerStrategy> f = (s, c) =>
+                {
+                    var serverStrategy = new ServerStrategy
+                    {
+                        Strategy = s
+                    };
+
+                    serverStrategy.Connections.AddRange(c.Connections.Select(conn => new ServerStrategyConnection
+                    {
+                        Connection = conn.Name
+                    }));
+
+                    return serverStrategy;
+                };
+
                 var serverStrategies = (from s in strategies
                                         join c in serverInfo.Channels on s.Name equals c.Name
-                                        select new ServerStrategy
-                                        {
-                                            Strategy = s,
-                                            Connections = new List<ServerStrategyConnection>(
-                                                c.Connections.Select(conn => new ServerStrategyConnection
-                                                {
-                                                    Connection = conn.Name
-                                                }))
-                                        }).ToList();
+                                        select f(s, c)).ToList();
 
                 var serverNotification = serverMonitor.GetServerNotification(serverStrategies);
 
