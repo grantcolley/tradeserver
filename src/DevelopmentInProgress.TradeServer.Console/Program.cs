@@ -28,7 +28,7 @@ namespace DevelopmentInProgress.TradeServer.Console
                     args = new[]
                     {
                         $"s=TradeServer",
-                        "u=http://+:5500"
+                        "u=http://localhost:5500"
                     };
                 }
                 else if (InvalidArgs(args))
@@ -42,7 +42,7 @@ namespace DevelopmentInProgress.TradeServer.Console
 
                     Log.Error($"You must provide the following args:");
                     Log.Error($"--s=YourServerName");
-                    Log.Error($"--u=http://+:5500");
+                    Log.Error($"--u=http://localhost:5500");
 
                     return;
                 }

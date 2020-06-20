@@ -50,7 +50,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
                 Started = DateTime.Now,
                 StartedBy = Environment.UserName,
                 Name = Configuration["s"].ToString(),
-                Url = Configuration["u"].ToString(),
+                Uri = new Uri(Configuration["u"].ToString()),
                 MaxDegreeOfParallelism = maxDegreeOfParallelism
             });
 
