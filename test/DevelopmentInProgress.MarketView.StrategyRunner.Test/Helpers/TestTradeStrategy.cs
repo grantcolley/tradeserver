@@ -36,8 +36,8 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         public bool AccountInfoException { get; set; }
         public Strategy Strategy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        private object tradeLock = new object();
-        private object orderBookLock = new object();
+        private readonly object tradeLock = new object();
+        private readonly object orderBookLock = new object();
 
         public void SetStrategy(Strategy strategy)
         {
