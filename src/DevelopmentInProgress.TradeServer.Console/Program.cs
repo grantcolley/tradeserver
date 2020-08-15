@@ -9,6 +9,7 @@ namespace DevelopmentInProgress.TradeServer.Console
 {
     class Program
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
         static void Main(string[] args)
         {
             try
