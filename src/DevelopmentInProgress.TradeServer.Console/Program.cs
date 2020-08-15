@@ -53,7 +53,7 @@ namespace DevelopmentInProgress.TradeServer.Console
                     Log.Information($"{arg}");
                 }
 
-                var url = args.First(a => a.StartsWith("u=")).Split("=")[1];
+                var url = args.First(a => a.StartsWith("u=", StringComparison.Ordinal)).Split("=")[1];
 
                 Log.Information("Launching DevelopmentInProgress.TradeServer.Console");
 
@@ -81,7 +81,7 @@ namespace DevelopmentInProgress.TradeServer.Console
             var snMissing = true;
             for(int i = 0; i < args.Length; i++)
             {
-                if(args[i].StartsWith("--s="))
+                if(args[i].StartsWith("--s=", StringComparison.Ordinal))
                 {
                     snMissing = false;
                     break;
@@ -91,7 +91,7 @@ namespace DevelopmentInProgress.TradeServer.Console
             var urlMissing = false;
             for (int i = 0; i < args.Length; i++)
             {
-                if (args[i].StartsWith("--u="))
+                if (args[i].StartsWith("--u=", StringComparison.Ordinal))
                 {
                     urlMissing = false;
                     break;
