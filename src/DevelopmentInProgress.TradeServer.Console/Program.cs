@@ -106,7 +106,7 @@ namespace DevelopmentInProgress.TradeServer.Console
 
             for (int i = 0; i < args.Length; i++)
             {
-                args[i] = args[i].Substring(2, args[i].Length - 2);
+                args[i] = args[i][2..];
             }
 
             return false;
