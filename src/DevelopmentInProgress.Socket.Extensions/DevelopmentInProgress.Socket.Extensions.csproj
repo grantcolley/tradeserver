@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>Grant Colley</Authors>
     <Company>Development In Progress Ltd</Company>
     <Description>ASP .NET Core Extensions for DipSocket, a lightweight publisher / subscriber implementation using WebSockets.</Description>
@@ -17,6 +17,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.1.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

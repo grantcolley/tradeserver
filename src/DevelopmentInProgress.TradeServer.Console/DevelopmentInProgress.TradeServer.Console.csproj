@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Serilog" Version="2.7.2-dev-01005" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.2-dev-00024" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.2-dev-00777" />
