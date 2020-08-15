@@ -18,16 +18,18 @@ namespace DevelopmentInProgress.Socket.Extensions
     {
         private readonly SocketServer socketServer;
 
+
         /// <summary>
         /// Creates an instance of the <see cref="SocketMiddleware"/> class.
         /// </summary>
         /// <param name="next">The <see cref="RequestDelegate"/>.</param>
         /// <param name="socketServer">A specialised instance of a class inheriting <see cref="SocketServer"/>.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter")]
         public SocketMiddleware(RequestDelegate next, SocketServer socketServer)
         {
             this.socketServer = socketServer;
         }
-
 
         /// <summary>
         /// Receives a request to the class inheriting <see cref="SocketServer"/>.
