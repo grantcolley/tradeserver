@@ -28,11 +28,13 @@ namespace DevelopmentInProgress.Socket.Extensions
             this.socketServer = socketServer;
         }
 
+
         /// <summary>
         /// Receives a request to the class inheriting <see cref="SocketServer"/>.
         /// </summary>
         /// <param name="context">The <see cref="HttpContext"/>.</param>
         /// <returns>The response.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
         public async Task Invoke(HttpContext context)
         {
             try
