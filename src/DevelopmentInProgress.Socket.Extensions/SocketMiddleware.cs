@@ -48,14 +48,14 @@ namespace DevelopmentInProgress.Socket.Extensions
             {
                 if (context.WebSockets.IsWebSocketRequest)
                 {
-                    var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                    var webSocket = await context.WebSockets.AcceptWebSocketAsync().ConfigureAwait(false);
 
                     var clientId = context.Request.Query["clientId"];
                     var data = context.Request.Query["data"];
 
-                    await socketServer.OnClientConnectAsync(webSocket, clientId, data);
+                    await socketServer.OnClientConnectAsync(webSocket, clientId, data).ConfigureAwait(false);
 
-                    await Receive(webSocket);
+                    await Receive(webSocket).ConfigureAwait(false);
                 }
                 else
                 {
@@ -92,11 +92,11 @@ namespace DevelopmentInProgress.Socket.Extensions
 
                     do
                     {
-                        webSocketReceiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                        webSocketReceiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None).ConfigureAwait(false);
 
                         if (webSocketReceiveResult.MessageType.Equals(WebSocketMessageType.Close))
                         {
-                            await socketServer.OnClientDisonnectAsync(webSocket);
+                            await socketServer.OnClientDisonnectAsync(webSocket).ConfigureAwait(false);
                             continue;
                         }
 
@@ -114,7 +114,7 @@ namespace DevelopmentInProgress.Socket.Extensions
 
                         var message = JsonConvert.DeserializeObject<Message>(json);
 
-                        await socketServer.ReceiveAsync(webSocket, message);
+                        await socketServer.ReceiveAsync(webSocket, message).ConfigureAwait(false);
                     }
                 }
             }
