@@ -1,5 +1,6 @@
 ﻿using DevelopmentInProgress.Socket.Server;
 using Microsoft.AspNetCore.Builder;
+using System;
 
 namespace DevelopmentInProgress.Socket.Extensions
 {
@@ -17,6 +18,11 @@ namespace DevelopmentInProgress.Socket.Extensions
         /// <returns>An instance of <see cref="IApplicationBuilder"/>.</returns>
         public static IApplicationBuilder UseSocket<T>(this IApplicationBuilder builder, string route) where T : SocketServer
         {
+            if(builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             builder.UseWebSockets();
             var webSocketServer = (T)builder.ApplicationServices.GetService(typeof(T));
             return builder.Map(route, (applicationBuilder) => applicationBuilder.UseMiddleware<SocketMiddleware>(webSocketServer));

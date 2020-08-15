@@ -37,6 +37,11 @@ namespace DevelopmentInProgress.Socket.Extensions
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             try
             {
                 if (context.WebSockets.IsWebSocketRequest)
