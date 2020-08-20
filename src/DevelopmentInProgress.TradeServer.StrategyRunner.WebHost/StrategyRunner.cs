@@ -38,18 +38,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
                 throw new ArgumentNullException(nameof(batchNotificationFactory));
             }
 
-            if (subscriptionsCacheManager == null)
-            {
-                throw new ArgumentNullException(nameof(subscriptionsCacheManager));
-            }
-
-            if (tradeStrategyCacheManager == null)
-            {
-                throw new ArgumentNullException(nameof(tradeStrategyCacheManager));
-            }
-
-            this.subscriptionsCacheManager = subscriptionsCacheManager;
-            this.tradeStrategyCacheManager = tradeStrategyCacheManager;
+            this.subscriptionsCacheManager = subscriptionsCacheManager ?? throw new ArgumentNullException(nameof(subscriptionsCacheManager));
+            this.tradeStrategyCacheManager = tradeStrategyCacheManager ?? throw new ArgumentNullException(nameof(tradeStrategyCacheManager));
 
             strategyLogger = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyLogger);
             strategyAccountInfoPublisher = batchNotificationFactory.GetBatchNotifier(BatchNotificationType.StrategyAccountInfoPublisher);
