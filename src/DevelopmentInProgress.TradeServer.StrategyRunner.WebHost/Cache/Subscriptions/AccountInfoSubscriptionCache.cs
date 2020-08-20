@@ -7,7 +7,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 {
     public class AccountInfoSubscriptionCache : ISubscriptionCache
     {
-        private SubscribeAccountInfo subscribeAccountInfo;
+        private readonly SubscribeAccountInfo subscribeAccountInfo;
 
         private bool disposed;
 

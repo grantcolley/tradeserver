@@ -14,17 +14,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 {
     public class StrategyRunner : IStrategyRunner
     {
-        private IBatchNotification<StrategyNotification> strategyLogger;
-        private IBatchNotification<StrategyNotification> strategyAccountInfoPublisher;
-        private IBatchNotification<StrategyNotification> strategyCustomNotificationPublisher;
-        private IBatchNotification<StrategyNotification> strategyNotificationPublisher;
-        private IBatchNotification<StrategyNotification> strategyOrderBookPublisher;
-        private IBatchNotification<StrategyNotification> strategyTradePublisher;
-        private IBatchNotification<StrategyNotification> strategyStatisticsPublisher;
-        private IBatchNotification<StrategyNotification> strategyCandlesticksPublisher;
-        private IBatchNotification<StrategyNotification> strategyParameterUpdatePublisher;
-        private ISubscriptionsCacheManager subscriptionsCacheManager;
-        private ITradeStrategyCacheManager tradeStrategyCacheManager;
+        private readonly IBatchNotification<StrategyNotification> strategyLogger;
+        private readonly IBatchNotification<StrategyNotification> strategyAccountInfoPublisher;
+        private readonly IBatchNotification<StrategyNotification> strategyCustomNotificationPublisher;
+        private readonly IBatchNotification<StrategyNotification> strategyNotificationPublisher;
+        private readonly IBatchNotification<StrategyNotification> strategyOrderBookPublisher;
+        private readonly IBatchNotification<StrategyNotification> strategyTradePublisher;
+        private readonly IBatchNotification<StrategyNotification> strategyStatisticsPublisher;
+        private readonly IBatchNotification<StrategyNotification> strategyCandlesticksPublisher;
+        private readonly IBatchNotification<StrategyNotification> strategyParameterUpdatePublisher;
+        private readonly ISubscriptionsCacheManager subscriptionsCacheManager;
+        private readonly ITradeStrategyCacheManager tradeStrategyCacheManager;
 
         private CancellationToken cancellationToken;
 

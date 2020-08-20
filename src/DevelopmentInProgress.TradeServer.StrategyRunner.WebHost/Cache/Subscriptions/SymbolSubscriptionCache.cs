@@ -7,9 +7,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 {
     public class SymbolSubscriptionCache : ISubscriptionCache
     {
-        private SubscribeTrades subscribeTrades;
-        private SubscribeOrderBook subscribeOrderBook;
-        private SubscribeCandlesticks subscribeCandlesticks;
+        private readonly SubscribeTrades subscribeTrades;
+        private readonly SubscribeOrderBook subscribeOrderBook;
+        private readonly SubscribeCandlesticks subscribeCandlesticks;
 
         private bool disposed;
 

@@ -10,7 +10,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 {
     public class ServerNotificationHub : SocketServer, IServerNotification
     {
-        private IServerMonitor serverMonitor;
+        private readonly IServerMonitor serverMonitor;
 
         public ServerNotificationHub(ConnectionManager connectionManager, ChannelManager channelManager, IServerMonitor serverMonitor)
             : base(connectionManager, channelManager)

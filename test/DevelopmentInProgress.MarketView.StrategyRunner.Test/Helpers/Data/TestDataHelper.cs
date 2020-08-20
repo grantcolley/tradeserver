@@ -7,14 +7,14 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers.Data
 {
     public static class TestDataHelper
     {
-        private static string symbols;
-        private static string symbolsStatistics;
-        private static string orders;
-        private static string accountInfo;
-        private static string aggregateTrades;
-        private static string aggregateTradesUpdated;
-        private static string orderBook;
-        private static string orderBookUpdated;
+        private readonly static string symbols;
+        private readonly static string symbolsStatistics;
+        private readonly static string orders;
+        private readonly static string accountInfo;
+        private readonly static string aggregateTrades;
+        private readonly static string aggregateTradesUpdated;
+        private readonly static string orderBook;
+        private readonly static string orderBookUpdated;
 
         static TestDataHelper()
         {

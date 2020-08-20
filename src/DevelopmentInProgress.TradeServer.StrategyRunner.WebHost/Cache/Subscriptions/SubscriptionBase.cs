@@ -10,8 +10,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 {
     public abstract class SubscriptionBase<T> : ISubscriptionBase<T>, IDisposable
     {
-        private ConcurrentDictionary<string, StrategyNotification<T>> subscribers;
-        private CancellationTokenSource cancellationTokenSource;
+        private readonly ConcurrentDictionary<string, StrategyNotification<T>> subscribers;
+        private readonly CancellationTokenSource cancellationTokenSource;
 
         private bool disposed;
 
