@@ -114,7 +114,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
             }
         }
 
-        private Task IntervalAsync(TimeSpan interval, CancellationToken cancellationToken)
+        private static Task IntervalAsync(TimeSpan interval, CancellationToken cancellationToken)
         {
             return Task.Delay(interval, cancellationToken);
         }

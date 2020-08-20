@@ -205,7 +205,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
             strategyLogger.AddNotification(strategyNotification);
         }
 
-        private IList<string> GetAssemblies(string localPath)
+        private static IList<string> GetAssemblies(string localPath)
         {
             var dependencies = new List<string>();
             var files = Directory.GetFiles(localPath); 

@@ -45,7 +45,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             return tcs.Task;
         }
 
-        private LogLevel GetStepNotificationLogLevel(StrategyNotification strategyNotification)
+        private static LogLevel GetStepNotificationLogLevel(StrategyNotification strategyNotification)
         {
             switch (strategyNotification.NotificationLevel)
             {

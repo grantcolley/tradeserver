@@ -77,7 +77,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
             }
         }
 
-        private async Task Download(IFormFile formFile, string downloadsPath)
+        private static async Task Download(IFormFile formFile, string downloadsPath)
         {
             using (var fileStream = new FileStream(Path.Combine(downloadsPath, formFile.Name), FileMode.Create))
             {
