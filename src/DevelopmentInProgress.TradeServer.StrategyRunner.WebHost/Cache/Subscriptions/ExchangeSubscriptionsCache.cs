@@ -38,6 +38,16 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
         public async Task Subscribe(string strategyName, List<StrategySubscription> strategySubscriptions, ITradeStrategy tradeStrategy)
         {
+            if (strategySubscriptions == null)
+            {
+                throw new ArgumentNullException(nameof(strategySubscriptions));
+            }
+
+            if (tradeStrategy == null)
+            {
+                throw new ArgumentNullException(nameof(tradeStrategy));
+            }
+
             await tradeStrategy.AddExchangeService(strategySubscriptions, exchange, exchangeService);
 
             var exchangeApi = exchangeService.GetExchangeApi(exchange);
@@ -86,6 +96,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
         public void Unsubscribe(string strategyName, List<StrategySubscription> strategySubscriptions, ITradeStrategy tradeStrategy)
         {
+            if (strategySubscriptions == null)
+            {
+                throw new ArgumentNullException(nameof(strategySubscriptions));
+            }
+
             foreach (var strategySubscription in strategySubscriptions)
             {
                 if (strategySubscription.Subscribes.HasFlag(Subscribes.Trades)

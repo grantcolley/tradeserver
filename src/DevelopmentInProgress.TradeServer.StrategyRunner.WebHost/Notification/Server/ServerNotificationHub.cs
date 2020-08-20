@@ -61,6 +61,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 
         public async override Task ReceiveAsync(WebSocket webSocket, Message message)
         {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
             try
             {
                 switch (message.MessageType)

@@ -23,6 +23,10 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
     {
         public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
+            if (env == null)
+            {
+                throw new ArgumentNullException(nameof(env));
+            }
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -78,6 +82,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
+            if (app == null)
+            {
+                throw new ArgumentNullException(nameof(app));
+            }
+
             app.UseSocket<StrategyNotificationHub>("/notificationhub");
             app.UseSocket<ServerNotificationHub>("/serverhub");
 

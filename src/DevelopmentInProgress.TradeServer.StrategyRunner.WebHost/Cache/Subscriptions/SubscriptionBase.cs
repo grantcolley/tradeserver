@@ -55,6 +55,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
                 return;
             }
 
+            if (strategyNotification == null)
+            {
+                throw new ArgumentNullException(nameof(strategyNotification));
+            }
+
             var hasSubscribers = subscribers.Any();
 
             if (!subscribers.TryAdd(strategyName, strategyNotification))
@@ -74,6 +79,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
             if (cancellationTokenSource.IsCancellationRequested)
             {
                 return;
+            }
+
+            if (exception == null)
+            {
+                throw new ArgumentNullException(nameof(exception));
             }
 
             if (!subscribers.TryRemove(strategyName, out StrategyNotification<T> e))

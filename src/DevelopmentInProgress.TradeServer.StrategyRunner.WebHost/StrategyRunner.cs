@@ -33,6 +33,21 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
             ISubscriptionsCacheManager subscriptionsCacheManager, 
             ITradeStrategyCacheManager tradeStrategyCacheManager)
         {
+            if (batchNotificationFactory == null)
+            {
+                throw new ArgumentNullException(nameof(batchNotificationFactory));
+            }
+
+            if (subscriptionsCacheManager == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionsCacheManager));
+            }
+
+            if (tradeStrategyCacheManager == null)
+            {
+                throw new ArgumentNullException(nameof(tradeStrategyCacheManager));
+            }
+
             this.subscriptionsCacheManager = subscriptionsCacheManager;
             this.tradeStrategyCacheManager = tradeStrategyCacheManager;
 
@@ -49,6 +64,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
         public async Task<Strategy> RunAsync(Strategy strategy, string localPath, CancellationToken cancellationToken)
         {
+            if (strategy == null)
+            {
+                throw new ArgumentNullException(nameof(strategy));
+            }
+
             this.cancellationToken = cancellationToken;
 
             try

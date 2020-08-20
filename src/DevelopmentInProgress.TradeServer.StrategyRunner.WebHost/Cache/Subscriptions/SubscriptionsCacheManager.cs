@@ -18,6 +18,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
         public async Task Subscribe(Strategy strategy, ITradeStrategy tradeStrategy)
         {
+            if (strategy == null)
+            {
+                throw new ArgumentNullException(nameof(strategy));
+            }
+
             var exchangeSymbolsList = (from s in strategy.StrategySubscriptions
                                   group s by s.Exchange into es
                                   select new { Exchange = es.Key, StrategySubscriptions = es.ToList() }).ToList();
@@ -31,6 +36,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
         public void Unsubscribe(Strategy strategy, ITradeStrategy tradeStrategy)
         {
+            if (strategy == null)
+            {
+                throw new ArgumentNullException(nameof(strategy));
+            }
+
             var exchangeSymbolsList = (from s in strategy.StrategySubscriptions
                                        group s by s.Exchange into es
                                        select new { Exchange = es.Key, StrategySubscriptions = es.ToList() }).ToList();

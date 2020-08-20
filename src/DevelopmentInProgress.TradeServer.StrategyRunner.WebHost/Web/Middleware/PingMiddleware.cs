@@ -12,6 +12,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             await context.Response.WriteAsync($"{Environment.MachineName} {System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName} is Alive!");
         }
     }

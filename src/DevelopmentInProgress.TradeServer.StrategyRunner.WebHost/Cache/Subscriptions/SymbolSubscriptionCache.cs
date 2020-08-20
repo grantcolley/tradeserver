@@ -57,6 +57,16 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
         public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
+            if (strategySubscription == null)
+            {
+                throw new ArgumentNullException(nameof(strategySubscription));
+            }
+
+            if (tradeStrategy == null)
+            {
+                throw new ArgumentNullException(nameof(tradeStrategy));
+            }
+
             if (strategySubscription.Subscribes.HasFlag(Subscribes.Trades))
             {
                 var trades = new StrategyNotification<TradeEventArgs>
@@ -93,6 +103,16 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
 
         public void Unsubscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
         {
+            if (strategySubscription == null)
+            {
+                throw new ArgumentNullException(nameof(strategySubscription));
+            }
+
+            if (tradeStrategy == null)
+            {
+                throw new ArgumentNullException(nameof(tradeStrategy));
+            }
+
             if (strategySubscription.Subscribes.HasFlag(Subscribes.Trades))
             {
                 subscribeTrades.Unsubscribe(strategyName, tradeStrategy.SubscribeTradesException);

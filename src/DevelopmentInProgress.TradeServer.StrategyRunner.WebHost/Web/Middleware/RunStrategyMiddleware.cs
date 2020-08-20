@@ -18,6 +18,21 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
 
         public async Task Invoke(HttpContext context, IStrategyRunner strategyRunner, IStrategyRunnerActionBlock strategyRunnerActionBlock)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (strategyRunner == null)
+            {
+                throw new ArgumentNullException(nameof(strategyRunner));
+            }
+
+            if (strategyRunnerActionBlock == null)
+            {
+                throw new ArgumentNullException(nameof(strategyRunnerActionBlock));
+            }
+
             try
             {
                 var json = context.Request.Form["strategy"];

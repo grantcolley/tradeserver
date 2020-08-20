@@ -16,6 +16,16 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
 
         public async Task Invoke(HttpContext context, ITradeStrategyCacheManager tradeStrategyCacheManager)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (tradeStrategyCacheManager == null)
+            {
+                throw new ArgumentNullException(nameof(tradeStrategyCacheManager));
+            }
+
             try
             {
                 var json = context.Request.Form["strategyparameters"];
