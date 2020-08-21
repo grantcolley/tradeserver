@@ -21,6 +21,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
 
         public abstract Task NotifyAsync(IEnumerable<T> items, CancellationToken cancellationToken);
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
         public void AddNotification(T item)
         {
             if (!notifyQueue.IsAddingCompleted)
@@ -84,6 +85,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
                 TaskCreationOptions.LongRunning);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
         private async Task ProcessNotificationQueue(object state)
         {
             while (!cancellationTokenSource.IsCancellationRequested)

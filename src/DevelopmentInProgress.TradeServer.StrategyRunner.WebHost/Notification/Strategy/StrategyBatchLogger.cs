@@ -19,6 +19,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             Start();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
         public override Task NotifyAsync(IEnumerable<StrategyNotification> notifications, CancellationToken cancellationToken)
         {
             var tcs = new TaskCompletionSource<object>();

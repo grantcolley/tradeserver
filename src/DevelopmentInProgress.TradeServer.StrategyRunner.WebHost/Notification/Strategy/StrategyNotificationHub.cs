@@ -45,7 +45,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 
             OnServerNotification();
         }
-        
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
         public async override Task ReceiveAsync(WebSocket webSocket, Message message)
         {
             if (message == null)

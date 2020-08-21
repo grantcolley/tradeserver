@@ -23,6 +23,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedSer
             logger = loggerFactory.CreateLogger<StrategyRunnerBackgroundService>();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
         protected async override Task ExecuteAsync(CancellationToken cancellationToken)
         {
             this.cancellationToken = cancellationToken;
