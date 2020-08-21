@@ -102,7 +102,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
                 {
                     try
                     {
-                        await NotifyAsync(currentBatch, cancellationTokenSource.Token);
+                        await NotifyAsync(currentBatch, cancellationTokenSource.Token).ConfigureAwait(false);
                     }
                     catch
                     {
@@ -112,7 +112,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
                     currentBatch.Clear();
                 }
 
-                await IntervalAsync(interval, cancellationTokenSource.Token);
+                await IntervalAsync(interval, cancellationTokenSource.Token).ConfigureAwait(false);
             }
         }
 

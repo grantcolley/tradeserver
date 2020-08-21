@@ -19,7 +19,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             var notifyGroups = notifications.GroupBy(n => n.Name);
             foreach (var group in notifyGroups)
             {
-                await notificationPublisherContext.PublishCustomNotificationsAsync(group.Key, methodName, group);
+                await notificationPublisherContext.PublishCustomNotificationsAsync(group.Key, methodName, group).ConfigureAwait(false);
             }
         }
 
@@ -28,7 +28,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             var notifyGroups = notifications.GroupBy(n => n.Name);
             foreach (var group in notifyGroups)
             {
-                await notificationPublisherContext.PublishNotificationsAsync(group.Key, group);
+                await notificationPublisherContext.PublishNotificationsAsync(group.Key, group).ConfigureAwait(false);
             }
         }
 
@@ -37,7 +37,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             var notifyGroups = notifications.GroupBy(n => n.Name);
             foreach (var group in notifyGroups)
             {
-                await notificationPublisherContext.PublishTradesAsync(group.Key, group);
+                await notificationPublisherContext.PublishTradesAsync(group.Key, group).ConfigureAwait(false);
             }
         }
 
@@ -46,7 +46,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             var notifyGroups = notifications.GroupBy(n => n.Name);
             foreach (var group in notifyGroups)
             {
-                await notificationPublisherContext.PublishOrderBookAsync(group.Key, group);
+                await notificationPublisherContext.PublishOrderBookAsync(group.Key, group).ConfigureAwait(false);
             }
         }
 
@@ -55,7 +55,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             var notifyGroups = notifications.GroupBy(n => n.Name);
             foreach (var group in notifyGroups)
             {
-                await notificationPublisherContext.PublishAccountInfoAsync(group.Key, group);
+                await notificationPublisherContext.PublishAccountInfoAsync(group.Key, group).ConfigureAwait(false);
             }
         }
 
@@ -64,7 +64,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             var notifyGroups = notifications.GroupBy(n => n.Name);
             foreach (var group in notifyGroups)
             {
-                await notificationPublisherContext.PublishCandlesticksAsync(group.Key, group);
+                await notificationPublisherContext.PublishCandlesticksAsync(group.Key, group).ConfigureAwait(false);
             }
         }
 
@@ -73,7 +73,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             var notifyGroups = notifications.GroupBy(n => n.Name);
             foreach (var group in notifyGroups)
             {
-                await notificationPublisherContext.PublishStatisticsAsync(group.Key, group);
+                await notificationPublisherContext.PublishStatisticsAsync(group.Key, group).ConfigureAwait(false);
             }
         }
 
@@ -82,7 +82,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             var notifyGroups = notifications.GroupBy(n => n.Name);
             foreach (var group in notifyGroups)
             {
-                await notificationPublisherContext.PublishParameterUpdateAsync(group.Key, group);
+                await notificationPublisherContext.PublishParameterUpdateAsync(group.Key, group).ConfigureAwait(false);
             }
         }
     }

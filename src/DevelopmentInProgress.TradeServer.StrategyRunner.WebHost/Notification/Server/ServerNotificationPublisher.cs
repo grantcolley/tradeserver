@@ -15,7 +15,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 
         public async Task PublishNotificationsAsync(IEnumerable<ServerNotification> notifications)
         {
-            await notificationPublisherContext.PublishNotificationsAsync(notifications);
+            await notificationPublisherContext.PublishNotificationsAsync(notifications).ConfigureAwait(false);
         }
     }
 }

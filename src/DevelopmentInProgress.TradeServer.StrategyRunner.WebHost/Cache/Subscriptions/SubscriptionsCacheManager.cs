@@ -30,7 +30,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
             foreach(var exchangeSymbols in exchangeSymbolsList)
             {
                 var exchangeSubscriptionsCache = ExchangeSubscriptionsCacheFactory.GetExchangeSubscriptionsCache(exchangeSymbols.Exchange);
-                await exchangeSubscriptionsCache.Subscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy);
+                await exchangeSubscriptionsCache.Subscribe(strategy.Name, exchangeSymbols.StrategySubscriptions, tradeStrategy).ConfigureAwait(false);
             }
         }
 

@@ -22,7 +22,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                 return;
             }
 
-            await notificationPublisher.PublishParameterUpdateAsync(notifications);
+            await notificationPublisher.PublishParameterUpdateAsync(notifications).ConfigureAwait(false);
         }
     }
 }

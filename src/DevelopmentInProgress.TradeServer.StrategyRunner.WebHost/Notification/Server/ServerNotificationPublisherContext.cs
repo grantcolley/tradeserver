@@ -22,7 +22,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         {
             var json = JsonConvert.SerializeObject(notification);
             var msg = new Message { SenderConnectionId = serverMonitor.Name, MessageType = MessageType.SendToChannel, MethodName = "OnNotification", Data = json };
-            await notificationHub.SendMessageToChannelAsync(serverMonitor.Name, msg);
+            await notificationHub.SendMessageToChannelAsync(serverMonitor.Name, msg).ConfigureAwait(false);
         }
     }
 }

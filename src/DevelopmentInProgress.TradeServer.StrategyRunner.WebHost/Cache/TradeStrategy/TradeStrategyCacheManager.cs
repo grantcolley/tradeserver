@@ -52,7 +52,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeSt
         {
             if (tradeStrategies.TryGetValue(strategyName, out ITradeStrategy tradeStrategy))
             {
-                await tradeStrategy.TryStopStrategy(parameters);
+                await tradeStrategy.TryStopStrategy(parameters).ConfigureAwait(false);
 
                 OnServerNotification();
             }
@@ -62,7 +62,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.TradeSt
         {
             if (tradeStrategies.TryGetValue(strategyName, out ITradeStrategy tradeStrategy))
             {
-                await tradeStrategy.TryUpdateStrategyAsync(parameters);
+                await tradeStrategy.TryUpdateStrategyAsync(parameters).ConfigureAwait(false);
 
                 OnServerNotification();
             }

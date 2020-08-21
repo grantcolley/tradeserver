@@ -48,7 +48,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
                 throw new ArgumentNullException(nameof(tradeStrategy));
             }
 
-            await tradeStrategy.AddExchangeService(strategySubscriptions, exchange, exchangeService);
+            await tradeStrategy.AddExchangeService(strategySubscriptions, exchange, exchangeService).ConfigureAwait(false);
 
             var exchangeApi = exchangeService.GetExchangeApi(exchange);
 
@@ -78,7 +78,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
                         Exchange = strategySubscription.Exchange
                     };
 
-                    var accountInfo = await exchangeService.GetAccountInfoAsync(exchange, user, new CancellationToken());
+                    var accountInfo = await exchangeService.GetAccountInfoAsync(exchange, user, new CancellationToken()).ConfigureAwait(false);
 
                     tradeStrategy.SubscribeAccountInfo(new AccountInfoEventArgs { AccountInfo = accountInfo });
 

@@ -35,14 +35,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
                 // check the json can convert to type StrategyParameters
                 var strategyParameters = JsonConvert.DeserializeObject<StrategyParameters>(json);
 
-                await tradeStrategyCacheManager.UpdateStrategy(strategyParameters.StrategyName, json);
+                await tradeStrategyCacheManager.UpdateStrategy(strategyParameters.StrategyName, json).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 var response = context.Response;
                 response.ContentType = "application/json";
                 response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await response.WriteAsync(JsonConvert.SerializeObject(ex));
+                await response.WriteAsync(JsonConvert.SerializeObject(ex)).ConfigureAwait(false);
             }
         }
     }

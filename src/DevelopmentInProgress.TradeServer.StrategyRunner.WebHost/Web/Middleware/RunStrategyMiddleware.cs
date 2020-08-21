@@ -56,7 +56,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
                                     in form.Files
                                     select Download(f, downloadsPath);
 
-                    await Task.WhenAll(downloads.ToArray());
+                    await Task.WhenAll(downloads.ToArray()).ConfigureAwait(false);
                 }
 
                 var strategyRunnerActionBlockInput = new StrategyRunnerActionBlockInput
@@ -68,14 +68,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
 
                 await strategyRunnerActionBlock.RunStrategyAsync(strategyRunnerActionBlockInput).ConfigureAwait(false);
 
-                await context.Response.WriteAsync(json);
+                await context.Response.WriteAsync(json).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 var response = context.Response;
                 response.ContentType = "application/json";
                 response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await response.WriteAsync(JsonConvert.SerializeObject(ex));
+                await response.WriteAsync(JsonConvert.SerializeObject(ex)).ConfigureAwait(false);
             }
         }
 
@@ -83,7 +83,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
         {
             using (var fileStream = new FileStream(Path.Combine(downloadsPath, formFile.Name), FileMode.Create))
             {
-                await formFile.CopyToAsync(fileStream);
+                await formFile.CopyToAsync(fileStream).ConfigureAwait(false);
             }
         }
     }

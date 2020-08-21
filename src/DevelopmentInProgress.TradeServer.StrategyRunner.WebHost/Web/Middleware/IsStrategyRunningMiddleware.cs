@@ -36,11 +36,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
 
                 if (tradeStrategyCacheManager.TryGetTradeStrategy(strategyParameters.StrategyName, out ITradeStrategy tradeStrategy))
                 {
-                    await context.Response.WriteAsync("YES");
+                    await context.Response.WriteAsync("YES").ConfigureAwait(false);
                 }
                 else
                 {
-                    await context.Response.WriteAsync("NO");
+                    await context.Response.WriteAsync("NO").ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
@@ -48,7 +48,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
                 var response = context.Response;
                 response.ContentType = "application/json";
                 response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await response.WriteAsync(JsonConvert.SerializeObject(ex));
+                await response.WriteAsync(JsonConvert.SerializeObject(ex)).ConfigureAwait(false);
             }
         }
     }
