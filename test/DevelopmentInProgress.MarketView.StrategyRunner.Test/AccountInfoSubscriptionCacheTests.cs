@@ -20,18 +20,16 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
-            using (var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService))
-            {
-                accountInfoCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService);
+            accountInfoCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                await Task.Delay(1000);
+            await Task.Delay(1000);
 
-                // Assert
-                Assert.IsTrue(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 1);
-                Assert.IsNotNull(tradeStrategy.AccountInfo);
-                Assert.IsTrue(tradeStrategy.AccountInfo.Balances.Any());
-            }
+            // Assert
+            Assert.IsTrue(accountInfoCache.HasSubscriptions);
+            Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 1);
+            Assert.IsNotNull(tradeStrategy.AccountInfo);
+            Assert.IsTrue(tradeStrategy.AccountInfo.Balances.Any());
         }
 
         [TestMethod]
@@ -44,23 +42,22 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService))
-            {
-                // Act
-                accountInfoCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService);
 
-                accountInfoCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            accountInfoCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            accountInfoCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                // Assert
-                Assert.IsTrue(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 2);
-                Assert.IsNotNull(tradeStrategy1.AccountInfo);
-                Assert.IsTrue(tradeStrategy1.AccountInfo.Balances.Any());
-                Assert.IsNotNull(tradeStrategy2.AccountInfo);
-                Assert.IsTrue(tradeStrategy2.AccountInfo.Balances.Any());
-            }
+            await Task.Delay(2000);
+
+            // Assert
+            Assert.IsTrue(accountInfoCache.HasSubscriptions);
+            Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 2);
+            Assert.IsNotNull(tradeStrategy1.AccountInfo);
+            Assert.IsTrue(tradeStrategy1.AccountInfo.Balances.Any());
+            Assert.IsNotNull(tradeStrategy2.AccountInfo);
+            Assert.IsTrue(tradeStrategy2.AccountInfo.Balances.Any());
         }
 
         [TestMethod]
@@ -71,23 +68,22 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Subscribes = Subscribes.AccountInfo };
             var tradeStrategy = new TestTradeStrategy();
 
-            using (var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService))
-            {
-                // Act
-                accountInfoCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService);
 
-                await Task.Delay(1000);
+            // Act
+            accountInfoCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                accountInfoCache.Unsubscribe("Test", strategySubscription, tradeStrategy);
+            await Task.Delay(1000);
 
-                await Task.Delay(1000);
+            accountInfoCache.Unsubscribe("Test", strategySubscription, tradeStrategy);
 
-                // Assert
-                Assert.IsFalse(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 0);
-                Assert.IsNotNull(tradeStrategy.AccountInfo);
-                Assert.IsTrue(tradeStrategy.AccountInfo.Balances.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsFalse(accountInfoCache.HasSubscriptions);
+            Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 0);
+            Assert.IsNotNull(tradeStrategy.AccountInfo);
+            Assert.IsTrue(tradeStrategy.AccountInfo.Balances.Any());
         }
 
         [TestMethod]
@@ -100,27 +96,26 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService))
-            {
-                // Act
-                accountInfoCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService);
 
-                accountInfoCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            accountInfoCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            accountInfoCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                accountInfoCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
+            await Task.Delay(2000);
 
-                await Task.Delay(1000);
+            accountInfoCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                // Assert
-                Assert.IsTrue(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 1);
-                Assert.IsNotNull(tradeStrategy1.AccountInfo);
-                Assert.IsTrue(tradeStrategy1.AccountInfo.Balances.Any());
-                Assert.IsNotNull(tradeStrategy2.AccountInfo);
-                Assert.IsTrue(tradeStrategy2.AccountInfo.Balances.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsTrue(accountInfoCache.HasSubscriptions);
+            Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 1);
+            Assert.IsNotNull(tradeStrategy1.AccountInfo);
+            Assert.IsTrue(tradeStrategy1.AccountInfo.Balances.Any());
+            Assert.IsNotNull(tradeStrategy2.AccountInfo);
+            Assert.IsTrue(tradeStrategy2.AccountInfo.Balances.Any());
         }
 
         [TestMethod]
@@ -133,29 +128,28 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService))
-            {
-                // Act
-                accountInfoCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService);
 
-                accountInfoCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            accountInfoCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            accountInfoCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                accountInfoCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
+            await Task.Delay(2000);
 
-                accountInfoCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy1);
+            accountInfoCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                await Task.Delay(1000);
+            accountInfoCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                // Assert
-                Assert.IsFalse(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 0);
-                Assert.IsNotNull(tradeStrategy1.AccountInfo);
-                Assert.IsTrue(tradeStrategy1.AccountInfo.Balances.Any());
-                Assert.IsNotNull(tradeStrategy2.AccountInfo);
-                Assert.IsTrue(tradeStrategy2.AccountInfo.Balances.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsFalse(accountInfoCache.HasSubscriptions);
+            Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 0);
+            Assert.IsNotNull(tradeStrategy1.AccountInfo);
+            Assert.IsTrue(tradeStrategy1.AccountInfo.Balances.Any());
+            Assert.IsNotNull(tradeStrategy2.AccountInfo);
+            Assert.IsTrue(tradeStrategy2.AccountInfo.Balances.Any());
         }
 
         [TestMethod]
@@ -167,19 +161,17 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
-            using (var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService))
-            {
-                accountInfoCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var accountInfoCache = new AccountInfoSubscriptionCache(binanceExchangeService);
+            accountInfoCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                await Task.Delay(1000);
+            await Task.Delay(1000);
 
-                // Assert
-                Assert.IsTrue(accountInfoCache.HasSubscriptions);
-                Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 1);
-                Assert.IsNotNull(tradeStrategy.AccountInfo);
-                Assert.IsTrue(tradeStrategy.AccountInfo.Balances.Any());
-                Assert.IsTrue(tradeStrategy.AccountInfoException);
-            }
+            // Assert
+            Assert.IsTrue(accountInfoCache.HasSubscriptions);
+            Assert.AreEqual(accountInfoCache.Subscriptions(Subscribes.AccountInfo), 1);
+            Assert.IsNotNull(tradeStrategy.AccountInfo);
+            Assert.IsTrue(tradeStrategy.AccountInfo.Balances.Any());
+            Assert.IsTrue(tradeStrategy.AccountInfoException);
         }
     }
 }

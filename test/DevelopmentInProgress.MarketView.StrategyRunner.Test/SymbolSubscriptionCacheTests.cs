@@ -21,18 +21,17 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                await Task.Delay(1000);
+            symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                // Assert
-                Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
-                Assert.IsNotNull(tradeStrategy.AggregateTrades);
-                Assert.IsTrue(tradeStrategy.AggregateTrades.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsTrue(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
+            Assert.IsNotNull(tradeStrategy.AggregateTrades);
+            Assert.IsTrue(tradeStrategy.AggregateTrades.Any());
         }
 
         [TestMethod]
@@ -45,23 +44,22 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                // Act
-                symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                // Assert
-                Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 2);
-                Assert.IsNotNull(tradeStrategy1.AggregateTrades);
-                Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
-                Assert.IsNotNull(tradeStrategy2.AggregateTrades);
-                Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
-            }
+            await Task.Delay(2000);
+
+            // Assert
+            Assert.IsTrue(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 2);
+            Assert.IsNotNull(tradeStrategy1.AggregateTrades);
+            Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
+            Assert.IsNotNull(tradeStrategy2.AggregateTrades);
+            Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
         }
 
         [TestMethod]
@@ -72,23 +70,22 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribes = Subscribes.Trades };
             var tradeStrategy = new TestTradeStrategy();
 
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                // Act
-                symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                await Task.Delay(1000);
+            // Act
+            symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                symbolCache.Unsubscribe("Test", strategySubscription, tradeStrategy);
+            await Task.Delay(1000);
 
-                await Task.Delay(1000);
+            symbolCache.Unsubscribe("Test", strategySubscription, tradeStrategy);
 
-                // Assert
-                Assert.IsFalse(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 0);
-                Assert.IsNotNull(tradeStrategy.AggregateTrades);
-                Assert.IsTrue(tradeStrategy.AggregateTrades.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsFalse(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 0);
+            Assert.IsNotNull(tradeStrategy.AggregateTrades);
+            Assert.IsTrue(tradeStrategy.AggregateTrades.Any());
         }
 
         [TestMethod]
@@ -101,27 +98,26 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                // Act
-                symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
+            await Task.Delay(2000);
 
-                await Task.Delay(1000);
+            symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                // Assert
-                Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
-                Assert.IsNotNull(tradeStrategy1.AggregateTrades);
-                Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
-                Assert.IsNotNull(tradeStrategy2.AggregateTrades);
-                Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsTrue(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
+            Assert.IsNotNull(tradeStrategy1.AggregateTrades);
+            Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
+            Assert.IsNotNull(tradeStrategy2.AggregateTrades);
+            Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
         }
 
         [TestMethod]
@@ -134,29 +130,28 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                // Act
-                symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
+            await Task.Delay(2000);
 
-                symbolCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy1);
+            symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                await Task.Delay(1000);
+            symbolCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                // Assert
-                Assert.IsFalse(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 0);
-                Assert.IsNotNull(tradeStrategy1.AggregateTrades);
-                Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
-                Assert.IsNotNull(tradeStrategy2.AggregateTrades);
-                Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsFalse(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 0);
+            Assert.IsNotNull(tradeStrategy1.AggregateTrades);
+            Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
+            Assert.IsNotNull(tradeStrategy2.AggregateTrades);
+            Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
         }
 
         [TestMethod]
@@ -168,19 +163,18 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                await Task.Delay(1000);
+            symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                // Assert
-                Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
-                Assert.IsNotNull(tradeStrategy.AggregateTrades);
-                Assert.IsTrue(tradeStrategy.AggregateTrades.Any());
-                Assert.IsTrue(tradeStrategy.AggregateTradesException);
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsTrue(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
+            Assert.IsNotNull(tradeStrategy.AggregateTrades);
+            Assert.IsTrue(tradeStrategy.AggregateTrades.Any());
+            Assert.IsTrue(tradeStrategy.AggregateTradesException);
         }
 
         [TestMethod]
@@ -192,18 +186,17 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                await Task.Delay(1000);
+            symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                // Assert
-                Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 1);
-                Assert.IsNotNull(tradeStrategy.OrderBook);
-                Assert.IsTrue(tradeStrategy.OrderBook.Asks.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsTrue(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 1);
+            Assert.IsNotNull(tradeStrategy.OrderBook);
+            Assert.IsTrue(tradeStrategy.OrderBook.Asks.Any());
         }
 
         [TestMethod]
@@ -216,23 +209,22 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                // Act
-                symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                // Assert
-                Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 2);
-                Assert.IsNotNull(tradeStrategy1.OrderBook);
-                Assert.IsTrue(tradeStrategy1.OrderBook.Asks.Any());
-                Assert.IsNotNull(tradeStrategy2.OrderBook);
-                Assert.IsTrue(tradeStrategy2.OrderBook.Asks.Any());
-            }
+            await Task.Delay(2000);
+
+            // Assert
+            Assert.IsTrue(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 2);
+            Assert.IsNotNull(tradeStrategy1.OrderBook);
+            Assert.IsTrue(tradeStrategy1.OrderBook.Asks.Any());
+            Assert.IsNotNull(tradeStrategy2.OrderBook);
+            Assert.IsTrue(tradeStrategy2.OrderBook.Asks.Any());
         }
 
         [TestMethod]
@@ -243,23 +235,22 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var strategySubscription = new StrategySubscription { Exchange = Exchange.Binance, Symbol = "TRXBTC", Subscribes = Subscribes.OrderBook };
             var tradeStrategy = new TestTradeStrategy();
 
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                // Act
-                symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                await Task.Delay(1000);
+            // Act
+            symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                symbolCache.Unsubscribe("Test", strategySubscription, tradeStrategy);
+            await Task.Delay(1000);
 
-                await Task.Delay(1000);
+            symbolCache.Unsubscribe("Test", strategySubscription, tradeStrategy);
 
-                // Assert
-                Assert.IsFalse(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 0);
-                Assert.IsNotNull(tradeStrategy.OrderBook);
-                Assert.IsTrue(tradeStrategy.OrderBook.Asks.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsFalse(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 0);
+            Assert.IsNotNull(tradeStrategy.OrderBook);
+            Assert.IsTrue(tradeStrategy.OrderBook.Asks.Any());
         }
 
         [TestMethod]
@@ -272,27 +263,26 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                // Act
-                symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
+            await Task.Delay(2000);
 
-                await Task.Delay(1000);
+            symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                // Assert
-                Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 1);
-                Assert.IsNotNull(tradeStrategy1.OrderBook);
-                Assert.IsTrue(tradeStrategy1.OrderBook.Asks.Any());
-                Assert.IsNotNull(tradeStrategy2.OrderBook);
-                Assert.IsTrue(tradeStrategy2.OrderBook.Asks.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsTrue(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 1);
+            Assert.IsNotNull(tradeStrategy1.OrderBook);
+            Assert.IsTrue(tradeStrategy1.OrderBook.Asks.Any());
+            Assert.IsNotNull(tradeStrategy2.OrderBook);
+            Assert.IsTrue(tradeStrategy2.OrderBook.Asks.Any());
         }
 
         [TestMethod]
@@ -305,29 +295,28 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                // Act
-                symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
+            await Task.Delay(2000);
 
-                symbolCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy1);
+            symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                await Task.Delay(1000);
+            symbolCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                // Assert
-                Assert.IsFalse(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 0);
-                Assert.IsNotNull(tradeStrategy1.OrderBook);
-                Assert.IsTrue(tradeStrategy1.OrderBook.Asks.Any());
-                Assert.IsNotNull(tradeStrategy2.OrderBook);
-                Assert.IsTrue(tradeStrategy2.OrderBook.Asks.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsFalse(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 0);
+            Assert.IsNotNull(tradeStrategy1.OrderBook);
+            Assert.IsTrue(tradeStrategy1.OrderBook.Asks.Any());
+            Assert.IsNotNull(tradeStrategy2.OrderBook);
+            Assert.IsTrue(tradeStrategy2.OrderBook.Asks.Any());
         }
 
         [TestMethod]
@@ -339,19 +328,18 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy = new TestTradeStrategy();
 
             // Act
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                await Task.Delay(1000);
+            symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                // Assert
-                Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 1);
-                Assert.IsNotNull(tradeStrategy.OrderBook);
-                Assert.IsTrue(tradeStrategy.OrderBook.Asks.Any());
-                Assert.IsTrue(tradeStrategy.OrderBookException);
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsTrue(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 1);
+            Assert.IsNotNull(tradeStrategy.OrderBook);
+            Assert.IsTrue(tradeStrategy.OrderBook.Asks.Any());
+            Assert.IsTrue(tradeStrategy.OrderBookException);
         }
 
         [TestMethod]
@@ -364,32 +352,31 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                // Act
-                symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
+            await Task.Delay(2000);
 
-                await Task.Delay(1000);
+            symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                // Assert
-                Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 1);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
-                Assert.IsNotNull(tradeStrategy1.OrderBook);
-                Assert.IsTrue(tradeStrategy1.OrderBook.Asks.Any());
-                Assert.IsNotNull(tradeStrategy1.AggregateTrades);
-                Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
-                Assert.IsNotNull(tradeStrategy2.OrderBook);
-                Assert.IsTrue(tradeStrategy2.OrderBook.Asks.Any());
-                Assert.IsNotNull(tradeStrategy2.AggregateTrades);
-                Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsTrue(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 1);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
+            Assert.IsNotNull(tradeStrategy1.OrderBook);
+            Assert.IsTrue(tradeStrategy1.OrderBook.Asks.Any());
+            Assert.IsNotNull(tradeStrategy1.AggregateTrades);
+            Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
+            Assert.IsNotNull(tradeStrategy2.OrderBook);
+            Assert.IsTrue(tradeStrategy2.OrderBook.Asks.Any());
+            Assert.IsNotNull(tradeStrategy2.AggregateTrades);
+            Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
         }
 
         [TestMethod]
@@ -402,34 +389,33 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy1 = new TestTradeStrategy();
             var tradeStrategy2 = new TestTradeStrategy();
 
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                // Act
-                symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
+            // Act
+            symbolCache.Subscribe("Test 1", strategySubscription1, tradeStrategy1);
 
-                await Task.Delay(2000);
+            symbolCache.Subscribe("Test 2", strategySubscription2, tradeStrategy2);
 
-                symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy1);
+            await Task.Delay(2000);
 
-                symbolCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy2);
+            symbolCache.Unsubscribe("Test 2", strategySubscription2, tradeStrategy1);
 
-                await Task.Delay(1000);
+            symbolCache.Unsubscribe("Test 1", strategySubscription1, tradeStrategy2);
 
-                // Assert
-                Assert.IsFalse(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 0);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 0);
-                Assert.IsNotNull(tradeStrategy1.OrderBook);
-                Assert.IsTrue(tradeStrategy1.OrderBook.Asks.Any());
-                Assert.IsNotNull(tradeStrategy1.AggregateTrades);
-                Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
-                Assert.IsNotNull(tradeStrategy2.OrderBook);
-                Assert.IsTrue(tradeStrategy2.OrderBook.Asks.Any());
-                Assert.IsNotNull(tradeStrategy2.AggregateTrades);
-                Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsFalse(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 0);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 0);
+            Assert.IsNotNull(tradeStrategy1.OrderBook);
+            Assert.IsTrue(tradeStrategy1.OrderBook.Asks.Any());
+            Assert.IsNotNull(tradeStrategy1.AggregateTrades);
+            Assert.IsTrue(tradeStrategy1.AggregateTrades.Any());
+            Assert.IsNotNull(tradeStrategy2.OrderBook);
+            Assert.IsTrue(tradeStrategy2.OrderBook.Asks.Any());
+            Assert.IsNotNull(tradeStrategy2.AggregateTrades);
+            Assert.IsTrue(tradeStrategy2.AggregateTrades.Any());
         }
     }
 }

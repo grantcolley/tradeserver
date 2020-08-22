@@ -82,10 +82,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web.Middle
 
         private static async Task Download(IFormFile formFile, string downloadsPath)
         {
-            using (var fileStream = new FileStream(Path.Combine(downloadsPath, formFile.Name), FileMode.Create))
-            {
-                await formFile.CopyToAsync(fileStream).ConfigureAwait(false);
-            }
+            using var fileStream = new FileStream(Path.Combine(downloadsPath, formFile.Name), FileMode.Create);
+            await formFile.CopyToAsync(fileStream).ConfigureAwait(false);
         }
     }
 }

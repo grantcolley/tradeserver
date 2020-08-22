@@ -20,17 +20,16 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy = new TestTradeExceptionStrategy();
 
             // Act
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                await Task.Delay(1000);
+            symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                // Assert
-                Assert.IsTrue(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
-                Assert.IsTrue(tradeStrategy.AggregateTradesException);
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsTrue(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.Trades), 1);
+            Assert.IsTrue(tradeStrategy.AggregateTradesException);
         }
 
         [TestMethod]
@@ -42,17 +41,16 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test
             var tradeStrategy = new TestTradeExceptionStrategy();
 
             // Act
-            using (var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService))
-            {
-                symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
+            using var symbolCache = new SymbolSubscriptionCache("TRXBTC", 500, CandlestickInterval.Day, binanceExchangeService);
 
-                await Task.Delay(1000);
+            symbolCache.Subscribe("Test", strategySubscription, tradeStrategy);
 
-                // Assert
-                Assert.IsFalse(symbolCache.HasSubscriptions);
-                Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 0);
-                Assert.IsTrue(tradeStrategy.OrderBookException);
-            }
+            await Task.Delay(1000);
+
+            // Assert
+            Assert.IsFalse(symbolCache.HasSubscriptions);
+            Assert.AreEqual(symbolCache.Subscriptions(Subscribes.OrderBook), 0);
+            Assert.IsTrue(tradeStrategy.OrderBookException);
         }
     }
 }
