@@ -58,8 +58,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Subs
                     || strategySubscription.Subscribes.HasFlag(Subscribes.OrderBook)
                     || strategySubscription.Subscribes.HasFlag(Subscribes.Candlesticks))
                 {
-                    ISubscriptionCache symbolCache;
-                    if (!Caches.TryGetValue(strategySubscription.Symbol, out symbolCache))
+                    if (!Caches.TryGetValue(strategySubscription.Symbol, out ISubscriptionCache symbolCache))
                     {
                         symbolCache = new SymbolSubscriptionCache(strategySubscription.Symbol, strategySubscription.Limit, strategySubscription.CandlestickInterval, exchangeApi);
                         Caches.TryAdd(strategySubscription.Symbol, symbolCache);
@@ -82,8 +81,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Subs
 
                     tradeStrategy.SubscribeAccountInfo(new AccountInfoEventArgs { AccountInfo = accountInfo });
 
-                    ISubscriptionCache accountInfoCache;
-                    if (!Caches.TryGetValue(strategySubscription.ApiKey, out accountInfoCache))
+                    if (!Caches.TryGetValue(strategySubscription.ApiKey, out ISubscriptionCache accountInfoCache))
                     {
                         accountInfoCache = new AccountInfoSubscriptionCache(exchangeApi);
                         Caches.TryAdd(strategySubscription.ApiKey, accountInfoCache);
