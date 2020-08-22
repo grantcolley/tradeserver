@@ -40,7 +40,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedSer
 
                 while (!this.cancellationToken.IsCancellationRequested)
                 {
-                    await Task.Delay(1000).ConfigureAwait(false);
+                    await Task.Delay(1000, this.cancellationToken).ConfigureAwait(false);
                 }
 
                 strategyRunnerActionBlock.ActionBlock.Complete();
