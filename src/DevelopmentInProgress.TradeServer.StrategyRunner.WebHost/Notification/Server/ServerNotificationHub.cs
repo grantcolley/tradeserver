@@ -37,7 +37,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                 throw new ArgumentNullException(nameof(data));
             }
 
-            if (!serverMonitor.Name.Equals(data))
+            if (!serverMonitor.Name.Equals(data, StringComparison.Ordinal))
             {
                 throw new ArgumentNullException($"The server name {data} in the client request does not match the server channel {serverMonitor.Name}");
             }

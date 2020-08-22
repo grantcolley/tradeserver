@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Utilities
             }
 
             var deps = DependencyContext.Default;
-            var res = deps.CompileLibraries.Where(d => d.Name.Contains(assemblyName.Name)).ToList();
+            var res = deps.CompileLibraries.Where(d => d.Name.Contains(assemblyName.Name, StringComparison.OrdinalIgnoreCase)).ToList();
             if (res.Count > 0)
             {
                 return Assembly.Load(new AssemblyName(res.First().Name));

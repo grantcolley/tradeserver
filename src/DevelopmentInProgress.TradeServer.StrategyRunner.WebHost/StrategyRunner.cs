@@ -212,7 +212,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost
 
             foreach (string filePath in files)
             {
-                if(filePath.EndsWith(".pdb"))
+                if(filePath.EndsWith(".pdb", StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
