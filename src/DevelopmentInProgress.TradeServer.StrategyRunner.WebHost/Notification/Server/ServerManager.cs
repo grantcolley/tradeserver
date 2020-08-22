@@ -17,7 +17,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         private StrategyNotificationHub strategyNotificationHub;
         private ServerNotificationHub serverNotificationHub;
         private SemaphoreSlim notificationSemaphoreSlim = new SemaphoreSlim(1, 1);
-        private List<IDisposable> disposables; 
+        private List<IDisposable> disposables;
+        private bool disposed;
 
         public ServerManager(IServerMonitor serverMonitor,
             IBatchNotification<ServerNotification> serverBatchNotificationPublisher,
@@ -125,10 +126,26 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
 
         public void Dispose()
         {
-            foreach(var disposable in disposables)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if(disposed)
             {
-                disposable.Dispose();
+                return;
             }
+
+            if(disposing)
+            {
+                foreach (var disposable in disposables)
+                {
+                    disposable.Dispose();
+                }
+            }
+
+            disposed = true;
         }
     }
 }
