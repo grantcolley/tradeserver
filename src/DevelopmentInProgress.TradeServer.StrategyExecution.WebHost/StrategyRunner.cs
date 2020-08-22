@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Subscriptions;
+﻿using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Subscriptions;
 using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.TradeStrategy;
 using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notification;
 using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Utilities;
 using DevelopmentInProgress.TradeView.Core.Extensions;
 using DevelopmentInProgress.TradeView.Core.TradeStrategy;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost
 {

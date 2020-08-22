@@ -1,20 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using DevelopmentInProgress.Socket.Extensions;
+﻿using DevelopmentInProgress.Socket.Extensions;
 using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Subscriptions;
 using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.TradeStrategy;
 using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notification;
-using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notification.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notification.Server;
+using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notification.Strategy;
 using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web.HostedService;
 using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web.Middleware;
 using DevelopmentInProgress.TradeView.Core.Interfaces;
 using DevelopmentInProgress.TradeView.Core.Server;
 using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 using DevelopmentInProgress.TradeView.Service;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 
