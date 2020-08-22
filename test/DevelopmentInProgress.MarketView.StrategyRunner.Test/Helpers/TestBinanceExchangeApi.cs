@@ -16,7 +16,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         public bool StatisticsException { get; set; }
         public bool AccountInfoException { get; set; }
 
-        public Task<string> CancelOrderAsync(User user, string symbol, string orderId, string newClientOrderId = null, long recWindow = 0, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<string> CancelOrderAsync(User user, string symbol, string orderId, string newClientOrderId = null, long recWindow = 0, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -36,7 +36,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(User user, string symbol, DateTime startDate, DateTime endDate, long recWindow = 0, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(User user, string symbol, DateTime startDate, DateTime endDate, long recWindow = 0, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -46,12 +46,12 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Candlestick>> GetCandlesticksAsync(string symbol, CandlestickInterval interval, DateTime startTime, DateTime endTime, int limit = 0, CancellationToken token = default(CancellationToken))
+        public Task<IEnumerable<Candlestick>> GetCandlesticksAsync(string symbol, CandlestickInterval interval, DateTime startTime, DateTime endTime, int limit = 0, CancellationToken token = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Order>> GetOpenOrdersAsync(User user, string symbol = null, long recWindow = 0, Action<Exception> exception = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<IEnumerable<Order>> GetOpenOrdersAsync(User user, string symbol = null, long recWindow = 0, Action<Exception> exception = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -71,7 +71,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
             throw new NotImplementedException();
         }
 
-        public Task<Order> PlaceOrder(User user, ClientOrder clientOrder, long recWindow = 0, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<Order> PlaceOrder(User user, ClientOrder clientOrder, long recWindow = 0, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
