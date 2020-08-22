@@ -11,6 +11,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web.Middle
     public class StopStrategyMiddleware
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter")]
         public StopStrategyMiddleware(RequestDelegate next)
         {
         }
