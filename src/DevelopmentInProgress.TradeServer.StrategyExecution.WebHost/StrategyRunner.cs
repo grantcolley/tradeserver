@@ -218,7 +218,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost
                 }
 
                 var filePathSplit = filePath.Split('\\');
-                var fileName = filePathSplit[filePathSplit.Length - 1];
+                var fileName = filePathSplit[^1];
                 var name = fileName.Substring(0, fileName.LastIndexOf('.'));
                 dependencies.Add(name);
             }
