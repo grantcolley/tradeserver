@@ -1,6 +1,6 @@
 ﻿using DevelopmentInProgress.TradeView.Core.Interfaces;
 using DevelopmentInProgress.TradeView.Core.TradeStrategy;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions;
+using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Subscriptions;
 
 namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 {

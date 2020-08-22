@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.Marke
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeServer.Console", "src\DevelopmentInProgress.TradeServer.Console\DevelopmentInProgress.TradeServer.Console.csproj", "{E9171234-5CD8-4829-9D14-DF15BCC7E618}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeServer.StrategyRunner.WebHost", "src\DevelopmentInProgress.TradeServer.StrategyRunner.WebHost\DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.csproj", "{DE89A184-3C66-4CFC-9658-FE33C486ED8F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeView.Common", "..\tradeview\src\DevelopmentInProgress.TradeView.Common\DevelopmentInProgress.TradeView.Common.csproj", "{DBB27938-5D46-43AD-8FDA-DEB04FC76767}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeView.Service", "..\tradeview\src\DevelopmentInProgress.TradeView.Service\DevelopmentInProgress.TradeView.Service.csproj", "{B36E1144-FB2F-4949-8DB4-92DFC5128F93}"
@@ -24,6 +22,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.Socket.Extensions", "src\DevelopmentInProgress.Socket.Extensions\DevelopmentInProgress.Socket.Extensions.csproj", "{0BC9623E-AFEE-4799-B8C9-8DC4262347FE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeView.Core", "..\tradeview\src\DevelopmentInProgress.TradeView.Core\DevelopmentInProgress.TradeView.Core.csproj", "{0F470D4F-DDE5-47BD-B3E0-7E2DE43F5B19}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeServer.StrategyExecution.WebHost", "src\DevelopmentInProgress.TradeServer.StrategyExecution.WebHost\DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.csproj", "{0FEA9F70-6BCA-411F-943F-579EBD784420}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +39,6 @@ Global
 		{E9171234-5CD8-4829-9D14-DF15BCC7E618}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9171234-5CD8-4829-9D14-DF15BCC7E618}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9171234-5CD8-4829-9D14-DF15BCC7E618}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE89A184-3C66-4CFC-9658-FE33C486ED8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE89A184-3C66-4CFC-9658-FE33C486ED8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE89A184-3C66-4CFC-9658-FE33C486ED8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE89A184-3C66-4CFC-9658-FE33C486ED8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DBB27938-5D46-43AD-8FDA-DEB04FC76767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DBB27938-5D46-43AD-8FDA-DEB04FC76767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBB27938-5D46-43AD-8FDA-DEB04FC76767}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,6 +67,10 @@ Global
 		{0F470D4F-DDE5-47BD-B3E0-7E2DE43F5B19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F470D4F-DDE5-47BD-B3E0-7E2DE43F5B19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F470D4F-DDE5-47BD-B3E0-7E2DE43F5B19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FEA9F70-6BCA-411F-943F-579EBD784420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FEA9F70-6BCA-411F-943F-579EBD784420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FEA9F70-6BCA-411F-943F-579EBD784420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FEA9F70-6BCA-411F-943F-579EBD784420}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,9 @@
 ﻿//using DevelopmentInProgress.MarketView.Interface.Interfaces;
 //using DevelopmentInProgress.MarketView.Interface.Strategy;
 //using DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers;
-//using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache;
-//using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Binance;
-//using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.ExchangeService;
+//using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache;
+//using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Binance;
+//using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.ExchangeService;
 //using System.Collections.Generic;
 
 //namespace DevelopmentInProgress.MarketView.StrategyRunner.Test

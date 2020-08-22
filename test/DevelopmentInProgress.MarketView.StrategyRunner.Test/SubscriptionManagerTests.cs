@@ -2,7 +2,7 @@
 using DevelopmentInProgress.TradeView.Core.Model;
 using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 using DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers;
-using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscriptions;
+using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Subscriptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 

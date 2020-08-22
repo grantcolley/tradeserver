@@ -1,4 +1,4 @@
-﻿using DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web;
+﻿using DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;

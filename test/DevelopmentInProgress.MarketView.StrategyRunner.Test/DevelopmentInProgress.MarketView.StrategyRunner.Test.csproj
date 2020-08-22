@@ -52,7 +52,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\tradeview\src\DevelopmentInProgress.TradeView.Core\DevelopmentInProgress.TradeView.Core.csproj" />
-    <ProjectReference Include="..\..\src\DevelopmentInProgress.TradeServer.StrategyRunner.WebHost\DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.csproj" />
+    <ProjectReference Include="..\..\src\DevelopmentInProgress.TradeServer.StrategyExecution.WebHost\DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.csproj" />
   </ItemGroup>
 
 </Project>
