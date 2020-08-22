@@ -123,7 +123,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
                 var strategies = tradeStrategyCacheManager.GetStrategies();
                 var serverInfo = strategyNotificationHub.GetServerInfo();
 
-                Func<TradeView.Core.TradeStrategy.Strategy, Socket.Messages.ChannelInfo, ServerStrategy> f = (s, c) =>
+                static ServerStrategy f(TradeView.Core.TradeStrategy.Strategy s, Socket.Messages.ChannelInfo c)
                 {
                     var serverStrategy = new ServerStrategy
                     {
@@ -136,7 +136,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
                     }));
 
                     return serverStrategy;
-                };
+                }
 
                 var serverStrategies = (from s in strategies
                                         join c in serverInfo.Channels on s.Name equals c.Name
