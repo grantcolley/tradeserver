@@ -16,6 +16,7 @@ using DevelopmentInProgress.TradeView.Core.Server;
 using DevelopmentInProgress.TradeView.Core.TradeStrategy;
 using DevelopmentInProgress.TradeView.Service;
 using System;
+using System.Globalization;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
 {
@@ -42,9 +43,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web
         {
             int maxDegreeOfParallelism = 5;
 
-            if (Convert.ToInt32(Configuration["p"]) > 0)
+            if (Convert.ToInt32(Configuration["p"], CultureInfo.InvariantCulture) > 0)
             {
-                maxDegreeOfParallelism = Convert.ToInt32(Configuration["p"]);
+                maxDegreeOfParallelism = Convert.ToInt32(Configuration["p"], CultureInfo.InvariantCulture);
             }
 
             // Get the container to create the ServerMonitor instance  
