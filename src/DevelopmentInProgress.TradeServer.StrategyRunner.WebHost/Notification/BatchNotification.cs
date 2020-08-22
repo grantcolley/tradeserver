@@ -81,8 +81,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
 
             outputTask = Task.Factory.StartNew<Task>(
                 ProcessNotificationQueue,
-                null,
-                TaskCreationOptions.LongRunning);
+                null, cancellationTokenSource.Token,
+                TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
