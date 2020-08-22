@@ -43,7 +43,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
         {
             get
             {
-                return subscribers.Count();
+                return subscribers.Count;
             }
 
         }
