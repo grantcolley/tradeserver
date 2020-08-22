@@ -60,6 +60,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
                 {
                     disposable.Dispose();
                 }
+
+                notificationSemaphoreSlim.Dispose();
             }
 
             disposed = true;
