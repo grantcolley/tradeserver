@@ -19,9 +19,12 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 
         public Dictionary<Exchange, IExchangeApi> GetExchanges()
         {
-            var exchanges = new Dictionary<Exchange, IExchangeApi>();
-            exchanges.Add(Exchange.Binance, GetExchangeApi(Exchange.Binance));
-            exchanges.Add(Exchange.Test, GetExchangeApi(Exchange.Test));
+            var exchanges = new Dictionary<Exchange, IExchangeApi>
+            {
+                { Exchange.Binance, GetExchangeApi(Exchange.Binance) },
+                { Exchange.Test, GetExchangeApi(Exchange.Test) }
+            };
+
             return exchanges;
         }
     }
