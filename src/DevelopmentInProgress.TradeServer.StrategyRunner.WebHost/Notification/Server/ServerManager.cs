@@ -39,6 +39,32 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             ObserverServerNotificationHub();
         }
 
+        public IServerMonitor ServerMonitor { get { return serverMonitor; } }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                foreach (var disposable in disposables)
+                {
+                    disposable.Dispose();
+                }
+            }
+
+            disposed = true;
+        }
+
         private void ObserverTradeStrategyCacheManager()
         {
             var tradeStrategyCacheManagerObservable = Observable.FromEventPattern<ServerNotificationEventArgs>(
@@ -122,30 +148,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
             {
                 notificationSemaphoreSlim.Release();
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if(disposed)
-            {
-                return;
-            }
-
-            if(disposing)
-            {
-                foreach (var disposable in disposables)
-                {
-                    disposable.Dispose();
-                }
-            }
-
-            disposed = true;
         }
     }
 }
