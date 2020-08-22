@@ -16,8 +16,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
         private CancellationTokenSource cancellationTokenSource;
 
         protected TimeSpan interval = new TimeSpan(0, 0, 0, 1);
-        protected int? queueSize = default(int?);
-        protected int? batchSize = default(int?);
+        protected int? queueSize;
+        protected int? batchSize;
 
         public abstract Task NotifyAsync(IEnumerable<T> items, CancellationToken cancellationToken);
 
