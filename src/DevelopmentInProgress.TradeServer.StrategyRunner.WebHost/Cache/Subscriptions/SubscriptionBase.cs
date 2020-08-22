@@ -128,15 +128,15 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
             Task.Factory.StartNew(() =>
                 {
                     kvp.Value.Update.Invoke(args);
-                })
+                }, cancellationTokenSource.Token, TaskCreationOptions.None, TaskScheduler.Default)
                 .ContinueWith((t) =>
                 {
                     kvp.Value.Exception.Invoke(t.Exception);
-                }, TaskContinuationOptions.OnlyOnFaulted)
+                }, cancellationTokenSource.Token, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default)
                 .ContinueWith((t) =>
                 {
                     Unsubscribe(kvp.Key, kvp.Value.Exception);
-                }, TaskContinuationOptions.OnlyOnFaulted);
+                }, cancellationTokenSource.Token, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default);
         }
 
         /// <summary>
@@ -167,12 +167,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Cache.Subscri
         /// <param name="args">The exception to be reported to the strategy.</param>
         private void OnException(KeyValuePair<string, StrategyNotification<T>> kvp, Exception args)
         {
-            Task.Factory.StartNew(() => kvp.Value.Exception.Invoke(args))
+            Task.Factory.StartNew(() =>
+                {
+                    kvp.Value.Exception.Invoke(args);
+                }, cancellationTokenSource.Token, TaskCreationOptions.None, TaskScheduler.Default)
                 .ContinueWith((t) =>
                 {
                     Unsubscribe(kvp.Key, kvp.Value.Exception);
-                },
-                TaskContinuationOptions.OnlyOnFaulted);
+                }, cancellationTokenSource.Token, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default);
         }
 
         public void Dispose()
