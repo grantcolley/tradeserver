@@ -10,6 +10,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
 {
     public class UpdateStrategyMiddleware
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters")]
         public UpdateStrategyMiddleware(RequestDelegate next)
         {
         }

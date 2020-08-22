@@ -6,6 +6,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.Middlewar
 {
     public class PingMiddleware
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters")]
         public PingMiddleware(RequestDelegate next)
         {
         }
