@@ -13,14 +13,14 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
 {
     public class TestTradeStrategy : ITradeStrategy
     {
-        public event EventHandler<StrategyNotificationEventArgs> StrategyAccountInfoEvent;
-        public event EventHandler<StrategyNotificationEventArgs> StrategyCustomNotificationEvent;
-        public event EventHandler<StrategyNotificationEventArgs> StrategyNotificationEvent;
-        public event EventHandler<StrategyNotificationEventArgs> StrategyOrderBookEvent;
-        public event EventHandler<StrategyNotificationEventArgs> StrategyTradeEvent;
-        public event EventHandler<StrategyNotificationEventArgs> StrategyCandlesticksEvent;
-        public event EventHandler<StrategyNotificationEventArgs> StrategyStatisticsEvent;
-        public event EventHandler<StrategyNotificationEventArgs> StrategyParameterUpdateEvent;
+        public event EventHandler<StrategyNotificationEventArgs> StrategyAccountInfoEvent { add { } remove { } }
+        public event EventHandler<StrategyNotificationEventArgs> StrategyCustomNotificationEvent { add { } remove { } }
+        public event EventHandler<StrategyNotificationEventArgs> StrategyNotificationEvent { add { } remove { } }
+        public event EventHandler<StrategyNotificationEventArgs> StrategyOrderBookEvent { add { } remove { } }
+        public event EventHandler<StrategyNotificationEventArgs> StrategyTradeEvent { add { } remove { } }
+        public event EventHandler<StrategyNotificationEventArgs> StrategyCandlesticksEvent { add { } remove { } }
+        public event EventHandler<StrategyNotificationEventArgs> StrategyStatisticsEvent { add { } remove { } }
+        public event EventHandler<StrategyNotificationEventArgs> StrategyParameterUpdateEvent { add { } remove { } }
 
         public IEnumerable<ITrade> AggregateTrades { get; set; }
         public IEnumerable<SymbolStats> Statistics { get; set; }
