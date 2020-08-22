@@ -86,7 +86,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Subs
                 throw new ArgumentNullException(nameof(exception));
             }
 
-            if (!subscribers.TryRemove(strategyName, out StrategyNotification<T> e))
+            if (!subscribers.TryRemove(strategyName, out _))
             {
                 exception(new Exception($"Failed to unsubscribe {strategyName} : {typeof(T).Name}"));
                 return;
