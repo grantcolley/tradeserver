@@ -42,17 +42,13 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Subs
 
         public int Subscriptions(Subscribes subscribes)
         {
-            switch (subscribes)
+            return subscribes switch
             {
-                case Subscribes.Trades:
-                    return subscribeTrades.Subscriptions;
-                case Subscribes.OrderBook:
-                    return subscribeOrderBook.Subscriptions;
-                case Subscribes.Candlesticks:
-                    return subscribeCandlesticks.Subscriptions;
-                default:
-                    throw new NotImplementedException($"{this.GetType().Name}.Subscriptions({subscribes})");
-            }
+                Subscribes.Trades => subscribeTrades.Subscriptions,
+                Subscribes.OrderBook => subscribeOrderBook.Subscriptions,
+                Subscribes.Candlesticks => subscribeCandlesticks.Subscriptions,
+                _ => throw new NotImplementedException($"{this.GetType().Name}.Subscriptions({subscribes})"),
+            };
         }
 
         public void Subscribe(string strategyName, StrategySubscription strategySubscription, ITradeStrategy tradeStrategy)
