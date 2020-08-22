@@ -14,12 +14,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
         private BlockingCollection<T> notifyQueue;
         private Task outputTask;
         private CancellationTokenSource cancellationTokenSource;
-
-        protected TimeSpan interval = new TimeSpan(0, 0, 0, 1);
-        protected int? queueSize;
-        protected int? batchSize;
-
         private bool disposed;
+
+        protected TimeSpan Interval { get; set; }  = new TimeSpan(0, 0, 0, 1);
+        protected int? QueueSize { get; set; }
+        protected int? BatchSize { get; set; }
 
         public abstract Task NotifyAsync(IEnumerable<T> items, CancellationToken cancellationToken);
 
@@ -52,7 +51,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
 
             try
             {
-                outputTask.Wait(interval);
+                outputTask.Wait(Interval);
             }
             catch (TaskCanceledException)
             {
@@ -80,26 +79,26 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
 
         protected void Start()
         {
-            if (batchSize.HasValue
-                && batchSize <= 0)
+            if (BatchSize.HasValue
+                && BatchSize <= 0)
             {
                 throw new ArgumentOutOfRangeException("BatchSize", "BatchSize must be a positive number.");
             }
 
-            if (queueSize.HasValue
-                && queueSize <= 0)
+            if (QueueSize.HasValue
+                && QueueSize <= 0)
             {
                 throw new ArgumentOutOfRangeException("QueueSize", "QueueSize must be a positive number.");
             }
 
-            if (interval <= TimeSpan.Zero)
+            if (Interval <= TimeSpan.Zero)
             {
                 throw new ArgumentOutOfRangeException("Interval", "Interval must be longer than zero.");
             }
 
-            notifyQueue = queueSize == null ?
+            notifyQueue = QueueSize == null ?
                 new BlockingCollection<T>(new ConcurrentQueue<T>()) :
-                new BlockingCollection<T>(new ConcurrentQueue<T>(), queueSize.Value);
+                new BlockingCollection<T>(new ConcurrentQueue<T>(), QueueSize.Value);
 
             cancellationTokenSource = new CancellationTokenSource();
 
@@ -114,7 +113,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
         {
             while (!cancellationTokenSource.IsCancellationRequested)
             {
-                var limit = batchSize ?? int.MaxValue;
+                var limit = BatchSize ?? int.MaxValue;
 
                 while (limit > 0 && notifyQueue.TryTake(out var notification))
                 {
@@ -136,7 +135,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
                     currentBatch.Clear();
                 }
 
-                await IntervalAsync(interval, cancellationTokenSource.Token).ConfigureAwait(false);
+                await IntervalAsync(Interval, cancellationTokenSource.Token).ConfigureAwait(false);
             }
         }
 
