@@ -11,13 +11,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
 {
     public class ServerManager : IServerManager, IDisposable
     {
-        private IServerMonitor serverMonitor;
-        private IBatchNotification<ServerNotification> serverBatchNotificationPublisher;
-        private ITradeStrategyCacheManager tradeStrategyCacheManager;
-        private StrategyNotificationHub strategyNotificationHub;
-        private ServerNotificationHub serverNotificationHub;
-        private SemaphoreSlim notificationSemaphoreSlim = new SemaphoreSlim(1, 1);
-        private List<IDisposable> disposables;
+        private readonly IBatchNotification<ServerNotification> serverBatchNotificationPublisher;
+        private readonly ITradeStrategyCacheManager tradeStrategyCacheManager;
+        private readonly StrategyNotificationHub strategyNotificationHub;
+        private readonly ServerNotificationHub serverNotificationHub;
+        private readonly SemaphoreSlim notificationSemaphoreSlim = new SemaphoreSlim(1, 1);
+        private readonly List<IDisposable> disposables;
         private bool disposed;
 
         public ServerManager(IServerMonitor serverMonitor,
@@ -26,7 +25,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
             StrategyNotificationHub strategyNotificationHub,
             ServerNotificationHub serverNotificationHub)
         {
-            this.serverMonitor = serverMonitor;
+            ServerMonitor = serverMonitor;
+
             this.serverBatchNotificationPublisher = serverBatchNotificationPublisher;
             this.tradeStrategyCacheManager = tradeStrategyCacheManager;
             this.strategyNotificationHub = strategyNotificationHub;
@@ -39,7 +39,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
             ObserverServerNotificationHub();
         }
 
-        public IServerMonitor ServerMonitor { get { return serverMonitor; } }
+        public IServerMonitor ServerMonitor { get; private set; }
 
         public void Dispose()
         {
@@ -142,7 +142,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
                                         join c in serverInfo.Channels on s.Name equals c.Name
                                         select f(s, c)).ToList();
 
-                var serverNotification = serverMonitor.GetServerNotification(serverStrategies);
+                var serverNotification = ServerMonitor.GetServerNotification(serverStrategies);
 
                 serverBatchNotificationPublisher.AddNotification(serverNotification);
             }

@@ -9,7 +9,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Trad
 {
     public class TradeStrategyCacheManager : ServerNotificationBase, ITradeStrategyCacheManager
     {
-        private ConcurrentDictionary<string, ITradeStrategy> tradeStrategies;
+        private readonly ConcurrentDictionary<string, ITradeStrategy> tradeStrategies;
 
         public TradeStrategyCacheManager()
         {

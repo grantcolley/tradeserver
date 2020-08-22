@@ -10,8 +10,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Utilities
 {
     internal class AssemblyLoader : AssemblyLoadContext
     {
-        private string folderPath;
-        private IList<string> dependencies;
+        private readonly string folderPath;
+        private readonly IList<string> dependencies;
 
         internal AssemblyLoader(string folderPath, IList<string> dependencies)
         {

@@ -7,7 +7,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
 {
     public class ServerBatchNotificationPublisher : BatchNotification<ServerNotification>, IBatchNotification<ServerNotification>
     {
-        private IServerNotificationPublisher serverNotificationPublisher;
+        private readonly IServerNotificationPublisher serverNotificationPublisher;
 
         public ServerBatchNotificationPublisher(IServerNotificationPublisher serverNotificationPublisher)
         {
