@@ -9,15 +9,12 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
     {
         public IExchangeApi GetExchangeApi(Exchange exchange)
         {
-            switch (exchange)
+            return exchange switch
             {
-                case Exchange.Binance:
-                    return new TestBinanceExchangeApi();
-                case Exchange.Test:
-                    return new TestExchangeApi();
-                default:
-                    throw new NotImplementedException();
-            }
+                Exchange.Binance => new TestBinanceExchangeApi(),
+                Exchange.Test => new TestExchangeApi(),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         public Dictionary<Exchange, IExchangeApi> GetExchanges()

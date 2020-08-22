@@ -48,19 +48,14 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
 
         private static LogLevel GetStepNotificationLogLevel(StrategyNotification strategyNotification)
         {
-            switch (strategyNotification.NotificationLevel)
+            return strategyNotification.NotificationLevel switch
             {
-                case NotificationLevel.Debug:
-                    return LogLevel.Debug;
-                case NotificationLevel.Information:
-                    return LogLevel.Information;
-                case NotificationLevel.Warning:
-                    return LogLevel.Warning;
-                case NotificationLevel.Error:
-                    return LogLevel.Error;
-            }
-
-            return LogLevel.Information;
+                NotificationLevel.Debug => LogLevel.Debug,
+                NotificationLevel.Information => LogLevel.Information,
+                NotificationLevel.Warning => LogLevel.Warning,
+                NotificationLevel.Error => LogLevel.Error,
+                _ => LogLevel.Information,
+            };
         }
     }
 }

@@ -16,37 +16,19 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
 
         public override IBatchNotification<StrategyNotification> GetBatchNotifier(BatchNotificationType batchNotifierType)
         {
-            switch (batchNotifierType)
+            return batchNotifierType switch
             {
-                case BatchNotificationType.StrategyLogger:
-                    return new StrategyBatchLogger(loggerFactory);
-
-                case BatchNotificationType.StrategyAccountInfoPublisher:
-                    return new StrategyBatchAccountInfoPublisher(notificationPublisher);
-
-                case BatchNotificationType.StrategyCustomNotificationPublisher:
-                    return new StrategyBatchCustomNotificationPublisher(notificationPublisher);
-
-                case BatchNotificationType.StrategyNotificationPublisher:
-                    return new StrategyBatchNotificationPublisher(notificationPublisher);
-
-                case BatchNotificationType.StrategyOrderBookPublisher:
-                    return new StrategyBatchOrderBookPublisher(notificationPublisher);
-
-                case BatchNotificationType.StrategyTradePublisher:
-                    return new StrategyBatchTradePublisher(notificationPublisher);
-
-                case BatchNotificationType.StrategyCandlesticksPublisher:
-                    return new StrategyBatchCandlesticksPublisher(notificationPublisher);
-
-                case BatchNotificationType.StrategyStatisticsPublisher:
-                    return new StrategyBatchStatisticsPublisher(notificationPublisher);
-
-                case BatchNotificationType.StrategyParameterUpdatePublisher:
-                    return new StrategyBatchParameterUpdatePublisher(notificationPublisher);
-            }
-
-            return null;
+                BatchNotificationType.StrategyLogger => new StrategyBatchLogger(loggerFactory),
+                BatchNotificationType.StrategyAccountInfoPublisher => new StrategyBatchAccountInfoPublisher(notificationPublisher),
+                BatchNotificationType.StrategyCustomNotificationPublisher => new StrategyBatchCustomNotificationPublisher(notificationPublisher),
+                BatchNotificationType.StrategyNotificationPublisher => new StrategyBatchNotificationPublisher(notificationPublisher),
+                BatchNotificationType.StrategyOrderBookPublisher => new StrategyBatchOrderBookPublisher(notificationPublisher),
+                BatchNotificationType.StrategyTradePublisher => new StrategyBatchTradePublisher(notificationPublisher),
+                BatchNotificationType.StrategyCandlesticksPublisher => new StrategyBatchCandlesticksPublisher(notificationPublisher),
+                BatchNotificationType.StrategyStatisticsPublisher => new StrategyBatchStatisticsPublisher(notificationPublisher),
+                BatchNotificationType.StrategyParameterUpdatePublisher => new StrategyBatchParameterUpdatePublisher(notificationPublisher),
+                _ => null,
+            };
         }
     }
 }
