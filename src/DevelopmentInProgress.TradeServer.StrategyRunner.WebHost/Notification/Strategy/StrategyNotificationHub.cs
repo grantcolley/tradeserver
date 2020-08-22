@@ -21,12 +21,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         {
             if (string.IsNullOrWhiteSpace(clientId))
             {
-                throw new ArgumentNullException("clientId cannot be null or empty.");
+                throw new ArgumentNullException(nameof(clientId));
             }
 
             if(string.IsNullOrWhiteSpace(strategyName))
             {
-                throw new ArgumentNullException("The strategy to subscribe to must be specified in the data parameter.");
+                throw new ArgumentNullException(nameof(strategyName));
             }
 
             var connection = await base.AddWebSocketAsync(websocket).ConfigureAwait(false);

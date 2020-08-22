@@ -24,17 +24,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification.
         {
             if (string.IsNullOrWhiteSpace(serverMonitor.Name))
             {
-                throw new ArgumentNullException("The server channel has not been set.");
+                throw new Exception($"The server {nameof(serverMonitor.Name)} has not been set.");
             }
 
             if (string.IsNullOrWhiteSpace(clientId))
             {
-                throw new ArgumentNullException("clientId cannot be null or empty.");
+                throw new ArgumentNullException(nameof(clientId));
             }
 
             if (string.IsNullOrWhiteSpace(data))
             {
-                throw new ArgumentNullException("The server name to subscribe to must be specified in the data parameter.");
+                throw new ArgumentNullException(nameof(data));
             }
 
             if (!serverMonitor.Name.Equals(data))

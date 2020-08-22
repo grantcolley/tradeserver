@@ -17,7 +17,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Web.HostedSer
 
             if(strategyRunnerActionBlockInput == null)
             {
-                throw new ArgumentNullException("strategyRunnerActionBlockInput is null");
+                throw new ArgumentNullException(nameof(strategyRunnerActionBlockInput));
             }
 
             await ActionBlock.SendAsync(strategyRunnerActionBlockInput).ConfigureAwait(false);
