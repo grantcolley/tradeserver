@@ -44,7 +44,7 @@ namespace DevelopmentInProgress.MarketView.StrategyRunner.Test.Helpers
         {
             foreach (var subscription in strategySubscription)
             {
-                Caches.TryRemove(subscription.Symbol, out ISubscriptionCache subscriptionCache);
+                Caches.TryRemove(subscription.Symbol, out _);
             }
         }
     }
