@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
 {
-    public abstract class BatchNotification<T> : IBatchNotification<T>
+    public abstract class BatchNotification<T> : IBatchNotification<T>, IDisposable
     {
         private readonly List<T> currentBatch = new List<T>();
         private BlockingCollection<T> notifyQueue;
@@ -18,6 +18,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
         protected TimeSpan interval = new TimeSpan(0, 0, 0, 1);
         protected int? queueSize;
         protected int? batchSize;
+
+        private bool disposed;
 
         public abstract Task NotifyAsync(IEnumerable<T> items, CancellationToken cancellationToken);
 
@@ -37,6 +39,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
             }
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         internal void Stop()
         {
             cancellationTokenSource.Cancel();
@@ -52,6 +60,22 @@ namespace DevelopmentInProgress.TradeServer.StrategyRunner.WebHost.Notification
             catch (AggregateException ex) when (ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is TaskCanceledException)
             {
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource.Dispose();
+            }
+
+            disposed = true;
         }
 
         protected void Start()
