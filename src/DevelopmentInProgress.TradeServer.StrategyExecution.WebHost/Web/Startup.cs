@@ -82,12 +82,19 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static")]
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IApplicationLifetime applicationLifetime)
         {
             if (app == null)
             {
                 throw new ArgumentNullException(nameof(app));
             }
+
+            if(applicationLifetime == null)
+            {
+                throw new ArgumentNullException(nameof(applicationLifetime));
+            }
+
+            applicationLifetime.ApplicationStopping.Register(OnShutdown);
 
             app.UseSocket<StrategyNotificationHub>("/notificationhub");
             app.UseSocket<ServerNotificationHub>("/serverhub");
@@ -100,6 +107,11 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web
 
             // Create instance of the Server Manager.
             app.ApplicationServices.GetRequiredService<IServerManager>();
+        }
+
+        private void OnShutdown()
+        {
+            //this code is called when the application stops
         }
 
         private static void HandleRun(IApplicationBuilder app)
