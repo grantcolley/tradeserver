@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.Marke
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeServer.Console", "src\DevelopmentInProgress.TradeServer.Console\DevelopmentInProgress.TradeServer.Console.csproj", "{E9171234-5CD8-4829-9D14-DF15BCC7E618}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeView.Common", "..\tradeview\src\DevelopmentInProgress.TradeView.Common\DevelopmentInProgress.TradeView.Common.csproj", "{DBB27938-5D46-43AD-8FDA-DEB04FC76767}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeView.Service", "..\tradeview\src\DevelopmentInProgress.TradeView.Service\DevelopmentInProgress.TradeView.Service.csproj", "{B36E1144-FB2F-4949-8DB4-92DFC5128F93}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentInProgress.TradeView.Api.Binance", "..\tradeview\src\DevelopmentInProgress.TradeView.Api.Binance\DevelopmentInProgress.TradeView.Api.Binance.csproj", "{16FDB5D9-42EA-424E-9A93-4BF05248936F}"
@@ -39,10 +37,6 @@ Global
 		{E9171234-5CD8-4829-9D14-DF15BCC7E618}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9171234-5CD8-4829-9D14-DF15BCC7E618}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9171234-5CD8-4829-9D14-DF15BCC7E618}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBB27938-5D46-43AD-8FDA-DEB04FC76767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBB27938-5D46-43AD-8FDA-DEB04FC76767}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBB27938-5D46-43AD-8FDA-DEB04FC76767}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBB27938-5D46-43AD-8FDA-DEB04FC76767}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B36E1144-FB2F-4949-8DB4-92DFC5128F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B36E1144-FB2F-4949-8DB4-92DFC5128F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B36E1144-FB2F-4949-8DB4-92DFC5128F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
