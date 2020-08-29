@@ -13,5 +13,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Trad
         Task StopStrategy(string strategyName, string parameters);
         Task UpdateStrategy(string strategyName, string parameters);
         List<Strategy> GetStrategies();
+        void StopStrategies();
     }
 }

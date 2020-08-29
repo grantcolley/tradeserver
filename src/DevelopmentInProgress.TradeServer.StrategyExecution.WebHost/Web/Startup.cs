@@ -22,6 +22,8 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web
 {
     public class Startup
     {
+        private IServerManager serverManager;
+
         public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
             if (env == null)
@@ -106,12 +108,12 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web
             app.Map("/ping", HandlePing);
 
             // Create instance of the Server Manager.
-            app.ApplicationServices.GetRequiredService<IServerManager>();
+            serverManager = app.ApplicationServices.GetRequiredService<IServerManager>();
         }
 
         private void OnShutdown()
         {
-            //this code is called when the application stops
+            serverManager.Shutdown();
         }
 
         private static void HandleRun(IApplicationBuilder app)

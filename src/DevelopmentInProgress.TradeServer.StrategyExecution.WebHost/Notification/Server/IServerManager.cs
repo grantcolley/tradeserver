@@ -5,5 +5,6 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
     public interface IServerManager
     {
         IServerMonitor ServerMonitor { get; }
+        void Shutdown();
     }
 }

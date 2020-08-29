@@ -28,7 +28,7 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Trad
 
         public bool TryAddTradeStrategy(string strategyName, ITradeStrategy tradeStrategy)
         {
-            if(tradeStrategies.TryAdd(strategyName, tradeStrategy))
+            if (tradeStrategies.TryAdd(strategyName, tradeStrategy))
             {
                 OnServerNotification();
                 return true;
@@ -66,6 +66,13 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Cache.Trad
 
                 OnServerNotification();
             }
+        }
+
+        public void StopStrategies()
+        {
+            var strategies = tradeStrategies.Values;
+            var tasks = strategies.Select(s => s.TryStopStrategy(string.Empty));
+            Task.WhenAll(tasks);
         }
     }
 }

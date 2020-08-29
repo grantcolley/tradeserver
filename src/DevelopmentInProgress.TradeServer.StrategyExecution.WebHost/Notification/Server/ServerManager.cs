@@ -41,6 +41,16 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
 
         public IServerMonitor ServerMonitor { get; private set; }
 
+        public void Shutdown()
+        {
+            tradeStrategyCacheManager.StopStrategies();
+
+            ServerMonitor.Stopped = DateTime.Now;
+            ServerMonitor.StoppedBy = Environment.UserName;
+
+            OnNotification();
+        }
+
         public void Dispose()
         {
             Dispose(true);
