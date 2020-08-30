@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notification.Server
 {
@@ -48,7 +49,9 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Notificati
             ServerMonitor.Stopped = DateTime.Now;
             ServerMonitor.StoppedBy = Environment.UserName;
 
-            OnNotification();
+            var tasks = new List<Task>(strategyNotificationHub.CloseAndDisposeWebSockets());
+            tasks.AddRange(serverNotificationHub.CloseAndDisposeWebSockets());
+            Task.WaitAll(tasks.ToArray());
         }
 
         public void Dispose()
