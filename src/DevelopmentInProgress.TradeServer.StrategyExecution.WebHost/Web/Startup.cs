@@ -22,14 +22,22 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web
 {
     public class Startup
     {
+        private readonly ILogger<Startup> logger;
         private IServerManager serverManager;
 
-        public Startup(IHostingEnvironment env, IConfiguration configuration)
+        public Startup(IHostingEnvironment env, IConfiguration configuration, ILogger<Startup> logger)
         {
             if (env == null)
             {
                 throw new ArgumentNullException(nameof(env));
             }
+
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -111,9 +119,17 @@ namespace DevelopmentInProgress.TradeServer.StrategyExecution.WebHost.Web
             serverManager = app.ApplicationServices.GetRequiredService<IServerManager>();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types")]
         private void OnShutdown()
         {
-            serverManager.Shutdown();
+            try
+            {
+                serverManager.Shutdown();
+            }
+            catch(Exception ex)
+            {
+                logger.Log(LogLevel.Error, ex.ToString());
+            }
         }
 
         private static void HandleRun(IApplicationBuilder app)
